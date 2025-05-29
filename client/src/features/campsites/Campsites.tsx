@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
-import ScheduleDay from "../components/ScheduleDay";
-import { TripData } from "../interfaces/TripData";
-import { fetchScheduleForTrip } from "../api/scheduleAPI";
+import CampsiteSchedule from "/CampsiteSchedule";
+import { TripData } from "../types/TripData";
+import { fetchScheduleForTrip } from "../routes/scheduleAPI";
 import { toDateOnlyString } from "../utils/transformTrip";
-import { createScheduleItem, updateScheduleItem } from "../api/scheduleAPI";
+import { createScheduleItem, updateScheduleItem } from "../routes/scheduleAPI";
 
 export default function FloatPlan() {
   const { trip } = useOutletContext<{ trip: TripData }>();
@@ -80,7 +80,7 @@ export default function FloatPlan() {
 
       <div className="floatplan-content">
         {tripDates.map((date, i) => (
-          <ScheduleDay
+          <CampsiteSchedule
             key={date.toISOString()}
             date={date}
             index={i + 1}

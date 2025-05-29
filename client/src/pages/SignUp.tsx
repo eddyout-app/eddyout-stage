@@ -1,6 +1,6 @@
 import { useState, FormEvent, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { signup } from "../api/authAPI";
+import { signup } from "../routes/authAPI";
 import Auth from "../utils/auth";
 import Footer from "../components/Footer";
 

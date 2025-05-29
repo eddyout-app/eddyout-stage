@@ -1,4 +1,4 @@
-export interface TripFormData {
+export type TripFormData = {
   id?: string;
   email: string;
   riverName: string;
@@ -8,10 +8,12 @@ export interface TripFormData {
   takeOut: string;
   crewNum: string;
   organizerId?: string;
-}
+  createdAt: string;
+  updatedAt: string;
+};
 
-export interface TripData {
-  id: string;
+export type TripData = {
+  _id: string;
   email: string;
   riverName: string;
   startDate: Date;
@@ -19,4 +21,6 @@ export interface TripData {
   putIn: string;
   takeOut: string;
   crewNum: number;
-}
+  createdAt: string;
+  updatedAt: string;
+};

@@ -2,11 +2,11 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
-import Dashboard from "./pages/Dashboard"; // Placeholder: dashboard of trips
-import TripDetails from "./pages/TripDetails"; // Placeholder for trip overview
+import Dashboard from "./features/dashboard/Dashboard"; // Placeholder: dashboard of trips
+import TripDetails from "./features/tripDetails/TripDetails"; // Placeholder for trip overview
 import FloatPlan from "./pages/FloatPlan";
-import GearList from "./pages/GearList";
-import Meals from "./pages/Meals";
+import GearList from "./features/gear/GearList";
+import Meals from "./features/meals/Meals";
 import Crew from "./pages/Crew";
 import SignUp from "./pages/SignUp"; // Placeholder for signup page
 import NewTrip from "./pages/NewTrip";

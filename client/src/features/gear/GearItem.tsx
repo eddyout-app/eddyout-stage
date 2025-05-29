@@ -1,5 +1,5 @@
 import React from "react";
-import { GearItem as GearItemInterface } from "../interfaces/GearItemData";
+import { GearItem as GearItemInterface } from "../types/GearItemData";
 
 interface GearItemProps {
   item: GearItemInterface;
@@ -18,7 +18,8 @@ const GearItem: React.FC<GearItemProps> = ({ item, userId, onClaimToggle }) => {
         <p>Quantity: {item.quantity}</p>
         {isClaimed && (
           <p className="text-sm text-gray-600">
-            Claimed by {claimedByYou ? "you" : String(item.claimedBy?.name) || "Open"}
+            Claimed by{" "}
+            {claimedByYou ? "you" : String(item.claimedBy?.name) || "Open"}
           </p>
         )}
       </div>

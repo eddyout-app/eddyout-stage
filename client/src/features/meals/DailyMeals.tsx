@@ -1,5 +1,5 @@
 import React from "react";
-import { MealData } from "../interfaces/MealData";
+import { MealData } from "../types/MealData";
 
 const MEAL_TYPES = ["Breakfast", "Lunch", "Dinner"] as const;
 

@@ -1,4 +1,4 @@
-import { TripFormData, TripData } from "../interfaces/TripData";
+import { TripFormData, TripData } from "../types/trip";
 
 export default function transformTrip(formData: TripFormData): TripData {
   if (!formData.id) {

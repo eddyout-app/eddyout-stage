@@ -1,4 +1,4 @@
-import { TripFormData } from "../interfaces/TripData";
+import { TripFormData } from "../types/trip";
 
 export async function getTrips() {
   const token = localStorage.getItem("id_token");

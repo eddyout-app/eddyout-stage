@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import { GearItem as GearItemInterface } from "../interfaces/GearItemData";
-import { TripData } from "../interfaces/TripData";
+import { GearItem as GearItemInterface } from "../../types/GearItemData";
+import { TripData } from "../../types/trip";
 import GearItem from "../components/GearItem";
 
 export default function GearList() {

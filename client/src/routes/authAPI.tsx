@@ -1,4 +1,4 @@
-import { UserLogin } from "../interfaces/UserLogin";
+import { UserLogin } from "../types/UserLogin";
 
 interface SignupData {
   firstName: string;
