@@ -1,4 +1,4 @@
-import { TripData } from "../interfaces/TripData";
+import { TripData } from "../types/trip";
 
 export default function TripSummaryCard({ trip }: { trip: TripData }) {
   return (

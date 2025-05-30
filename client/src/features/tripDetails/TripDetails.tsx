@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Nav from "../components/Nav";
-import Footer from "../components/Footer";
-import TripSummaryCard from "../components/TripSummaryCard";
-import { getTrips } from "../api/tripAPI";
-import { TripData } from "../interfaces/TripData"; // Make sure this import is correct.
+import Nav from "../../components/Nav";
+import Footer from "../../components/Footer";
+import TripSummaryCard from "../../components/TripSummaryCard";
+import { getTrips } from "../../routes/tripAPI";
+import { TripData } from "../../types/trip"; // Make sure this import is correct.
 import { Outlet } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 

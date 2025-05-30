@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 
-interface ScheduleDayProps {
+interface CampsiteScheduleProps {
   date: Date;
   index: number;
   endDate: Date;
@@ -11,7 +11,7 @@ interface ScheduleDayProps {
   isSaved?: boolean;
 }
 
-const ScheduleDay: React.FC<ScheduleDayProps> = ({
+const CampsiteSchedule: React.FC<CampsiteScheduleProps> = ({
   date,
   location,
   index,
@@ -72,4 +72,4 @@ const ScheduleDay: React.FC<ScheduleDayProps> = ({
   );
 };
 
-export default ScheduleDay;
+export default CampsiteSchedule;

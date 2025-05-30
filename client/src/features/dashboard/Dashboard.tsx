@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { TripData } from "../interfaces/TripData";
-import TripSummaryCard from "../components/TripSummaryCard";
-import Nav from "../components/Nav";
-import Footer from "../components/Footer";
-import { getTrips } from "../api/tripAPI";
+import { TripData } from "../../types/trip";
+import TripSummaryCard from "../../components/TripSummaryCard";
+import Nav from "../../components/Nav";
+import Footer from "../../components/Footer";
+import { getTrips } from "../../routes/tripAPI";
 import { Link } from "react-router-dom";
 
 export default function Dashboard() {

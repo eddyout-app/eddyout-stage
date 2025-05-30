@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import { TripData } from "../interfaces/TripData";
-import { UserData } from "../interfaces/UserData";
-import { CrewData } from "../interfaces/CrewData";
+import { TripData } from "../types/TripData";
+import { UserData } from "../types/UserData";
+import { CrewData } from "../types/CrewData";
 import {
   retrieveCrew,
   retrieveUser,
   retrieveAllUsers,
   addCrewMember,
   deleteCrew,
-} from "../api/crewAPI";
+} from "../routes/crewAPI";
 // import { response } from "express";
 
 export default function Crew() {

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import DailyMeals from "../components/DailyMeals";
-import { TripData } from "../interfaces/TripData";
-import { MealData } from "../interfaces/MealData";
+import { TripData } from "../../types/trip";
+import { MealData } from "../../types/meals";
 
 export default function Meals() {
   const { trip } = useOutletContext<{ trip: TripData }>();

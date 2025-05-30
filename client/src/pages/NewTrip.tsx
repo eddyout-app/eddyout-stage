@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { TripFormData } from "../interfaces/TripData";
-import { createTrip } from "../api/tripAPI";
+import { TripFormData } from "../types/trip";
+import { createTrip } from "../routes/tripAPI";
 import { useNavigate } from "react-router-dom";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
