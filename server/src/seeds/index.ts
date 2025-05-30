@@ -4,12 +4,14 @@ import { seedCrew } from "./crew-seeds";
 import { seedUser } from "./user-seeds";
 import { seedSchedule } from "./schedule-seeds";
 import { seedTrip } from "./trip-seeds";
-import { sequelize } from "../config/connection";
-// import { seedGearList } from "./gearList-seeds"; // Uncomment if using gearList seeds
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
+
 
 const seedAll = async (): Promise<void> => {
   try {
-    await sequelize.sync({ force: true });
+    await await mongoose.connect(process.env.MONGODB_URI as string);
     console.log("\n----- DATABASE SYNCED -----\n");
 
     const users = await seedUser();

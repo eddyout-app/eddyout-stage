@@ -4,7 +4,7 @@ import type { Trip } from "../models/trip";
 
 export const seedCrew = async (users: User[], trips: Trip[]) => {
   try {
-    await Crew.bulkCreate([
+    await Crew.insertMany([
       {
         userId: users[0].id,
         tripId: trips[0].id,

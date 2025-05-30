@@ -2,7 +2,7 @@ import { User } from "../models/user";
 import { v4 as uuidv4 } from "uuid";
 
 export const seedUser = async () => {
-  const users = await User.bulkCreate(
+  const users = await User.insertMany(
     [
       {
         id: uuidv4(),

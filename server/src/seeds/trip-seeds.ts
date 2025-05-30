@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { User } from "../models/user";
 
 export const seedTrip = async (users: User[]) => {
-  const trips = await Trip.bulkCreate([
+  const trips = await Trip.insertMany([
     {
       id: uuidv4(),
       riverName: "San Juan River",

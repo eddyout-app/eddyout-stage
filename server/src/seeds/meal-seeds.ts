@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import type { Trip } from "../models/trip";
 
 export const seedMeals = async (trips: Trip[]) => {
-  await Meals.bulkCreate([
+  await Meals.insertMany([
     {
       id: uuidv4(),
       date: "2024-06-06",

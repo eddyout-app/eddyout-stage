@@ -1,37 +1,49 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const crew_seeds_1 = require("./crew-seeds");
-// import { seedGear } from "./gear-seeds";
-// import { seedMeals } from "./meal-seeds";
-const user_seeds_1 = require("./user-seeds");
-const schedule_seeds_1 = require("./schedule-seeds");
-const trip_seeds_1 = require("./trip-seeds");
-const connection_1 = require("../config/connection");
-// import { seedGearList } from "./gearList-seeds"; // Uncomment if using gearList seeds
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
+
+import { seedUsers } from "./user-seeds";
+import { seedTrips } from "./trip-seeds";
+import { seedCrew } from "./crew-seeds";
+import { seedGear } from "./gear-seeds";
+import { seedMeals } from "./meal-seeds";
+import { seedSchedule } from "./schedule-seeds";
+
+import User from "../models/user";
+import Trip from "../models/trip";
+import Crew from "../models/crew";
+import GearItem from "../models/gearItem";
+import Meals from "../models/meals";
+import Schedule from "../models/schedule";
+
 const seedAll = async () => {
-    try {
-        await connection_1.sequelize.sync({ force: true });
-        console.log("\n----- DATABASE SYNCED -----\n");
-        const users = await (0, user_seeds_1.seedUser)();
-        console.log("\n----- USERS SEEDED -----\n");
-        const trips = await (0, trip_seeds_1.seedTrip)(users);
-        console.log("\n----- TRIPS SEEDED -----\n");
-        await (0, crew_seeds_1.seedCrew)(users, trips);
-        console.log("\n----- CREW SEEDED -----\n");
-        // If you have gear lists:
-        // const gearLists = await seedGearList(trips);
-        // await seedGear(trips, users, gearLists);
-        // await seedGear(users, trips, []); // ← Temporary fallback if no gearLists yet
-        // console.log("\n----- GEAR SEEDED -----\n");
-        // await seedMeals(trips);
-        // console.log("\n----- MEALS SEEDED -----\n");
-        await (0, schedule_seeds_1.seedSchedule)(trips);
-        console.log("\n----- SCHEDULE SEEDED -----\n");
-        process.exit(0);
-    }
-    catch (error) {
-        console.error("Error seeding database:", error);
-        process.exit(1);
-    }
+  try {
+    await mongoose.connect(process.env.MONGODB_URI as string);
+    console.log("\n🔌 Connected to MongoDB\n");
+
+    // Clear collections
+    await Promise.all([
+      User.deleteMany({}),
+      Trip.deleteMany({}),
+      Crew.deleteMany({}),
+      GearItem.deleteMany({}),
+      Meals.deleteMany({}),
+      Schedule.deleteMany({})
+    ]);
+
+    const users = await seedUsers();
+    const trips = await seedTrips(users);
+    await seedCrew(users, trips);
+    await seedGear(users, trips);
+    await seedMeals(trips);
+    await seedSchedule(trips);
+
+    console.log("\n🌱 All data seeded successfully!");
+    process.exit(0);
+  } catch (err) {
+    console.error("❌ Seed error:", err);
+    process.exit(1);
+  }
 };
+
 seedAll();

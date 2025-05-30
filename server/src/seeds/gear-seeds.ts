@@ -10,7 +10,7 @@ export const seedGear = async (
   gearLists?: GearList[]
 ) => {
   try {
-    await GearItem.bulkCreate([
+    await GearItem.insertMany([
       {
         gearItem: "Stove",
         quantity: 1,

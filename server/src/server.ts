@@ -1,7 +1,5 @@
-const forceDatabaseRefresh = false;
-
 import express from "express";
-import { sequelize } from "./config/connection.js";
+import db from "./config/connection.js"; // now imports Mongo connection
 import routes from "./routes/index.js";
 import { scheduleRouter } from "./routes/api/schedule-routes.js";
 
@@ -14,8 +12,8 @@ app.use("/api/schedule", scheduleRouter);
 
 app.use(express.static("../client/dist"));
 
-sequelize.sync({ force: forceDatabaseRefresh }).then(() => {
+db.once("open", () => {
   app.listen(PORT, () => {
-    console.log(`Server is listening on port http://localhost:${PORT}`);
+    console.log(`🌐 Server is listening on http://localhost:${PORT}`);
   });
 });

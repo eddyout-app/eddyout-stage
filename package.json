@@ -17,7 +17,10 @@
     "render-build": "npm install && npm run build"
   },
   "dependencies": {
+    "@types/mongoose": "^5.11.96",
     "bcrypt": "^5.1.1",
+    "mongodb": "^6.16.0",
+    "mongoose": "^8.15.1",
     "postgres": "^3.4.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

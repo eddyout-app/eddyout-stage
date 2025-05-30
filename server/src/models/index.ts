@@ -1,4 +1,5 @@
-import { sequelize } from "../config/connection";
+// import { sequelize } from "../config/connection";
+
 import { TripFactory } from "./trip.js";
 import { MealFactory } from "./meals.js";
 import { UserFactory } from "./user.js";
@@ -68,3 +69,4 @@ Trip.hasOne(Schedule, {
 Schedule.belongsTo(Trip, { foreignKey: "tripId" });
 
 export { Trip, Crew, Meal, User, Schedule, GearItem, GearList };
+

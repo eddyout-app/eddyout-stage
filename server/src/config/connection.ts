@@ -1,22 +1,11 @@
+import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
 
-import { Sequelize } from "sequelize";
+const mongoURI = process.env.MONGODB_URI as string;
 
-const sequelize = process.env.DB_URL
-  ? new Sequelize(process.env.DB_URL)
-  : new Sequelize(
-      process.env.DB_NAME || "",
-      process.env.DB_USER || "",
-      process.env.DB_PASSWORD,
-      {
-        host: process.env.DB_HOST || "127.0.0.1",
-        port: Number(process.env.DB_PORT) || 5432,
-        dialect: "postgres",
-        dialectOptions: {
-          decimalNumbers: true,
-        },
-      }
-    );
+mongoose.connect(mongoURI)
+  .then(() => console.log("🌱 MongoDB connection successful"))
+  .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-export { sequelize };
+export default mongoose.connection;
