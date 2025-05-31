@@ -33,21 +33,29 @@ export const expenseResolvers = {
             return newExpense;
         },
 
-        updateExpense: async (_: any, { id, ...updates }: any) => {
-            try {
-                const updatedExpense = await Expense.findByIdAndUpdate(id, updates, {
-                    new: true,
-                    runValidators: true,
-                });
+        updateExpense: async (_: any, { id, ...updates }: any, context: any) => {
+            const userId = context?.user?.id || context?.user?._id; // Adjust as needed
 
-                if (!updatedExpense) {
-                    throw new Error("Expense not found");
-                }
-
-                return updatedExpense;
-            } catch (error) {
-                throw new Error(`Failed to update expense: ${error.message}`);
+            if (!userId) {
+                throw new Error("Not authenticated");
             }
+
+            const expense = await Expense.findById(id);
+
+            if (!expense) {
+                throw new Error("Expense not found");
+            }
+
+            if (expense.paidBy.toString() !== userId.toString()) {
+                throw new Error("Unauthorized: You can only update your own expenses");
+            }
+
+            const updatedExpense = await Expense.findByIdAndUpdate(id, updates, {
+                new: true,
+                runValidators: true,
+            });
+
+            return updatedExpense;
         },
 
         deleteExpense: async (_: any, { id }: { id: string }) => {
