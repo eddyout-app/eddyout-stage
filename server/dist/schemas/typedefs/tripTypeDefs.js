@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const apollo_server_express_1 = require("apollo-server-express");
-const tripTypeDefs = (0, apollo_server_express_1.gql) `
+const graphql_tag_1 = require("graphql-tag");
+const tripTypeDefs = (0, graphql_tag_1.gql) `
   type Trip {
     _id: ID!
     riverName: String!

@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { ExpressContext } from "apollo-server-express";
+import { Request } from "express";
 
 interface JwtPayload {
   email: string;
@@ -7,7 +7,7 @@ interface JwtPayload {
 }
 
 // This function will be passed to Apollo Server's context field
-export const authMiddleware = ({ req }: ExpressContext) => {
+export const authMiddleware = ({ req }: { req: Request }) => {
   const authHeader = req.headers.authorization || "";
   const token = authHeader.split(" ").pop()?.trim();
 
