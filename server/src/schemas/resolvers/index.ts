@@ -1,50 +1,61 @@
+import { tripResolvers } from "./tripResolvers";
+import { expenseResolvers } from "./expenseResolver";
+
 export const resolvers = {
     Query: {
-        // 🚧 Crew Queries
-        // getAllCrew: async () => { /* TODO: Return all crew members */ },
-        // getCrewByTrip: async (_, { tripId }) => { /* TODO: Return crew by tripId */ },
+        // Crew Queries
+        // ...crewResolvers.Query,
 
-        // 🚧 GearItem Queries
-        // getAllGearItems: async () => { /* TODO: Return all gear items */ },
-        // getGearByTrip: async (_, { tripId }) => { /* TODO: Return gear items by tripId */ },
+        // Expense Queries
+        ...expenseResolvers.Query,
 
-        // 🚧 GearList Queries
-        // getGearListByTrip: async (_, { tripId }) => { /* TODO: Return gear list summary */ },
+        // GearItem Queries
+        // ...gearItemResolvers.Query,
 
-        // 🚧 Meal Queries
-        // getMealsByTrip: async (_, { tripId }) => { /* TODO: Return meals by tripId */ },
-        // getMealAssignments: async (_, { tripId }) => { /* TODO: Return assigned meals */ },
+        // GearList Queries
+        // ...gearListResolvers.Query,
 
-        // 🚧 Schedule Queries
-        // getScheduleByTrip: async (_, { tripId }) => { /* TODO: Return schedule for trip */ },
+        // Meal Queries
+        // ...mealResolvers.Query,
 
-        // 🚧 User Queries
-        // getUser: async (_, { id }) => { /* TODO: Return user by ID */ },
-        // getAllUsers: async () => { /* TODO: Return all users */ },
+        // Schedule Queries
+        // ...scheduleResolvers.Query,
+
+        // Trip Queries
+        ...tripResolvers.Query,
+
+        // User Queries
+        // ...userResolvers.Query,
+
     },
 
     Mutation: {
-        // 🚧 Crew Mutations
-        // addCrewMember: async (_, args) => { /* TODO: Add new crew member */ },
-        // assignCrewRole: async (_, args) => { /* TODO: Assign crew role */ },
+        // Crew Queries
+        // ...crewResolvers.Mutation,
 
-        // 🚧 GearItem Mutations
-        // claimGearItem: async (_, args) => { /* TODO: Mark gear item as claimed */ },
-        // addGearItem: async (_, args) => { /* TODO: Add new gear item */ },
+        // Expense Queries
+        ...expenseResolvers.Mutation,
 
-        // 🚧 GearList Mutations
-        // createGearList: async (_, args) => { /* TODO: Initialize gear list */ },
+        // GearItem Queries
+        // ...gearItemResolvers.Mutation,
 
-        // 🚧 Meal Mutations
-        // createMeal: async (_, args) => { /* TODO: Add meal entry */ },
-        // signUpForMeal: async (_, args) => { /* TODO: Assign user to meal slot */ },
+        // GearList Queries
+        // ...gearListResolvers.Mutation,
 
-        // 🚧 Schedule Mutations
-        // addScheduleEntry: async (_, args) => { /* TODO: Add date/location entry */ },
+        // Meal Queries
+        // ...mealResolvers.Mutation,
 
-        // 🚧 User Mutations
-        // registerUser: async (_, args) => { /* TODO: Register new user */ },
-        // loginUser: async (_, args, context) => { /* TODO: Handle login/auth */ },
-        // updateUserPreferences: async (_, args) => { /* TODO: Update dietary or Venmo */ },
-    }
+        // Schedule Queries
+        // ...scheduleResolvers.Mutation,
+
+        // Trip Queries
+        ...tripResolvers.Mutation,
+
+        // User Queries
+        // ...userResolvers.Mutation,
+
+    },
+    Trip: {
+        ...tripResolvers.Trip,
+    },
 };
