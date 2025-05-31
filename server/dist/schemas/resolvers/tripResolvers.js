@@ -28,5 +28,9 @@ exports.tripResolvers = {
             await trip_1.default.findByIdAndDelete(id);
             return "Trip deleted";
         }
-    }
+    },
+    Trip: {
+        startDate: (trip) => new Date(trip.startDate).toISOString().split("T")[0],
+        endDate: (trip) => new Date(trip.endDate).toISOString().split("T")[0],
+    },
 };
