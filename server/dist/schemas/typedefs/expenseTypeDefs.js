@@ -1,6 +1,8 @@
-import { gql } from "graphql-tag";
-
-export const expenseTypeDefs = gql`
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.expenseTypeDefs = void 0;
+const graphql_tag_1 = require("graphql-tag");
+exports.expenseTypeDefs = (0, graphql_tag_1.gql) `
   type Expense {
     _id: ID!
     description: String!
