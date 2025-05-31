@@ -6,7 +6,7 @@ export type TripFormData = {
   endDate: string;
   putIn: string;
   takeOut: string;
-  crewNum: string;
+  numOfParticipants: string;
   organizerId?: string;
   createdAt: string;
   updatedAt: string;
@@ -20,7 +20,8 @@ export type TripData = {
   endDate: Date;
   putIn: string;
   takeOut: string;
-  crewNum: number;
+  numOfParticipants: number;
+  organizerId: string;
   createdAt: string;
   updatedAt: string;
 };

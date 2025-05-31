@@ -1,5 +1,5 @@
 import React from "react";
-import { MealData } from "../types/MealData";
+import { MealData } from "../../types/meals";
 
 const MEAL_TYPES = ["Breakfast", "Lunch", "Dinner"] as const;
 
@@ -59,17 +59,15 @@ const DailyMeals: React.FC<DailyMealsProps> = ({
       </div>
       <div className="flex flex-col sm:flex-row items-center sm:items-start gap-2 w-full mb-2">
         <label className="font-semibold self-start sm:self-center">
-          Who is bringing it?{" "}
+          Who is bringing it?
         </label>
         {onMealChange ? (
-          <input
-            type="text"
-            value={meal.crewMember || ""}
-            onChange={(e) => onMealChange("crewMember", e.target.value)}
-            className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          // Optional: Add a select or input for assigning users later
+          <span className="italic text-gray-500">Editable in modal</span>
         ) : (
-          meal.crewMember || ""
+          <span className="inline-block px-3 py-2 text-gray-900">
+            {meal.user?.fullName ?? "Unclaimed"}
+          </span>
         )}
       </div>
     </div>
