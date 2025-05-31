@@ -1,36 +1,37 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const crew_seeds_1 = require("./crew-seeds");
+// import { seedCrew } from "./crew-seeds";
 // import { seedGear } from "./gear-seeds";
 // import { seedMeals } from "./meal-seeds";
-const user_seeds_1 = require("./user-seeds");
-const schedule_seeds_1 = require("./schedule-seeds");
+// import { seedUser } from "./user-seeds";
+// import { seedSchedule } from "./schedule-seeds";
 const trip_seeds_1 = require("./trip-seeds");
-const connection_1 = require("../config/connection");
-// import { seedGearList } from "./gearList-seeds"; // Uncomment if using gearList seeds
+const mongoose_1 = __importDefault(require("mongoose"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const seedAll = async () => {
     try {
-        await connection_1.sequelize.sync({ force: true });
-        console.log("\n----- DATABASE SYNCED -----\n");
-        const users = await (0, user_seeds_1.seedUser)();
-        console.log("\n----- USERS SEEDED -----\n");
-        const trips = await (0, trip_seeds_1.seedTrip)(users);
-        console.log("\n----- TRIPS SEEDED -----\n");
-        await (0, crew_seeds_1.seedCrew)(users, trips);
-        console.log("\n----- CREW SEEDED -----\n");
-        // If you have gear lists:
-        // const gearLists = await seedGearList(trips);
-        // await seedGear(trips, users, gearLists);
-        // await seedGear(users, trips, []); // ← Temporary fallback if no gearLists yet
-        // console.log("\n----- GEAR SEEDED -----\n");
+        await mongoose_1.default.connect(process.env.MONGODB_URI);
+        console.log("\n✅ MongoDB connected\n");
+        // const users = await seedUser();
+        // console.log("\n✅ Users seeded\n");
+        await (0, trip_seeds_1.seedTrip)([
+            { _id: new mongoose_1.default.Types.ObjectId() }, // fake user for now
+            { _id: new mongoose_1.default.Types.ObjectId() },
+            { _id: new mongoose_1.default.Types.ObjectId() }
+        ]);
+        console.log("\n✅ Trips seeded\n");
+        // await seedCrew(users, trips);
+        // await seedSchedule(trips);
         // await seedMeals(trips);
-        // console.log("\n----- MEALS SEEDED -----\n");
-        await (0, schedule_seeds_1.seedSchedule)(trips);
-        console.log("\n----- SCHEDULE SEEDED -----\n");
+        // await seedGear(users, trips, []);
         process.exit(0);
     }
     catch (error) {
-        console.error("Error seeding database:", error);
+        console.error("❌ Error seeding database:", error);
         process.exit(1);
     }
 };
