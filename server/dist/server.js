@@ -3,19 +3,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const forceDatabaseRefresh = false;
 const express_1 = __importDefault(require("express"));
-const connection_js_1 = require("./config/connection.js");
-const index_js_1 = __importDefault(require("./routes/index.js"));
-const schedule_routes_js_1 = require("./routes/api/schedule-routes.js");
-const app = (0, express_1.default)();
+const server_1 = require("@apollo/server");
+const express4_1 = require("@apollo/server/express4");
+const index_js_1 = __importDefault(require("./schemas/typedefs/index.js"));
+const tripResolvers_js_1 = require("./schemas/resolvers/tripResolvers.js");
+const connection_js_1 = __importDefault(require("./config/connection.js")); // Mongoose connection
+const app = (0, express_1.default)(); // ✅ explicitly typed
 const PORT = process.env.PORT || 3001;
-app.use(express_1.default.json());
-app.use(index_js_1.default);
-app.use("/api/schedule", schedule_routes_js_1.scheduleRouter);
-app.use(express_1.default.static("../client/dist"));
-connection_js_1.sequelize.sync({ force: forceDatabaseRefresh }).then(() => {
-    app.listen(PORT, () => {
-        console.log(`Server is listening on port http://localhost:${PORT}`);
-    });
+const server = new server_1.ApolloServer({
+    typeDefs: index_js_1.default,
+    resolvers: [tripResolvers_js_1.tripResolvers],
 });
+async function startApolloServer() {
+    await server.start();
+    // ✅ Attach middleware properly
+    app.use("/graphql", express_1.default.json(), (0, express4_1.expressMiddleware)(server));
+    connection_js_1.default.once("open", () => {
+        app.listen(PORT, () => {
+            console.log(`🌐 Server running at http://localhost:${PORT}/graphql`);
+        });
+    });
+}
+startApolloServer();

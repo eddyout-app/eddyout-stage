@@ -1,42 +1,44 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.seedTrip = void 0;
-const models_1 = require("../models");
-const uuid_1 = require("uuid");
+const trip_1 = __importDefault(require("../models/trip"));
+// import User from "./models/user";
+// Adjust the type if needed
 const seedTrip = async (users) => {
-    const trips = await models_1.Trip.bulkCreate([
+    await trip_1.default.deleteMany({}); // clear old data (optional)
+    const trips = await trip_1.default.insertMany([
         {
-            id: (0, uuid_1.v4)(),
             riverName: "San Juan River",
-            startDate: "2024-06-06",
-            endDate: "2024-06-13",
+            startDate: new Date("2024-06-06"),
+            endDate: new Date("2024-06-13"),
             putIn: "Sand Island",
             takeOut: "Clay Hills",
             crewNum: 12,
-            organizerId: users[0].id,
+            organizerId: users[0]._id,
         },
         {
-            id: (0, uuid_1.v4)(),
             riverName: "Gates of Lodore",
-            startDate: "2025-07-06",
-            endDate: "2025-07-11",
+            startDate: new Date("2025-07-06"),
+            endDate: new Date("2025-07-11"),
             putIn: "Lodore Ranger Station",
             takeOut: "Split Mountain",
             crewNum: 8,
-            organizerId: users[1].id,
+            organizerId: users[1]._id,
         },
         {
-            id: (0, uuid_1.v4)(),
             riverName: "Middle Fork of the Salmon",
-            startDate: "2025-05-30",
-            endDate: "2025-06-04",
+            startDate: new Date("2025-05-30"),
+            endDate: new Date("2025-06-04"),
             putIn: "Boundary Creek",
             takeOut: "Cache Bar",
             crewNum: 7,
-            organizerId: users[2].id,
+            organizerId: users[2]._id,
         },
     ]);
-    console.log("Trips seeded successfully");
+    console.log("✅ Trips seeded successfully");
     return trips;
 };
 exports.seedTrip = seedTrip;

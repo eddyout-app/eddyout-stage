@@ -1,24 +1,19 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.createGearList = exports.getGearLists = void 0;
-const gearList_js_1 = require("../models/gearList.js");
-const getGearLists = async (_req, res) => {
-    try {
-        const lists = await gearList_js_1.GearList.findAll();
-        res.json(lists);
-    }
-    catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-};
-exports.getGearLists = getGearLists;
-const createGearList = async (req, res) => {
-    try {
-        const list = await gearList_js_1.GearList.create(req.body);
-        res.status(201).json(list);
-    }
-    catch (err) {
-        res.status(400).json({ message: err.message });
-    }
-};
-exports.createGearList = createGearList;
+// import { Request, Response } from "express";
+// import { GearList } from "../models/gearList.js";
+// export const getGearLists = async (_req: Request, res: Response) => {
+//   try {
+//     const lists = await GearList.findAll();
+//     res.json(lists);
+//   } catch (err: any) {
+//     res.status(500).json({ message: err.message });
+//   }
+// };
+// export const createGearList = async (req: Request, res: Response) => {
+//   try {
+//     const list = await GearList.create(req.body);
+//     res.status(201).json(list);
+//   } catch (err: any) {
+//     res.status(400).json({ message: err.message });
+//   }
+// };
