@@ -1,10 +1,11 @@
 export type MealData = {
-  _id: number | null;
-  tripId: string;
-  userId: string;
+  _id: string;
   mealType: string;
-  mealName: string;
-  description?: string | null;
-  createdAt?: string | null;
-  updatedAt?: string | null;
+  mealName?: string;
+  tripId: string;
+  date: string;
+  userId?: {
+    _id: string;
+    fullName: string;
+  } | null;
 };
