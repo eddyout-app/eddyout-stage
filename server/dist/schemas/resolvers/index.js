@@ -1,8 +1,12 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.resolvers = void 0;
 const tripResolvers_1 = require("./tripResolvers");
 const expenseResolver_1 = require("./expenseResolver");
+const userPreferencesResolvers_1 = __importDefault(require("./userPreferencesResolvers"));
 exports.resolvers = {
     Query: {
         // Crew Queries
@@ -21,6 +25,8 @@ exports.resolvers = {
         ...tripResolvers_1.tripResolvers.Query,
         // User Queries
         // ...userResolvers.Query,
+        // UserPreferences Queries
+        ...userPreferencesResolvers_1.default.Query,
     },
     Mutation: {
         // Crew Queries
@@ -39,6 +45,8 @@ exports.resolvers = {
         ...tripResolvers_1.tripResolvers.Mutation,
         // User Queries
         // ...userResolvers.Mutation,
+        // UserPreferences Queries
+        ...userPreferencesResolvers_1.default.Mutation,
     },
     Trip: {
         ...tripResolvers_1.tripResolvers.Trip,
