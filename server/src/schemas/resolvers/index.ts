@@ -1,5 +1,6 @@
 import { tripResolvers } from "./tripResolvers";
 import { expenseResolvers } from "./expenseResolver";
+import userPreferencesResolvers from "./userPreferencesResolvers";
 
 export const resolvers = {
     Query: {
@@ -27,6 +28,9 @@ export const resolvers = {
         // User Queries
         // ...userResolvers.Query,
 
+        // UserPreferences Queries
+        ...userPreferencesResolvers.Query,
+
     },
 
     Mutation: {
@@ -53,6 +57,9 @@ export const resolvers = {
 
         // User Queries
         // ...userResolvers.Mutation,
+
+        // UserPreferences Queries
+        ...userPreferencesResolvers.Mutation,
 
     },
     Trip: {
