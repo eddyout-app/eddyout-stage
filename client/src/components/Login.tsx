@@ -2,7 +2,7 @@ import { useState, type FormEvent, type ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import Auth from "../utils/auth";
 import { login } from "../routes/authAPI";
-import type { UserLogin } from "../types/UserLogin";
+import type { UserLogin } from "../types/user";
 
 const Login = () => {
   const [loginData, setLoginData] = useState<UserLogin>({

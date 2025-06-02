@@ -8,8 +8,8 @@ Plan smarter. Paddle better.
 
 EDDYOUT is a full-stack web application built for outdoor adventurers and river trip organizers who want to streamline multi-day trip planning. From crew management to gear checklists and meal assignments, EDDYOUT centralizes the logistics so you can focus on the fun part—getting on the water. EDDYOUT was built to centralize planning, improve commmunication, and support our outdoor communities. IYKYK, those shared spreadsheets that Trip Leader sends around will 'do the job' but nobody really likes them and we're here to find a better way.
 
-Deployed Application: [https://eddyout.onrender.com/](https://eddyout.onrender.com/)
-GitHub Repository: [https://github.com/lisaj5472/EddyOut](https://github.com/lisaj5472/EddyOut)
+Deployed Application: [https://eddyout-a2mh.onrender.com](https://eddyout-a2mh.onrender.com)
+GitHub Repository: [https://github.com/ellimckinley/EddyOut](https://github.com/ellimckinley/EddyOut)
 
 ## Table of Contents
 
@@ -70,8 +70,8 @@ This project is licensed under the [MIT](https://opensource.org/licenses/MIT) li
 ### Backend
 
 - Node.js & Express
-- PostgreSQL
-- Sequelize ORM
+- MongoDB
+- Apollo GraphQL
 
 ### Other Tools
 
@@ -101,9 +101,9 @@ Not accepting contributions at this time.
 
 - Elli McKinley - [elli.mckinley@gmail.com](mailto:elli.mckinley@gmail.com)
 - Lisa Jorgensen - [lisaj5472@gmail.com](lisaj5472@gmail.com)
-- Justin Vittitoe - [justinvittitoe7@gmail.com](justinvittitoe7@gmail.com)
+- Amani Akram - [akramamani75@gmail.com](akramamani75@gmail.com)
 
-Checkout our other GitHub projects: [@lisaj5472](https://github.com/lisaj5472), [@justinvittitoe](https://github.com/justinvittitoe), [@ellimckinley](https://github.com/ellimckinley).
+Checkout our other GitHub projects: [@lisaj5472](https://github.com/lisaj5472), [@Amaniakram](https://github.com/Amaniakram), [@ellimckinley](https://github.com/ellimckinley).
 
 ## Screenshots
 
