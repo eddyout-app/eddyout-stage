@@ -1,6 +1,6 @@
 // src/testing/mocks/mealsMock.ts
 
-import { GET_MEALS_BY_TRIP } from "../../graphql/meals/queries";
+import { GET_MEALS_BY_TRIP } from "../../graphql/queries/mealQueries";
 
 export const mockTrip = {
   _id: "trip123",
