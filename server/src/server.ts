@@ -2,7 +2,7 @@ import express, { Application } from "express";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import typeDefs from "./schemas/typedefs/index.js";
-import { tripResolvers } from "./schemas/resolvers/tripResolvers.js";
+import { resolvers } from "./schemas/resolvers/index.js";
 import db from "./config/connection.js"; // Mongoose connection
 
 const app: Application = express(); // ✅ explicitly typed
@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3001;
 
 const server = new ApolloServer({
   typeDefs,
-  resolvers: [tripResolvers],
+  resolvers,
 });
 
 async function startApolloServer() {

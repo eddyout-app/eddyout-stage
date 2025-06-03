@@ -7,13 +7,13 @@ const express_1 = __importDefault(require("express"));
 const server_1 = require("@apollo/server");
 const express4_1 = require("@apollo/server/express4");
 const index_js_1 = __importDefault(require("./schemas/typedefs/index.js"));
-const tripResolvers_js_1 = require("./schemas/resolvers/tripResolvers.js");
+const index_js_2 = require("./schemas/resolvers/index.js");
 const connection_js_1 = __importDefault(require("./config/connection.js")); // Mongoose connection
 const app = (0, express_1.default)(); // ✅ explicitly typed
 const PORT = process.env.PORT || 3001;
 const server = new server_1.ApolloServer({
     typeDefs: index_js_1.default,
-    resolvers: [tripResolvers_js_1.tripResolvers],
+    resolvers: index_js_2.resolvers,
 });
 async function startApolloServer() {
     await server.start();

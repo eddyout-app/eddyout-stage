@@ -1,85 +1,39 @@
 "use strict";
-// import { DataTypes, type Sequelize, Model, type Optional } from "sequelize";
-// import bcrypt from "bcrypt";
-// interface UserAttributes {
-//   id: string;
-//   username: string;
-//   email: string;
-//   password: string;
-//   firstName?: string;
-//   lastName?: string;
-// }
-// // EM: This warning appears to be a false positive warning on the UserCreationAttributes, leaving warning for now.
-// interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
-// export class User
-//   extends Model<UserAttributes, UserCreationAttributes>
-//   implements UserAttributes
-// {
-//   public id!: string;
-//   public username!: string;
-//   public email!: string;
-//   public password!: string;
-//   public firstName?: string;
-//   public lastName?: string;
-//   public readonly createdAt!: Date;
-//   public readonly updatedAt!: Date;
-//   // Hash the password before saving the user
-//   public async setPassword(password: string) {
-//     const saltRounds = 10;
-//     this.password = await bcrypt.hash(password, saltRounds);
-//   }
-//   // Password validation during login
-//   public async validatePassword(password: string): Promise<boolean> {
-//     return bcrypt.compare(password, this.password);
-//   }
-// }
-// export function UserFactory(sequelize: Sequelize): typeof User {
-//   User.init(
-//     {
-//       id: {
-//         type: DataTypes.UUID,
-//         defaultValue: DataTypes.UUIDV4,
-//         primaryKey: true,
-//       },
-//       username: {
-//         type: DataTypes.STRING,
-//         allowNull: false,
-//       },
-//       email: {
-//         type: DataTypes.STRING,
-//         allowNull: false,
-//       },
-//       password: {
-//         type: DataTypes.STRING,
-//         allowNull: false,
-//       },
-//       firstName: {
-//         type: DataTypes.STRING,
-//         allowNull: true,
-//       },
-//       lastName: {
-//         type: DataTypes.STRING,
-//         allowNull: true,
-//       },
-//     },
-//     {
-//       tableName: "users",
-//       sequelize,
-//       defaultScope: {
-//         attributes: { exclude: ["password"] },
-//       },
-//       hooks: {
-//         beforeCreate: async (user: User) => {
-//           await user.setPassword(user.password);
-//         },
-//         beforeUpdate: async (user: User) => {
-//           //prevents double hashing
-//           if (user.changed("password")) {
-//             await user.setPassword(user.password);
-//           }
-//         },
-//       },
-//     }
-//   );
-//   return User;
-// }
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose_1 = __importDefault(require("mongoose"));
+// Define the User Schema
+const UserSchema = new mongoose_1.default.Schema({
+    username: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    password: {
+        type: String,
+        required: true,
+    },
+    firstName: {
+        type: String,
+        required: true,
+    },
+    lastName: {
+        type: String,
+        required: true,
+    },
+    userDetails: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: "UserDetails", // Link to the UserDetails model
+    },
+}, {
+    timestamps: true,
+});
+const User = mongoose_1.default.model("User", UserSchema);
+exports.default = User;
