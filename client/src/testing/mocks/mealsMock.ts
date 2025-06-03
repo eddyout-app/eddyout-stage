@@ -10,7 +10,7 @@ export const mockTrip = {
   riverName: "Colorado River",
   putIn: "Apache Canyon",
   takeOut: "Rio Grande",
-  numOfParticipants: 5,
+  crewNum: 5,
   organizerId: "Tippy McBoatface",
   createdAt: "2025-06-01T12:00:00.000Z",
   updatedAt: "2025-06-10T08:30:00.000Z",
