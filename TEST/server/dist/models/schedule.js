@@ -35,3 +35,4 @@ function ScheduleFactory(sequelize) {
     });
     return Schedule;
 }
+//# sourceMappingURL=schedule.js.map

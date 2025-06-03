@@ -94,3 +94,4 @@ const deleteTrip = async (req, res) => {
     }
 };
 exports.deleteTrip = deleteTrip;
+//# sourceMappingURL=tripController.js.map

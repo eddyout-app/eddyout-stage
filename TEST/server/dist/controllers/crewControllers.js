@@ -56,3 +56,4 @@ const deleteCrew = async (req, res) => {
     }
 };
 exports.deleteCrew = deleteCrew;
+//# sourceMappingURL=crewControllers.js.map

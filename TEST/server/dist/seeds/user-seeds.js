@@ -7,8 +7,8 @@ const seedUser = async () => {
     const users = await user_1.User.bulkCreate([
         {
             id: (0, uuid_1.v4)(),
-            username: "justinv",
-            email: "justin@email.com",
+            username: "amaniakram",
+            email: "akramamani75@gmail.com",
             password: "password",
             firstName: "Justin",
             lastName: "Vittitoe",
@@ -34,3 +34,4 @@ const seedUser = async () => {
     return users;
 };
 exports.seedUser = seedUser;
+//# sourceMappingURL=user-seeds.js.map

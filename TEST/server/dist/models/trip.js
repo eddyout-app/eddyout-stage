@@ -69,3 +69,4 @@ function TripFactory(sequelize) {
     });
     return Trip;
 }
+//# sourceMappingURL=trip.js.map

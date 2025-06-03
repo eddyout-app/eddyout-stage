@@ -13,3 +13,4 @@ router.get("/:id", tripController_js_1.getTripById);
 router.post("/", tripController_js_1.createTrip);
 router.put("/:id", tripController_js_1.updateTrip);
 router.delete("/:id", tripController_js_1.deleteTrip);
+//# sourceMappingURL=trip-routes.js.map

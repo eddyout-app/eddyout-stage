@@ -11,3 +11,4 @@ exports.userRouter = router;
 router.get('/', userController_js_1.getUsers);
 router.get('/:id', userController_js_1.getUser);
 router.post('/', userController_js_1.createUser);
+//# sourceMappingURL=user-routes.js.map

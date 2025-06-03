@@ -5,30 +5,36 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // Import dependencies
 const express_1 = __importDefault(require("express"));
-const connection_js_1 = require("./config/connection.js");
-const index_js_1 = __importDefault(require("./routes/index.js"));
-const schedule_routes_js_1 = require("./routes/api/schedule-routes.js");
-// Configuration
-const FORCE_DB_REFRESH = false;
-const PORT = process.env.PORT || 3001;
-// Initialize Express app
-const app = (0, express_1.default)();
-// Middleware
-app.use(express_1.default.json());
-app.use(index_js_1.default);
-app.use("/api/schedule", schedule_routes_js_1.scheduleRouter);
-// Serve static files
-app.use(express_1.default.static("../client/dist"));
-// Database & Server Start
-(async () => {
-    try {
-        await connection_js_1.sequelize.sync({ force: FORCE_DB_REFRESH });
-        app.listen(PORT, () => {
-            console.log(`EDDYOUT server is running at http://localhost:${PORT}`);
+// import routes from "./routes/index.js";
+// import { scheduleRouter } from "./routes/api/schedule-routes.js";
+const node_path_1 = __importDefault(require("node:path"));
+const server_1 = require("@apollo/server"); // Note: Import from @apollo/server-express
+const express4_1 = require("@apollo/server/express4");
+const index_js_1 = require("./schemas/index.js");
+const auth_js_1 = require("./utils/auth.js");
+const server = new server_1.ApolloServer({
+    typeDefs: index_js_1.typeDefs,
+    resolvers: index_js_1.resolvers
+});
+const startApolloServer = async () => {
+    await server.start();
+    const PORT = process.env.PORT || 3001;
+    const app = (0, express_1.default)();
+    app.use(express_1.default.urlencoded({ extended: false }));
+    app.use(express_1.default.json());
+    app.use('/graphql', (0, express4_1.expressMiddleware)(server, {
+        context: auth_js_1.authenticateToken
+    }));
+    if (process.env.NODE_ENV === 'production') {
+        app.use(express_1.default.static(node_path_1.default.join(__dirname, '../../client/dist')));
+        app.get('*', (_req, res) => {
+            res.sendFile(node_path_1.default.join(__dirname, '../../client/dist/index.html'));
         });
     }
-    catch (error) {
-        console.error("Failed to initialize the database or server:", error);
-        process.exit(1);
-    }
-})();
+    app.listen(PORT, () => {
+        console.log(`API server running on port ${PORT}!`);
+        console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
+    });
+};
+startApolloServer();
+//# sourceMappingURL=server.js.map

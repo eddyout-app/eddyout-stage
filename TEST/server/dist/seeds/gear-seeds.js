@@ -56,3 +56,4 @@ const seedGear = async (users, trips, gearLists) => {
     }
 };
 exports.seedGear = seedGear;
+//# sourceMappingURL=gear-seeds.js.map

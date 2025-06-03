@@ -18,3 +18,4 @@ const sequelize = process.env.DB_URL
         },
     });
 exports.sequelize = sequelize;
+//# sourceMappingURL=connection.js.map

@@ -8,3 +8,4 @@ const typeDefs_js_1 = __importDefault(require("./typeDefs.js"));
 exports.typeDefs = typeDefs_js_1.default;
 const resolvers_js_1 = __importDefault(require("./resolvers.js"));
 exports.resolvers = resolvers_js_1.default;
+//# sourceMappingURL=index.js.map

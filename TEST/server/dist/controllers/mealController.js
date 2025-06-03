@@ -30,3 +30,4 @@ const createMeal = async (req, res) => {
     }
 };
 exports.createMeal = createMeal;
+//# sourceMappingURL=mealController.js.map

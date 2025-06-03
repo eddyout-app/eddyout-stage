@@ -22,3 +22,4 @@ const seedSchedule = async (trips) => {
     ]);
 };
 exports.seedSchedule = seedSchedule;
+//# sourceMappingURL=schedule-seeds.js.map

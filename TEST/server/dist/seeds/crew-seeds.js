@@ -25,3 +25,4 @@ const seedCrew = async (users, trips) => {
     }
 };
 exports.seedCrew = seedCrew;
+//# sourceMappingURL=crew-seeds.js.map

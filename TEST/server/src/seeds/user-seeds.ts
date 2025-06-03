@@ -6,8 +6,8 @@ export const seedUser = async () => {
     [
       {
         id: uuidv4(),
-        username: "justinv",
-        email: "justin@email.com",
+        username: "amaniakram",
+        email: "akramamani75@gmail.com",
         password: "password",
         firstName: "Justin",
         lastName: "Vittitoe",

@@ -11,3 +11,4 @@ exports.crewRouter = router;
 router.get('/:tripId', crewControllers_js_1.getAllCrew);
 router.post('/create', crewControllers_js_1.createCrew);
 router.delete('/:crewId', crewControllers_js_1.deleteCrew);
+//# sourceMappingURL=crew-routes.js.map

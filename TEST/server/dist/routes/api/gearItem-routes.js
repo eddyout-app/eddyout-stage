@@ -10,3 +10,4 @@ const router = express_1.default.Router();
 exports.gearItemRouter = router;
 router.get('/', gearItemController_js_1.getAllGearItems);
 router.post('/', gearItemController_js_1.createGearItem);
+//# sourceMappingURL=gearItem-routes.js.map

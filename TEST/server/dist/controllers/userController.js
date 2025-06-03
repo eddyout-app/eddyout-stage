@@ -34,3 +34,4 @@ const createUser = async (req, res) => {
     }
 };
 exports.createUser = createUser;
+//# sourceMappingURL=userController.js.map
