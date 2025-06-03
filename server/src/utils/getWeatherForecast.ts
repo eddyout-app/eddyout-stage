@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 
-export async function getWeatherForecast(lat: number, lon: number, date?: string) {
+export async function getWeatherForecast(lat: number, lon: number) {
     const apiKey = process.env.WEATHER_API_KEY;
     const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
 
