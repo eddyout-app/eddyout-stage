@@ -1,15 +1,15 @@
+// src/App.tsx
 import "./styles/App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-// import Home from "./pages/Home";
-// import Dashboard from "./features/dashboard/Dashboard"; // Placeholder: dashboard of trips
-// import TripDetails from "./features/tripDetails/TripDetails"; // Placeholder for trip overview
-// import FloatPlan from "./pages/FloatPlan";
-// import GearList from "./components/gear/GearList";
-// import Meals from "./components/meals/MealSection";
-// import Crew from "./pages/Crew";
-// import SignUp from "./pages/SignUp";
-// import NewTrip from "./pages/NewTrip";
+import Dashboard from "./components/dashboard/Dashboard";
+import MealSectionWrapper from "./components/meals/MealSectionWrapper";
+import TripDetailsWrapper from "./components/tripDetails/TripDetailsWrapper";
+
+// Auth components (adjust as needed)
+import Login from "./components/Login"; // REST-based login
+
+// DEV ONLY Routes
 import MockLogin from "./testing/scenarios/MockLogin";
 import MockMealTest from "./testing/scenarios/MockMealTest";
 
@@ -17,25 +17,23 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        {/* DEV ONLY Routes*/}
+        {/* DEV ONLY */}
         <Route path="/mocklogin" element={<MockLogin />} />
         <Route path="/mealtest" element={<MockMealTest />} />
-        {/* Pre-login home page */}
-        {/* <Route path="/" element={<Home />} /> */}
-        {/* <Route path="/signup" element={<SignUp />} />
-        <Route path="/login" element={<SignUp />} /> */}
-        {/* Dashboard (list of user's trips after login) */}
-        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
-        {/* Trip details page (overview with links to sub-pages) */}
-        {/* <Route path="/trips/:tripId" element={<TripDetails />}>
-          <Route path="floatplan" element={<FloatPlan />} />
-          <Route path="gear" element={<GearList />} />
-          <Route path="meals" element={<Meals />} />
-          <Route path="crew" element={<Crew />} />
-        </Route> */}
 
-        {/* New trip creation page */}
-        {/* <Route path="/newtrip" element={<NewTrip />} /> */}
+        {/* Pre-login routes */}
+        <Route path="/" element={<Login />} />
+
+        <Route path="/login" element={<Login />} />
+
+        {/* Dashboard (list of user's trips after login) */}
+        <Route path="/dashboard" element={<Dashboard />} />
+
+        {/* Trip details page (overview with links to sub-pages) */}
+        <Route path="/trips/:tripId" element={<TripDetailsWrapper />}>
+          {/* Sub-pages: start with Meals only */}
+          <Route path="meals" element={<MealSectionWrapper />} />
+        </Route>
       </Routes>
     </Router>
   );

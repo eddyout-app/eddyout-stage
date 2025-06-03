@@ -1,19 +1,5 @@
-import { gql, useQuery } from "@apollo/client";
-
-const GET_TRIP_BY_ID = gql`
-  query GetTripById($id: ID!) {
-    trip(id: $id) {
-      _id
-      riverName
-      startDate
-      endDate
-      putIn
-      takeOut
-      crewNum
-      organizerId
-    }
-  }
-`;
+import { useQuery } from "@apollo/client";
+import { GET_TRIP_BY_ID } from "../../graphql";
 
 interface TripDetailPanelProps {
   tripId: string;

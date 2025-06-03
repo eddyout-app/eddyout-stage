@@ -1,34 +1,34 @@
-import { UserLogin } from "../types/UserLogin";
+import type { UserLogin } from "../types/user";
 
-interface SignupData {
-  firstName: string;
-  lastName: string;
-  username: string;
-  email: string;
-  password: string;
-}
+// interface SignupData {
+//   firstName: string;
+//   lastName: string;
+//   username: string;
+//   email: string;
+//   password: string;
+// }
 
-const signup = async (userInfo: SignupData) => {
-  try {
-    const response = await fetch("/auth/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userInfo),
-    });
-    const data = await response.json();
+// const signup = async (userInfo: SignupData) => {
+//   try {
+//     const response = await fetch("/auth/signup", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(userInfo),
+//     });
+//     const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(data.message || "Signup failed. Please try again");
-    }
-    return data;
-  } catch (err) {
-    const error = err as Error;
-    console.log("Error with signup", err);
-    return Promise.reject(error.message || "Could not signup user");
-  }
-};
+//     if (!response.ok) {
+//       throw new Error(data.message || "Signup failed. Please try again");
+//     }
+//     return data;
+//   } catch (err) {
+//     const error = err as Error;
+//     console.log("Error with signup", err);
+//     return Promise.reject(error.message || "Could not signup user");
+//   }
+// };
 
 const login = async (userInfo: UserLogin) => {
   try {
@@ -53,4 +53,4 @@ const login = async (userInfo: UserLogin) => {
   }
 };
 
-export { login, signup };
+export { login };

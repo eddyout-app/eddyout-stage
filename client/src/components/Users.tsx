@@ -12,10 +12,10 @@ const UserList: React.FC<UserListProps> = ({ users }) => {
     <>
       {users &&
         users.map((user) => (
-          <div className="row align-center mb-5" key={user.id}>
+          <div className="row align-center mb-5" key={user._id}>
             <div className="col-md-6">
               <h2>
-                {user.id}. {user.username}
+                {user._id}. {user.username}
               </h2>
             </div>
             <div className="col-md-6">
