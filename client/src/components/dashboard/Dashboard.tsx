@@ -1,3 +1,5 @@
+// Dashboard.tsx
+
 import { useState } from "react";
 import { TripData } from "../../types/trip";
 import TripSummaryCard from "../../components/tripDetails/TripSummaryCard";
@@ -99,21 +101,22 @@ export default function Dashboard() {
             details or assign yourself to a crew or a task.
           </p>
 
-          {/* Your existing sections here — unchanged */}
-          {/* mostCurrentTrip, futureTrips, pastTrips sections — you already had them perfectly built */}
-
           {mostCurrentTrip && (
             <section className="dashboard-section">
               <h2>Most Current Trip</h2>
               <div key={mostCurrentTrip._id} className="trip-card">
-                <TripSummaryCard trip={mostCurrentTrip} />
+                <TripSummaryCard
+                  trip={mostCurrentTrip}
+                  onClick={() => handleOpenDetail(mostCurrentTrip._id, "")}
+                />
+
                 <div className="trip-detail-buttons">
                   <button
                     onClick={() =>
-                      handleOpenDetail(mostCurrentTrip._id, "floatplan")
+                      handleOpenDetail(mostCurrentTrip._id, "campsites")
                     }
                   >
-                    Float Plan
+                    Campsites
                   </button>
                   <button
                     onClick={() =>
@@ -144,22 +147,32 @@ export default function Dashboard() {
                     Expenses
                   </button>
                 </div>
+
+                {selectedTripId === mostCurrentTrip._id && (
+                  <TripDetailPanel
+                    tripId={selectedTripId}
+                    view={selectedDetailView || ""}
+                    onClose={clearSelectedTrip}
+                  />
+                )}
               </div>
             </section>
           )}
 
-          {/* Future Trips */}
           {futureTrips.length > 0 && (
             <section className="dashboard-section">
               <h2>Upcoming Trips</h2>
               {filteredFutureTrips.map((trip) => (
                 <div key={trip._id} className="trip-card">
-                  <TripSummaryCard trip={trip} />
+                  <TripSummaryCard
+                    trip={trip}
+                    onClick={() => handleOpenDetail(trip._id, "")}
+                  />
                   <div className="trip-detail-buttons">
                     <button
-                      onClick={() => handleOpenDetail(trip._id, "floatplan")}
+                      onClick={() => handleOpenDetail(trip._id, "campsites")}
                     >
-                      Float Plan
+                      Campsites
                     </button>
                     <button onClick={() => handleOpenDetail(trip._id, "meals")}>
                       Meals
@@ -176,23 +189,33 @@ export default function Dashboard() {
                       Expenses
                     </button>
                   </div>
+
+                  {selectedTripId === trip._id && (
+                    <TripDetailPanel
+                      tripId={selectedTripId}
+                      view={selectedDetailView || ""}
+                      onClose={clearSelectedTrip}
+                    />
+                  )}
                 </div>
               ))}
             </section>
           )}
 
-          {/* Past Trips */}
           {pastTrips.length > 0 && (
             <section className="dashboard-section">
               <h2>Past Trips</h2>
               {filteredPastTrips.map((trip) => (
                 <div key={trip._id} className="trip-card">
-                  <TripSummaryCard trip={trip} />
+                  <TripSummaryCard
+                    trip={trip}
+                    onClick={() => handleOpenDetail(trip._id, "")}
+                  />
                   <div className="trip-detail-buttons">
                     <button
-                      onClick={() => handleOpenDetail(trip._id, "floatplan")}
+                      onClick={() => handleOpenDetail(trip._id, "campsites")}
                     >
-                      Float Plan
+                      Campsites
                     </button>
                     <button onClick={() => handleOpenDetail(trip._id, "meals")}>
                       Meals
@@ -209,20 +232,19 @@ export default function Dashboard() {
                       Expenses
                     </button>
                   </div>
+
+                  {selectedTripId === trip._id && (
+                    <TripDetailPanel
+                      tripId={selectedTripId}
+                      view={selectedDetailView || ""}
+                      onClose={clearSelectedTrip}
+                    />
+                  )}
                 </div>
               ))}
             </section>
           )}
         </div>
-
-        {/* TripDetailPanel stays exactly where it was — correct */}
-        {selectedTripId && selectedDetailView && (
-          <TripDetailPanel
-            tripId={selectedTripId}
-            view={selectedDetailView}
-            onClose={clearSelectedTrip}
-          />
-        )}
       </main>
 
       <Footer />

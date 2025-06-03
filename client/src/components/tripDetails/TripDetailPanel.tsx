@@ -1,5 +1,8 @@
 import { useQuery } from "@apollo/client";
 import { GET_TRIP_BY_ID } from "../../graphql";
+import Campsites from "../campsites/Campsites";
+import MealSection from "../meals/MealSection";
+import SidePanel from "../SidePanel";
 
 interface TripDetailPanelProps {
   tripId: string;
@@ -45,13 +48,13 @@ export default function TripDetailPanel({
         {trip.crewNum}
       </p>
 
-      <div className="my-4">
-        {view === "floatplan" && <div>🚣 Float Plan Component Here 🚣</div>}
-        {view === "meals" && <div>🍽️ Meals Component Here 🍽️</div>}
-        {view === "gear" && <div>🎒 Gear Component Here 🎒</div>}
-        {view === "crew" && <div>👥 Crew Component Here 👥</div>}
-        {view === "expenses" && <div>💰 Expenses Component Here 💰</div>}
-      </div>
+      <SidePanel isOpen={!!view} onClose={onClose}>
+        {view === "meals" && <MealSection trip={trip} />}
+        {view === "campsites" && <Campsites trip={trip} />}
+        {/* {view === "gear" && <GearSection trip={trip} />}
+        {view === "crew" && <CrewSection trip={trip} />}
+        {view === "expenses" && <ExpensesSection trip={trip} />} */}
+      </SidePanel>
 
       <button
         onClick={onClose}
