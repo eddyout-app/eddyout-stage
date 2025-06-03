@@ -1,67 +1,43 @@
-// import { DataTypes, type Sequelize, Model, type Optional } from "sequelize";
+import mongoose from "mongoose";
+const { Schema, model } = mongoose;
 
-// interface GearItemAttributes {
-//   id: string;
-//   gearItem: string;
-//   quantity: number;
-//   claimedBy?: string;
-//   tripId?: string;
-//   gearListId: string;
-//   // gearListId: number;
-// }
+const gearItemSchema = new Schema(
+    {
+        gearItem: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+        quantity: {
+            type: Number,
+            required: true,
+            min: 1,
+        },
+        category: {
+            type: String,
+            enum: ["Kitchen", "Boat Gear", "Camp Gear", "Personal", "Other"], // You define these!
+            default: "Other",
+        },
+        claimedBy: {
+            type: Schema.Types.ObjectId,
+            ref: "User",
+            default: null,
+        },
+        tripId: {
+            type: Schema.Types.ObjectId,
+            ref: "Trip",
+            required: true,
+        },
+        gearListId: {
+            type: Schema.Types.ObjectId,
+            ref: "GearList",
+            required: true,
+        },
+    },
+    {
+        timestamps: true,
+    }
+);
 
-// // EM: This warning appears to be a false positive warning on the UserCreationAttributes, leaving warning for now.
-// interface GearItemCreationAttributes
-//   extends Optional<GearItemAttributes, "id" | "claimedBy"> {}
-
-// export class GearItem
-//   extends Model<GearItemAttributes, GearItemCreationAttributes>
-//   implements GearItemAttributes
-// {
-//   public id!: string;
-//   public gearItem!: string;
-//   public quantity!: number;
-//   public claimedBy?: string;
-//   public tripId?: string;
-//   public gearListId!: string;
-//   // public gearListId!: number;
-
-//   public readonly createdAt!: Date;
-//   public readonly updatedAt!: Date;
-// }
-
-// export function GearItemFactory(sequelize: Sequelize): typeof GearItem {
-//   GearItem.init(
-//     {
-//       id: {
-//         type: DataTypes.UUID,
-//         defaultValue: DataTypes.UUIDV4,
-//         primaryKey: true,
-//       },
-//       gearItem: {
-//         type: DataTypes.STRING,
-//         allowNull: false,
-//       },
-//       quantity: {
-//         type: DataTypes.INTEGER,
-//         allowNull: false,
-//       },
-//       claimedBy: {
-//         type: DataTypes.UUID,
-//         defaultValue: DataTypes.UUIDV4,
-//         allowNull: true,
-//       },
-//       gearListId: {
-//         type: DataTypes.UUID,
-//         defaultValue: DataTypes.UUIDV4,
-//         allowNull: false,
-//       },
-//     },
-//     {
-//       sequelize,
-//       tableName: "GearItems",
-//       timestamps: true,
-//     }
-//   );
-//   return GearItem;
-// }
+const GearItem = model("GearItem", gearItemSchema);
+export default GearItem;

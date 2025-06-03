@@ -1,5 +1,6 @@
 // import { seedCrew } from "./crew-seeds";
-// import { seedGear } from "./gear-seeds";
+import { seedGear } from "./gearItem-seeds";
+import { seedGearLists } from "./gearList-seeds";
 // import { seedMeals } from "./meal-seeds";
 // import { seedUser } from "./user-seeds";
 // import { seedSchedule } from "./schedule-seeds";
@@ -16,8 +17,8 @@ const seedAll = async (): Promise<void> => {
     // const users = await seedUser();
     // console.log("\n✅ Users seeded\n");
 
-    await seedTrip([
-      { _id: new mongoose.Types.ObjectId() }, // fake user for now
+    const trips = await seedTrip([
+      { _id: new mongoose.Types.ObjectId() },
       { _id: new mongoose.Types.ObjectId() },
       { _id: new mongoose.Types.ObjectId() }
     ]);
@@ -26,7 +27,9 @@ const seedAll = async (): Promise<void> => {
     // await seedCrew(users, trips);
     // await seedSchedule(trips);
     // await seedMeals(trips);
-    // await seedGear(users, trips, []);
+
+    const gearLists = await seedGearLists(trips);
+    // await seedGear(users, trips, gearLists); // ⚠️ uncomment when `users` is seeded
 
     process.exit(0);
   } catch (error) {

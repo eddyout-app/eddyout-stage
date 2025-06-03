@@ -1,6 +1,9 @@
 import { tripResolvers } from "./tripResolvers";
 import { expenseResolvers } from "./expenseResolver";
 import userPreferencesResolvers from "./userPreferencesResolvers";
+
+import { gearItemResolvers } from "./gearItemResolver";
+import { gearListResolvers } from "./gearListResolver";
 import { weatherResolvers } from "./weatherResolver";
 
 export const resolvers = {
@@ -12,10 +15,10 @@ export const resolvers = {
         ...expenseResolvers.Query,
 
         // GearItem Queries
-        // ...gearItemResolvers.Query,
+        ...gearItemResolvers.Query,
 
         // GearList Queries
-        // ...gearListResolvers.Query,
+        ...gearListResolvers.Query,
 
         // Meal Queries
         // ...mealResolvers.Query,
@@ -45,10 +48,10 @@ export const resolvers = {
         ...expenseResolvers.Mutation,
 
         // GearItem Queries
-        // ...gearItemResolvers.Mutation,
+        ...gearItemResolvers.Mutation,
 
         // GearList Queries
-        // ...gearListResolvers.Mutation,
+        ...gearListResolvers.Mutation,
 
         // Meal Queries
         // ...mealResolvers.Mutation,
