@@ -4,10 +4,7 @@ exports.seedMeals = void 0;
 const meals_1 = require("../models/meals");
 const uuid_1 = require("uuid");
 /**
- * Creates structured meal data associated with a specific trip ID.
- *
- * @param tripId - The ID of the trip to associate meals with.
- * @returns Array of meal creation attributes.
+ * Create structured meal data for a trip, with a placeholder for future expense fields.
  */
 const generateMealsForTrip = (tripId) => [
     {
@@ -17,6 +14,7 @@ const generateMealsForTrip = (tripId) => [
         crewMember: "Amani",
         description: "Vegetarian",
         tripId,
+        // expense: null, // Uncomment/expand for expense tracking
     },
     {
         date: "2024-06-06",
@@ -60,20 +58,27 @@ const generateMealsForTrip = (tripId) => [
     },
 ];
 /**
- * Seeds the Meals table with sample data for the provided trips.
+ * Seeds the Meals table with sample data for all provided trips.
+ * Future-proofed for expansion (e.g., expense tracking).
  *
- * @param trips - An array of Trip objects to associate meals with.
+ * @param trips - Array of Trip objects to associate meals with.
  */
 const seedMeals = async (trips) => {
     if (!trips?.length)
         return;
-    const [firstTrip] = trips;
-    const baseMeals = generateMealsForTrip(firstTrip.id);
-    const mealsToInsert = baseMeals.map(meal => ({
-        id: (0, uuid_1.v4)(),
+    const allMeals = trips.flatMap(trip => generateMealsForTrip(trip.id).map(meal => ({
+        id: (0, uuid_1.v4)(), // Or let MongoDB auto-generate if using Mongoose
         ...meal,
-    }));
-    await meals_1.Meals.bulkCreate(mealsToInsert);
+        // expense: meal.expense || null, // For future expansion
+    })));
+    try {
+        await meals_1.Meals.bulkCreate(allMeals);
+        console.log(`Seeded ${allMeals.length} meals for ${trips.length} trips.`);
+    }
+    catch (error) {
+        console.error("Error seeding meals:", error);
+        throw error;
+    }
 };
 exports.seedMeals = seedMeals;
 //# sourceMappingURL=meal-seeds.js.map

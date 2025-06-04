@@ -4,10 +4,7 @@ import type { Trip } from "../models/trip";
 import type { MealCreationAttributes } from "../models/meals";
 
 /**
- * Creates structured meal data associated with a specific trip ID.
- *
- * @param tripId - The ID of the trip to associate meals with.
- * @returns Array of meal creation attributes.
+ * Create structured meal data for a trip, with a placeholder for future expense fields.
  */
 const generateMealsForTrip = (tripId: string): MealCreationAttributes[] => [
   {
@@ -17,6 +14,7 @@ const generateMealsForTrip = (tripId: string): MealCreationAttributes[] => [
     crewMember: "Amani",
     description: "Vegetarian",
     tripId,
+    // expense: null, // Uncomment/expand for expense tracking
   },
   {
     date: "2024-06-06",
@@ -61,20 +59,28 @@ const generateMealsForTrip = (tripId: string): MealCreationAttributes[] => [
 ];
 
 /**
- * Seeds the Meals table with sample data for the provided trips.
+ * Seeds the Meals table with sample data for all provided trips.
+ * Future-proofed for expansion (e.g., expense tracking).
  *
- * @param trips - An array of Trip objects to associate meals with.
+ * @param trips - Array of Trip objects to associate meals with.
  */
 export const seedMeals = async (trips: Trip[]): Promise<void> => {
   if (!trips?.length) return;
 
-  const [firstTrip] = trips;
-  const baseMeals = generateMealsForTrip(firstTrip.id);
+  const allMeals = trips.flatMap(trip =>
+    generateMealsForTrip(trip.id).map(meal => ({
+      id: uuidv4(), // Or let MongoDB auto-generate if using Mongoose
+      ...meal,
+      // expense: meal.expense || null, // For future expansion
+    }))
+  );
 
-  const mealsToInsert = baseMeals.map(meal => ({
-    id: uuidv4(),
-    ...meal,
-  }));
-
-  await Meals.bulkCreate(mealsToInsert);
+  try {
+    await Meals.bulkCreate(allMeals);
+    
+    console.log(`Seeded ${allMeals.length} meals for ${trips.length} trips.`);
+  } catch (error) {
+    console.error("Error seeding meals:", error);
+    throw error;
+  }
 };

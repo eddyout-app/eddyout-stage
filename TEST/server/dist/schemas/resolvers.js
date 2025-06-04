@@ -4,86 +4,89 @@ const meals_1 = require("../models/meals");
 const user_js_1 = require("../models/user.js");
 const auth_1 = require("../utils/auth");
 const graphql_1 = require("graphql");
+const crew_1 = require("../models/crew"); // Make sure this import is correct
 const resolvers = {
     Query: {
-        getMealsForTrip: async (_parent, args, _context) => {
+        getMealsForTrip: async (_parent, args) => {
             const { tripId } = args;
             try {
                 const meals = await meals_1.Meals.findAll({ where: { tripId } });
-                if (!meals || meals.length === 0) {
-                    return null; //return an error
-                }
-                return (meals);
+                return meals.length ? meals : null;
             }
             catch (error) {
-                console.error('Error fetching meals:', error);
-                throw new graphql_1.GraphQLError('Error getting meals');
+                console.error("Error fetching meals:", error);
+                throw new graphql_1.GraphQLError("Error getting meals");
             }
         },
-        getUsers: async (_parent, _args, _context) => {
+        getUsers: async () => {
             try {
                 const users = await user_js_1.User.findAll();
-                return (users);
+                return users;
             }
             catch (err) {
-                // res.status(500).json({ message: err.message });
-                throw new graphql_1.GraphQLError('Error getting users');
+                throw new graphql_1.GraphQLError("Error getting users");
             }
         },
-        getUser: async (_parent, args, _context) => {
-            const { id } = args;
-            console.log(id);
+        getUser: async (_parent, args) => {
             try {
-                const user = await user_js_1.User.findByPk(id);
-                return (user);
+                const user = await user_js_1.User.findByPk(args.id);
+                return user;
             }
             catch (err) {
-                throw new graphql_1.GraphQLError('Error getting user');
+                throw new graphql_1.GraphQLError("Error getting user");
             }
-        }
+        },
+        getAllCrew: async () => {
+            try {
+                const crewList = await crew_1.Crew.findAll();
+                return crewList;
+            }
+            catch (error) {
+                console.error("Error fetching crew members:", error);
+                throw new graphql_1.GraphQLError("Error fetching crew members");
+            }
+        },
     },
     Mutation: {
-        createMeal: async (_parent, args, _context) => {
+        createMeal: async (_parent, { input }) => {
             try {
-                const meal = await meals_1.Meals.create(args);
+                const meal = await meals_1.Meals.create(input);
                 return meal;
             }
             catch (error) {
-                console.error('Error creating meal:', error);
-                throw new graphql_1.GraphQLError('Error creating meal');
+                console.error("Error creating meal:", error);
+                throw new graphql_1.GraphQLError("Error creating meal");
             }
-        }
-    },
-    createUser: async (_parent, args, _context) => {
-        try {
-            const user = await user_js_1.User.create(args);
-            // res.status(201).json(user);
-            return user;
-        }
-        catch (err) {
-            // res.status(400).json({ message: err.message });
-            throw new graphql_1.GraphQLError('Error creating user');
-        }
-    },
-    login: async (_parent, args, _context) => {
-        // Find a user with the provided email
-        const user = await user_js_1.User.findOne({ where: {
-                email: args.email
-            } });
-        // If no user is found, throw an AuthenticationError
-        if (!user) {
-            throw new Error('Could not authenticate user.');
-        }
-        // Check if the provided password is correct
-        const correctPw = await user.validatePassword(args.password);
-        // If the password is incorrect, throw an AuthenticationError
-        if (!correctPw) {
-            throw new Error('Could not authenticate user.');
-        }
-        // Sign a token with the user's information
-        const token = (0, auth_1.signToken)(user.username, user.email, user.id);
-        // Return the token and the user
-        return { token, user };
+        },
+        createUser: async (_parent, { input }) => {
+            try {
+                const user = await user_js_1.User.create(input);
+                const token = (0, auth_1.signToken)(user.username, user.email, user.id);
+                return { token, user };
+            }
+            catch (err) {
+                throw new graphql_1.GraphQLError("Error creating user");
+            }
+        },
+        login: async (_parent, args) => {
+            const user = await user_js_1.User.findOne({ where: { email: args.email } });
+            if (!user || !(await user.validatePassword(args.password))) {
+                throw new graphql_1.GraphQLError("Could not authenticate user.");
+            }
+            const token = (0, auth_1.signToken)(user.username, user.email, user.id);
+            return { token, user };
+        },
+        createCrewMember: async (_parent, args) => {
+            const { userId, tripId } = args;
+            try {
+                const crewMember = await crew_1.Crew.create({ userId, tripId });
+                return crewMember;
+            }
+            catch (error) {
+                console.error("Error creating crew member:", error);
+                throw new graphql_1.GraphQLError("Error creating crew member");
+            }
+        },
     },
 };
 exports.default = resolvers;

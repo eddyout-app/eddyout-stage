@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const typeDefs = `
-  # Define which fields are accessible from the Class model
+const apollo_server_express_1 = require("apollo-server-express");
+const typeDefs = (0, apollo_server_express_1.gql) `
   type Meal {
-    id: String
+    id: ID!
     tripId: String
     date: String
     mealType: String
@@ -16,7 +16,13 @@ const typeDefs = `
     _id: ID!
     username: String
     email: String!
-    password: String!
+    password: String
+  }
+
+  type CrewMember {
+    _id: ID!
+    userId: ID!
+    tripId: ID!
   }
 
   input MealInput {
@@ -24,34 +30,36 @@ const typeDefs = `
     mealType: String!
     crewMember: String!
     tripId: ID!
-    date: String! 
+    date: String!
     description: String
   }
 
   input UserInput {
-   username: String!
-   email: String!
-   password: String!
-   firstName: String
-   lastName: String
+    username: String!
+    email: String!
+    password: String!
+    firstName: String
+    lastName: String
   }
-   type Auth {
+
+  type Auth {
     token: String
     user: User
-   
-   }
+  }
 
   # Define which queries the front end is allowed to make and what data is returned
   type Query {
     getUsers: [User]
-    getUser(id:ID!): User
-    getMealsForTrip(tripId: ID!) : [Meal]  
+    getUser(id: ID!): User
+    getMealsForTrip(tripId: ID!): [Meal]
+    getAllCrew: [CrewMember]
   }
 
   type Mutation {
     createMeal(input: MealInput!): Meal
     createUser(input: UserInput!): Auth
-    login(email: String!, password: String!): Auth 
+    createCrewMember(userId: ID!, tripId: ID!): CrewMember
+    login(email: String!, password: String!): Auth
   }
 `;
 exports.default = typeDefs;
