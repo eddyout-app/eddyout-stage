@@ -7,6 +7,9 @@ import { gearItemTypeDefs } from "./gearItemTypeDefs";
 import { gearListTypeDefs } from "./gearListTypeDefs";
 import { gearCatalogTypeDefs } from "./gearCatalogTypeDefs";
 import { weatherTypeDefs } from "./weatherTypeDefs";
+import campsiteTypeDefs from "./campsitesTypeDefs";
+import mealTypeDefs from "./mealsTypeDefs";
+import { userTypeDefs } from "./userTypeDefs";
 
 // import other typedefs when ready
 
@@ -24,8 +27,10 @@ export default [
   gearItemTypeDefs,
   gearListTypeDefs,
   gearCatalogTypeDefs,
-
+  campsiteTypeDefs,
   weatherTypeDefs,
+  mealTypeDefs,
+  userTypeDefs,
 
   // add others here as you build them
 ];

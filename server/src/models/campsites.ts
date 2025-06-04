@@ -1,57 +1,54 @@
-// import { DataTypes, type Sequelize, Model, type Optional } from "sequelize";
+// src/models/campsite.ts
+import { Schema, model, Types } from "mongoose";
 
-// interface CampsitesAttributes {
-//   id: string;
-//   date: Date;
-//   campsite: string;
-//   tripId: string;
-// }
+const campsiteSchema = new Schema(
+  {
+    tripId: {
+      type: Types.ObjectId,
+      ref: "Trip",
+      required: true,
+    },
+    userId: {
+      type: Types.ObjectId,
+      ref: "User",
+      required: false, // Optional — not in your original model
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+    },
+    location: {
+      latitude: {
+        type: Number,
+      },
+      longitude: {
+        type: Number,
+      },
+    },
+    startDate: {
+      type: Date,
+      required: true,
+    },
+    endDate: {
+      type: Date,
+      required: true,
+    },
+    weather: {
+      temperature: Number,
+      conditions: String,
+      windSpeed: Number,
+      humidity: Number,
+      precipitation: Number,
+    },
+  },
+  {
+    timestamps: true, // createdAt and updatedAt
+  }
+);
 
-// interface CampsitesCreationAttributes
-//   extends Optional<CampsitesAttributes, "id"> {}
+const Campsites = model("Campsite", campsiteSchema);
 
-// export class Campsites extends Model<
-//   CampsitesAttributes,
-//   CampsitesCreationAttributes
-// > {
-//   public id!: string;
-//   public date!: Date;
-//   public campsite!: string;
-//   public tripId!: string;
-
-//   public readonly createdAt!: Date;
-//   public readonly updatedAt!: Date;
-// }
-
-// export function CampsitesFactory(sequelize: Sequelize): typeof Campsites {
-//   Campsites.init(
-//     {
-//       id: {
-//         type: DataTypes.UUID,
-//         defaultValue: DataTypes.UUIDV4,
-//         primaryKey: true,
-//       },
-//       date: {
-//         type: DataTypes.DATE,
-//         allowNull: false,
-//       },
-//       campsite: {
-//         type: DataTypes.STRING,
-//         allowNull: false,
-//       },
-//       tripId: {
-//         type: DataTypes.UUID,
-//         allowNull: false,
-//         references: {
-//           model: "trips",
-//           key: "id",
-//         },
-//       },
-//     },
-//     {
-//       tableName: "campsites",
-//       sequelize,
-//     }
-//   );
-//   return Campsites;
-// }
+export default Campsites;

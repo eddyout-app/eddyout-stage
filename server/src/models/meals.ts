@@ -1,42 +1,34 @@
-// src/models/meals.ts
-
-import mongoose from "mongoose";
-const { Schema, model } = mongoose;
+// src/models/meal.ts
+import { Schema, model, Types } from "mongoose";
 
 const mealSchema = new Schema(
   {
     tripId: {
-      type: Schema.Types.ObjectId,
+      type: Types.ObjectId,
       ref: "Trip",
       required: true,
     },
-    userId: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
+    mealType: {
+      type: String,
       required: true,
+    },
+    mealName: {
+      type: String,
     },
     date: {
       type: Date,
       required: true,
     },
-    mealType: {
-      type: String,
-      enum: ["Breakfast", "Lunch", "Dinner"],
-      required: true,
-    },
-    mealName: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      default: "",
+    userId: {
+      type: Types.ObjectId,
+      ref: "User",
     },
   },
   {
-    timestamps: true,
+    timestamps: true, // createdAt, updatedAt
   }
 );
 
-const Meals = model("Meals", mealSchema);
-export default Meals;
+const Meal = model("Meal", mealSchema);
+
+export default Meal;

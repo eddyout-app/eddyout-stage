@@ -1,11 +1,12 @@
 import { tripResolvers } from "./tripResolvers";
 import { expenseResolvers } from "./expenseResolver";
 import userPreferencesResolvers from "./userPreferencesResolvers";
-
+import { campsitesResolvers } from "./campsitesResolver";
 import { gearItemResolvers } from "./gearItemResolver";
 import { gearListResolvers } from "./gearListResolver";
 import { weatherResolvers } from "./weatherResolver";
-import { gearCatalogResolvers } from "./gearCatalogResolver.js";
+import { gearCatalogResolvers } from "./gearCatalogResolver";
+import { mealResolvers } from "./mealsResolver";
 
 export const resolvers = {
   Query: {
@@ -25,10 +26,10 @@ export const resolvers = {
     ...gearCatalogResolvers.Query,
 
     // Meal Queries
-    // ...mealResolvers.Query,
+    ...mealResolvers.Query,
 
-    // Schedule Queries
-    // ...scheduleResolvers.Query,
+    // Campsites Queries
+    ...campsitesResolvers.Query,
 
     // Trip Queries
     ...tripResolvers.Query,
