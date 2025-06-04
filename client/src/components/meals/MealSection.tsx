@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { GET_MEALS_BY_TRIP } from "../../graphql/meals/queries";
+import { GET_MEALS_BY_TRIP } from "../../graphql/queries/mealQueries";
 import { TripData } from "../../types/trip";
 import { MealData } from "../../types/meals";
 import MealModal from "./MealModal";

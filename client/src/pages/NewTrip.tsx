@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { TripFormData } from "../types/trip";
-import { createTrip } from "../routes/tripAPI";
 import { useNavigate } from "react-router-dom";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
+import { useMutation } from "@apollo/client";
+import { CREATE_TRIP } from "../graphql/mutations/tripMutations";
 
 const NewTrip = () => {
   const [tripData, setTripData] = useState<TripFormData>({
@@ -12,9 +13,12 @@ const NewTrip = () => {
     endDate: "",
     putIn: "",
     takeOut: "",
-    crewNum: "",
-    email: "",
+    crewNum: undefined,
   });
+
+  const navigate = useNavigate();
+
+  const [createTrip, { loading, error }] = useMutation(CREATE_TRIP);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -22,42 +26,54 @@ const NewTrip = () => {
     const { name, value } = e.target;
     setTripData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: name === "crewNum" ? Number(value) : value,
     }));
   };
 
-  const navigate = useNavigate();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const userId = localStorage.getItem("userId");
     if (!userId) {
       console.error("User ID not found in local storage");
       return;
     }
 
-    const tripWithId: TripFormData = {
-      ...tripData,
-      organizerId: userId,
-    };
-
-    console.log("Submitted trip:", tripWithId);
-
     try {
-      const result = await createTrip(tripWithId);
+      console.log("Submitting trip:", {
+        ...tripData,
+        crewNum: tripData.crewNum ?? 1,
+        organizerId: userId,
+      });
+
+      const result = await createTrip({
+        variables: {
+          riverName: tripData.riverName,
+          startDate: tripData.startDate,
+          endDate: tripData.endDate,
+          putIn: tripData.putIn,
+          takeOut: tripData.takeOut,
+          crewNum: tripData.crewNum ?? 1,
+          organizerId: userId,
+        },
+      });
 
       console.log("Trip created successfully:", result);
+
+      // Reset form
       setTripData({
         riverName: "",
         startDate: "",
         endDate: "",
         putIn: "",
         takeOut: "",
-        crewNum: "",
-        email: "",
+        crewNum: undefined,
       });
+
+      // Navigate to dashboard
       navigate("/dashboard");
-    } catch (error) {
-      console.error("Error creating trip:", error);
+    } catch (err) {
+      console.error("Error creating trip:", err);
     }
   };
 
@@ -124,19 +140,24 @@ const NewTrip = () => {
           </label>
 
           <label className="form-label">
-            Crew Size:
+            Crew Size (optional):
             <input
               type="number"
               name="crewNum"
-              value={tripData.crewNum}
+              value={tripData.crewNum ?? ""}
               onChange={handleChange}
               className="form-input"
+              min={1}
             />
           </label>
 
-          <button type="submit" className="btn-dark">
-            Submit Trip
+          <button type="submit" className="btn-dark" disabled={loading}>
+            {loading ? "Submitting..." : "Submit Trip"}
           </button>
+
+          {error && (
+            <div className="text-red-500 mt-2">Error: {error.message}</div>
+          )}
         </form>
       </main>
       <Footer />

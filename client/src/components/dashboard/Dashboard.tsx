@@ -1,27 +1,63 @@
-import { useEffect, useState } from "react";
+// Dashboard.tsx
+
+import { useState } from "react";
 import { TripData } from "../../types/trip";
-import TripSummaryCard from "../../components/TripSummaryCard";
+import TripSummaryCard from "../../components/tripDetails/TripSummaryCard";
 import Nav from "../../components/Nav";
 import Footer from "../../components/Footer";
-import { getTrips } from "../../routes/tripAPI";
-import { Link } from "react-router-dom";
+import TripDetailPanel from "../../components/tripDetails/TripDetailPanel";
+import { useQuery } from "@apollo/client";
+import { GET_ALL_TRIPS } from "../../graphql";
 
 export default function Dashboard() {
-  const [trips, setTrips] = useState<TripData[]>([]);
+  const { data, loading, error } = useQuery<{ trips: TripData[] }>(
+    GET_ALL_TRIPS
+  );
 
-  useEffect(() => {
-    async function fetchTrips() {
-      const data = await getTrips();
-      // Convert date strings into actual Date objects
-      const parsed = data.map((trip: TripData) => ({
-        ...trip,
-        startDate: new Date(trip.startDate),
-        endDate: new Date(trip.endDate),
-      }));
-      setTrips(parsed);
-    }
-    fetchTrips();
-  }, []);
+  const trips = (data?.trips ?? []).map((trip) => ({
+    ...trip,
+    startDate: new Date(trip.startDate),
+    endDate: new Date(trip.endDate),
+  }));
+
+  const [selectedTripId, setSelectedTripId] = useState<string | null>(null);
+  const [selectedDetailView, setSelectedDetailView] = useState<string | null>(
+    null
+  );
+
+  function handleOpenDetail(tripId: string, detailView: string) {
+    setSelectedTripId(tripId);
+    setSelectedDetailView(detailView);
+  }
+
+  function clearSelectedTrip() {
+    setSelectedTripId(null);
+    setSelectedDetailView(null);
+  }
+
+  if (loading) {
+    return (
+      <>
+        <Nav />
+        <div className="text-center mt-10 text-textBody font-body text-lg">
+          Loading trips...
+        </div>
+        <Footer />
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <Nav />
+        <div className="text-center mt-10 text-textBody font-body text-lg">
+          Error loading trips: {error.message}
+        </div>
+        <Footer />
+      </>
+    );
+  }
 
   if (trips.length === 0) {
     return (
@@ -37,23 +73,21 @@ export default function Dashboard() {
 
   const now = new Date();
 
-  // Separate trips into future, past, and current
   const futureTrips = trips.filter((trip) => trip.startDate > now);
   const pastTrips = trips.filter((trip) => trip.endDate < now);
   const currentTrips = trips.filter(
     (trip) => trip.startDate <= now && trip.endDate >= now
   );
 
-  // Pick the most current trip
   const mostCurrentTrip = [...currentTrips, ...futureTrips].sort(
     (a, b) => a.startDate.getTime() - b.startDate.getTime()
   )[0];
 
   const filteredFutureTrips = futureTrips.filter(
-    (t) => t.id !== mostCurrentTrip?.id
+    (t) => t._id !== mostCurrentTrip?._id
   );
   const filteredPastTrips = pastTrips.filter(
-    (t) => t.id !== mostCurrentTrip?.id
+    (t) => t._id !== mostCurrentTrip?._id
   );
 
   return (
@@ -70,12 +104,58 @@ export default function Dashboard() {
           {mostCurrentTrip && (
             <section className="dashboard-section">
               <h2>Most Current Trip</h2>
-              <Link
-                key={mostCurrentTrip.id}
-                to={`/trips/${mostCurrentTrip.id}`}
-              >
-                <TripSummaryCard trip={mostCurrentTrip} />
-              </Link>
+              <div key={mostCurrentTrip._id} className="trip-card">
+                <TripSummaryCard
+                  trip={mostCurrentTrip}
+                  onClick={() => handleOpenDetail(mostCurrentTrip._id, "")}
+                />
+
+                <div className="trip-detail-buttons">
+                  <button
+                    onClick={() =>
+                      handleOpenDetail(mostCurrentTrip._id, "campsites")
+                    }
+                  >
+                    Campsites
+                  </button>
+                  <button
+                    onClick={() =>
+                      handleOpenDetail(mostCurrentTrip._id, "meals")
+                    }
+                  >
+                    Meals
+                  </button>
+                  <button
+                    onClick={() =>
+                      handleOpenDetail(mostCurrentTrip._id, "gear")
+                    }
+                  >
+                    Gear
+                  </button>
+                  <button
+                    onClick={() =>
+                      handleOpenDetail(mostCurrentTrip._id, "crew")
+                    }
+                  >
+                    Crew
+                  </button>
+                  <button
+                    onClick={() =>
+                      handleOpenDetail(mostCurrentTrip._id, "expenses")
+                    }
+                  >
+                    Expenses
+                  </button>
+                </div>
+
+                {selectedTripId === mostCurrentTrip._id && (
+                  <TripDetailPanel
+                    tripId={selectedTripId}
+                    view={selectedDetailView || ""}
+                    onClose={clearSelectedTrip}
+                  />
+                )}
+              </div>
             </section>
           )}
 
@@ -83,9 +163,41 @@ export default function Dashboard() {
             <section className="dashboard-section">
               <h2>Upcoming Trips</h2>
               {filteredFutureTrips.map((trip) => (
-                <Link key={trip.id} to={`/trips/${trip.id}`}>
-                  <TripSummaryCard trip={trip} />
-                </Link>
+                <div key={trip._id} className="trip-card">
+                  <TripSummaryCard
+                    trip={trip}
+                    onClick={() => handleOpenDetail(trip._id, "")}
+                  />
+                  <div className="trip-detail-buttons">
+                    <button
+                      onClick={() => handleOpenDetail(trip._id, "campsites")}
+                    >
+                      Campsites
+                    </button>
+                    <button onClick={() => handleOpenDetail(trip._id, "meals")}>
+                      Meals
+                    </button>
+                    <button onClick={() => handleOpenDetail(trip._id, "gear")}>
+                      Gear
+                    </button>
+                    <button onClick={() => handleOpenDetail(trip._id, "crew")}>
+                      Crew
+                    </button>
+                    <button
+                      onClick={() => handleOpenDetail(trip._id, "expenses")}
+                    >
+                      Expenses
+                    </button>
+                  </div>
+
+                  {selectedTripId === trip._id && (
+                    <TripDetailPanel
+                      tripId={selectedTripId}
+                      view={selectedDetailView || ""}
+                      onClose={clearSelectedTrip}
+                    />
+                  )}
+                </div>
               ))}
             </section>
           )}
@@ -94,9 +206,41 @@ export default function Dashboard() {
             <section className="dashboard-section">
               <h2>Past Trips</h2>
               {filteredPastTrips.map((trip) => (
-                <Link key={trip.id} to={`/trips/${trip.id}`}>
-                  <TripSummaryCard trip={trip} />
-                </Link>
+                <div key={trip._id} className="trip-card">
+                  <TripSummaryCard
+                    trip={trip}
+                    onClick={() => handleOpenDetail(trip._id, "")}
+                  />
+                  <div className="trip-detail-buttons">
+                    <button
+                      onClick={() => handleOpenDetail(trip._id, "campsites")}
+                    >
+                      Campsites
+                    </button>
+                    <button onClick={() => handleOpenDetail(trip._id, "meals")}>
+                      Meals
+                    </button>
+                    <button onClick={() => handleOpenDetail(trip._id, "gear")}>
+                      Gear
+                    </button>
+                    <button onClick={() => handleOpenDetail(trip._id, "crew")}>
+                      Crew
+                    </button>
+                    <button
+                      onClick={() => handleOpenDetail(trip._id, "expenses")}
+                    >
+                      Expenses
+                    </button>
+                  </div>
+
+                  {selectedTripId === trip._id && (
+                    <TripDetailPanel
+                      tripId={selectedTripId}
+                      view={selectedDetailView || ""}
+                      onClose={clearSelectedTrip}
+                    />
+                  )}
+                </div>
               ))}
             </section>
           )}
