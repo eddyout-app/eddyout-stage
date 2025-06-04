@@ -1,15 +1,10 @@
 export type TripFormData = {
-  id?: string;
-  email: string;
   riverName: string;
   startDate: string;
   endDate: string;
   putIn: string;
   takeOut: string;
-  numOfParticipants: string;
-  organizerId?: string;
-  createdAt: string;
-  updatedAt: string;
+  crewNum?: number;
 };
 
 export type TripData = {
@@ -20,7 +15,7 @@ export type TripData = {
   endDate: Date;
   putIn: string;
   takeOut: string;
-  numOfParticipants: number;
+  crewNum: number;
   organizerId: string;
   createdAt: string;
   updatedAt: string;
