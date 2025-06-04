@@ -1,26 +1,24 @@
 import { useQuery } from "@apollo/client";
 import { GET_MEALS_BY_TRIP } from "../../graphql/queries/mealQueries";
-import { TripData } from "../../types/trip";
 import { MealData } from "../../types/meals";
 import MealModal from "./MealModal";
 import { useState } from "react";
+import { TripData } from "../../types/trip";
+import { UserData } from "../../types/user";
 
 interface MealSectionProps {
   trip: TripData;
+  user: UserData;
 }
 
 const MEAL_TYPES = ["Breakfast", "Lunch", "Dinner"] as const;
 
-export default function MealSection({ trip }: MealSectionProps) {
+export default function MealSection({ trip, user }: MealSectionProps) {
   const { data, loading, error } = useQuery(GET_MEALS_BY_TRIP, {
     variables: { tripId: trip._id },
+    skip: !trip._id,
   });
-  // Remove the three lines above this and uncomment the following 3 lines when backend is ready
-  //   const { data, loading, error, refetch } = useQuery(GET_MEALS_BY_TRIP, {
-  //   variables: { tripId: trip._id },
-  // });
-  const userId = localStorage.getItem("userId") || "";
-  const fullName = localStorage.getItem("fullName") || "";
+
   const [editMeal, setEditMeal] = useState<MealData | null>(null);
 
   const getMealDates = (startDate: Date, endDate: Date): Date[] => {
@@ -122,7 +120,7 @@ export default function MealSection({ trip }: MealSectionProps) {
                     {/* Assigned To */}
                     <div>
                       {mealToRender.userId
-                        ? mealToRender.userId.fullName
+                        ? user.firstname ?? user.email
                         : "Unclaimed"}
                     </div>
 
@@ -142,18 +140,16 @@ export default function MealSection({ trip }: MealSectionProps) {
           );
         })}
       </div>
+
       {editMeal && (
         <MealModal
           meal={editMeal}
-          userId={userId}
-          fullName={fullName}
+          userId={user._id}
+          fullName={user.firstname ?? user.email}
           isLeader={false}
           onClose={() => setEditMeal(null)}
           onSave={(updatedMeal) => {
-            // For now → update UI locally
             console.log("Updated meal:", updatedMeal);
-            // Uncomment the following line when backend is ready
-            // await refetch();
             setEditMeal(null);
           }}
         />

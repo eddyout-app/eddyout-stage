@@ -1,5 +1,3 @@
-// Dashboard.tsx
-
 import { useState } from "react";
 import { TripData } from "../../types/trip";
 import TripSummaryCard from "../../components/tripDetails/TripSummaryCard";
@@ -10,8 +8,23 @@ import { useQuery } from "@apollo/client";
 import { GET_ALL_TRIPS } from "../../graphql";
 
 export default function Dashboard() {
+  const userId = localStorage.getItem("userId") || "";
+  const user = {
+    _id: userId,
+    email: localStorage.getItem("email") || "",
+    firstname: localStorage.getItem("firstname") || "",
+    lastname: localStorage.getItem("lastname") || "",
+    createdAt: "",
+    updatedAt: "",
+  };
+  console.log("Dashboard userId:", userId);
+  console.log("Dashboard user:", user);
   const { data, loading, error } = useQuery<{ trips: TripData[] }>(
-    GET_ALL_TRIPS
+    GET_ALL_TRIPS,
+    {
+      variables: { userId },
+      skip: !userId,
+    }
   );
 
   const trips = (data?.trips ?? []).map((trip) => ({
@@ -63,8 +76,12 @@ export default function Dashboard() {
     return (
       <>
         <Nav />
-        <div className="text-center mt-10 text-textBody font-body text-lg">
-          You have not created any trips yet.
+        <div className="text-center mt-20 text-primary font-header text-xl">
+          You do not have any trips yet.
+        </div>
+        <div className="text-center mt-4 text-textBody font-body text-lg">
+          Once you're added to a trip or create a new one, it will appear here.
+          {/* Future: Add link to "Join a Trip" */}
         </div>
         <Footer />
       </>
@@ -150,7 +167,8 @@ export default function Dashboard() {
 
                 {selectedTripId === mostCurrentTrip._id && (
                   <TripDetailPanel
-                    tripId={selectedTripId}
+                    trip={mostCurrentTrip}
+                    user={user}
                     view={selectedDetailView || ""}
                     onClose={clearSelectedTrip}
                   />
@@ -192,7 +210,8 @@ export default function Dashboard() {
 
                   {selectedTripId === trip._id && (
                     <TripDetailPanel
-                      tripId={selectedTripId}
+                      trip={trip}
+                      user={user}
                       view={selectedDetailView || ""}
                       onClose={clearSelectedTrip}
                     />
@@ -235,7 +254,8 @@ export default function Dashboard() {
 
                   {selectedTripId === trip._id && (
                     <TripDetailPanel
-                      tripId={selectedTripId}
+                      trip={trip}
+                      user={user}
                       view={selectedDetailView || ""}
                       onClose={clearSelectedTrip}
                     />

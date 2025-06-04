@@ -3,8 +3,8 @@
 import { gql } from "@apollo/client";
 
 export const GET_ALL_TRIPS = gql`
-  query GetAllTrips {
-    trips {
+  query GetAllTrips($userId: ID!) {
+    trips(userId: $userId) {
       _id
       riverName
       startDate
@@ -13,6 +13,8 @@ export const GET_ALL_TRIPS = gql`
       takeOut
       crewNum
       organizerId
+      createdAt
+      updatedAt
     }
   }
 `;

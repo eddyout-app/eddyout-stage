@@ -1,17 +1,19 @@
 import { useQuery } from "@apollo/client";
 import { GET_CAMPSITES } from "../../graphql/queries/campsitesQueries";
 import { TripData } from "../../types/trip";
+import { UserData } from "../../types/user";
 import { CampsiteData } from "../../types/campsites";
 import CampsiteSchedule from "./CampsiteSchedule";
 
 interface CampsitesProps {
   trip: TripData;
+  user: UserData;
 }
 
-export default function Campsites({ trip }: CampsitesProps) {
+export default function Campsites({ trip, user }: CampsitesProps) {
   const { data, loading, error } = useQuery(GET_CAMPSITES, {
     variables: { tripId: trip._id },
-    skip: !trip?._id,
+    skip: !trip._id,
   });
 
   const campsites: CampsiteData[] = data?.campsites || [];
