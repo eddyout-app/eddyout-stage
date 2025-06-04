@@ -6,7 +6,7 @@ export const weatherResolvers = {
       _: any,
       { lat, lon }: { lat: number; lon: number }
     ) => {
-      const data: any = await getWeatherForecast(lat, lon);
+      const data = await getWeatherForecast(lat, lon);
       // Map or filter relevant results here
       return data.list.map(
         (item: {

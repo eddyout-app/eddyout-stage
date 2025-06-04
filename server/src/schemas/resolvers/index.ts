@@ -9,6 +9,10 @@ import { gearCatalogResolvers } from "./gearCatalogResolver";
 import { mealResolvers } from "./mealsResolver";
 import { userResolvers } from "./userResolver";
 
+import { gearItemResolvers } from "./gearItemResolver";
+import { gearListResolvers } from "./gearListResolver";
+import { weatherResolvers } from "./weatherResolver";
+
 export const resolvers = {
   Query: {
     // Crew Queries
@@ -17,11 +21,11 @@ export const resolvers = {
     // Expense Queries
     ...expenseResolvers.Query,
 
-    // GearItem Queries
-    ...gearItemResolvers.Query,
+        // GearItem Queries
+        ...gearItemResolvers.Query,
 
-    // GearList Queries
-    ...gearListResolvers.Query,
+        // GearList Queries
+        ...gearListResolvers.Query,
 
     // GearCatalog Queries
     ...gearCatalogResolvers.Query,
@@ -40,6 +44,10 @@ export const resolvers = {
 
     // UserPreferences Queries
     ...userPreferencesResolvers.Query,
+        //Weather Queries
+        ...weatherResolvers.Query,
+
+    },
 
     //Weather Queries
     ...weatherResolvers.Query,
@@ -54,6 +62,11 @@ export const resolvers = {
 
     // GearItem Queries
     ...gearItemResolvers.Mutation,
+        // GearItem Queries
+        ...gearItemResolvers.Mutation,
+
+        // GearList Queries
+        ...gearListResolvers.Mutation,
 
     // GearList Queries
     ...gearListResolvers.Mutation,
@@ -79,4 +92,11 @@ export const resolvers = {
   Trip: {
     ...tripResolvers.Trip,
   },
+        // Weather Queries
+        // ...weatherResolvers.Mutation,
+
+    },
+    Trip: {
+        ...tripResolvers.Trip,
+    },
 };
