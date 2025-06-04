@@ -1,8 +1,8 @@
-// import { Schedule } from "../models/schedule";
+// import { Campsites } from "../models/campsites";
 // import { Trip } from "../models/trip";
 
-// export const seedSchedule = async (trips: Trip[]) => {
-//   await Schedule.insertMany([
+// export const seedCampsites = async (trips: Trip[]) => {
+//   await Campsites.insertMany([
 //     {
 //       date: new Date("2025-05-30"),
 //       campsite: "Lazy River",

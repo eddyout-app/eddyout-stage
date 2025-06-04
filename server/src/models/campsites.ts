@@ -1,18 +1,18 @@
 // import { DataTypes, type Sequelize, Model, type Optional } from "sequelize";
 
-// interface ScheduleAttributes {
+// interface CampsitesAttributes {
 //   id: string;
 //   date: Date;
 //   campsite: string;
 //   tripId: string;
 // }
 
-// interface ScheduleCreationAttributes
-//   extends Optional<ScheduleAttributes, "id"> {}
+// interface CampsitesCreationAttributes
+//   extends Optional<CampsitesAttributes, "id"> {}
 
-// export class Schedule extends Model<
-//   ScheduleAttributes,
-//   ScheduleCreationAttributes
+// export class Campsites extends Model<
+//   CampsitesAttributes,
+//   CampsitesCreationAttributes
 // > {
 //   public id!: string;
 //   public date!: Date;
@@ -23,8 +23,8 @@
 //   public readonly updatedAt!: Date;
 // }
 
-// export function ScheduleFactory(sequelize: Sequelize): typeof Schedule {
-//   Schedule.init(
+// export function CampsitesFactory(sequelize: Sequelize): typeof Campsites {
+//   Campsites.init(
 //     {
 //       id: {
 //         type: DataTypes.UUID,
@@ -49,9 +49,9 @@
 //       },
 //     },
 //     {
-//       tableName: "schedule",
+//       tableName: "campsites",
 //       sequelize,
 //     }
 //   );
-//   return Schedule;
+//   return Campsites;
 // }

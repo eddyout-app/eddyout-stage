@@ -10,10 +10,12 @@ const tripTypeDefs = gql`
     takeOut: String!
     crewNum: Int!
     organizerId: ID!
+    createdAt: String!
+    updatedAt: String!
   }
 
   extend type Query {
-    trips: [Trip]
+    trips(userId: ID!): [Trip]
     trip(id: ID!): Trip
   }
 

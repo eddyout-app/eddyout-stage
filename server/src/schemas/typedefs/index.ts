@@ -5,7 +5,7 @@ import userPreferencesTypeDefs from "./userPreferencesTypeDefs";
 
 import { gearItemTypeDefs } from "./gearItemTypeDefs";
 import { gearListTypeDefs } from "./gearListTypeDefs";
-
+import { gearCatalogTypeDefs } from "./gearCatalogTypeDefs";
 import { weatherTypeDefs } from "./weatherTypeDefs";
 
 // import other typedefs when ready
@@ -23,6 +23,7 @@ export default [
 
   gearItemTypeDefs,
   gearListTypeDefs,
+  gearCatalogTypeDefs,
 
   weatherTypeDefs,
 

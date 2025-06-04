@@ -5,74 +5,76 @@ import userPreferencesResolvers from "./userPreferencesResolvers";
 import { gearItemResolvers } from "./gearItemResolver";
 import { gearListResolvers } from "./gearListResolver";
 import { weatherResolvers } from "./weatherResolver";
+import { gearCatalogResolvers } from "./gearCatalogResolver.js";
 
 export const resolvers = {
-    Query: {
-        // Crew Queries
-        // ...crewResolvers.Query,
+  Query: {
+    // Crew Queries
+    // ...crewResolvers.Query,
 
-        // Expense Queries
-        ...expenseResolvers.Query,
+    // Expense Queries
+    ...expenseResolvers.Query,
 
-        // GearItem Queries
-        ...gearItemResolvers.Query,
+    // GearItem Queries
+    ...gearItemResolvers.Query,
 
-        // GearList Queries
-        ...gearListResolvers.Query,
+    // GearList Queries
+    ...gearListResolvers.Query,
 
-        // Meal Queries
-        // ...mealResolvers.Query,
+    // GearCatalog Queries
+    ...gearCatalogResolvers.Query,
 
-        // Schedule Queries
-        // ...scheduleResolvers.Query,
+    // Meal Queries
+    // ...mealResolvers.Query,
 
-        // Trip Queries
-        ...tripResolvers.Query,
+    // Schedule Queries
+    // ...scheduleResolvers.Query,
 
-        // User Queries
-        // ...userResolvers.Query,
+    // Trip Queries
+    ...tripResolvers.Query,
 
-        // UserPreferences Queries
-        ...userPreferencesResolvers.Query,
+    // User Queries
+    // ...userResolvers.Query,
 
-        //Weather Queries
-        ...weatherResolvers.Query,
+    // UserPreferences Queries
+    ...userPreferencesResolvers.Query,
 
-    },
+    //Weather Queries
+    ...weatherResolvers.Query,
+  },
 
-    Mutation: {
-        // Crew Queries
-        // ...crewResolvers.Mutation,
+  Mutation: {
+    // Crew Queries
+    // ...crewResolvers.Mutation,
 
-        // Expense Queries
-        ...expenseResolvers.Mutation,
+    // Expense Queries
+    ...expenseResolvers.Mutation,
 
-        // GearItem Queries
-        ...gearItemResolvers.Mutation,
+    // GearItem Queries
+    ...gearItemResolvers.Mutation,
 
-        // GearList Queries
-        ...gearListResolvers.Mutation,
+    // GearList Queries
+    ...gearListResolvers.Mutation,
 
-        // Meal Queries
-        // ...mealResolvers.Mutation,
+    // Meal Queries
+    // ...mealResolvers.Mutation,
 
-        // Schedule Queries
-        // ...scheduleResolvers.Mutation,
+    // Schedule Queries
+    // ...scheduleResolvers.Mutation,
 
-        // Trip Queries
-        ...tripResolvers.Mutation,
+    // Trip Queries
+    ...tripResolvers.Mutation,
 
-        // User Queries
-        // ...userResolvers.Mutation,
+    // User Queries
+    // ...userResolvers.Mutation,
 
-        // UserPreferences Queries
-        ...userPreferencesResolvers.Mutation,
+    // UserPreferences Queries
+    ...userPreferencesResolvers.Mutation,
 
-        // Weather Queries
-        // ...weatherResolvers.Mutation,
-
-    },
-    Trip: {
-        ...tripResolvers.Trip,
-    },
+    // Weather Queries
+    // ...weatherResolvers.Mutation,
+  },
+  Trip: {
+    ...tripResolvers.Trip,
+  },
 };

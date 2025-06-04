@@ -1,37 +1,35 @@
-// import { User } from "../models/user";
-// import { v4 as uuidv4 } from "uuid";
+import User from "../models/user";
 
-// export const seedUser = async () => {
-//   const users = await User.insertMany(
-//     [
-//       {
-//         id: uuidv4(),
-//         username: "justinv",
-//         email: "justin@email.com",
-//         password: "password",
-//         firstName: "Justin",
-//         lastName: "Vittitoe",
-//       },
-//       {
-//         id: uuidv4(),
-//         username: "lisaj",
-//         email: "lisa@email.com",
-//         password: "password",
-//         firstName: "Lisa",
-//         lastName: "Jorgensen",
-//       },
-//       {
-//         id: uuidv4(),
-//         username: "ellim",
-//         email: "elli@email.com",
-//         password: "password",
-//         firstName: "Elli",
-//         lastName: "Mckinley",
-//       },
-//     ],
-//     { individualHooks: true }
-//   );
+export const seedUsers = async () => {
+  try {
+    const users = await User.insertMany([
+      {
+        username: "justinv",
+        email: "justin@email.com",
+        password: "password", // plain text for now
+        firstName: "Justin",
+        lastName: "Vittitoe",
+      },
+      {
+        username: "lisaj",
+        email: "lisa@email.com",
+        password: "password",
+        firstName: "Lisa",
+        lastName: "Jorgensen",
+      },
+      {
+        username: "ellim",
+        email: "elli@email.com",
+        password: "password",
+        firstName: "Elli",
+        lastName: "Mckinley",
+      },
+    ]);
 
-//   console.log("Users seeded successfully");
-//   return users;
-// };
+    console.log("✅ Users seeded successfully");
+    return users;
+  } catch (error) {
+    console.error("❌ Error seeding users:", error);
+    return [];
+  }
+};
