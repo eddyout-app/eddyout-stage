@@ -11,7 +11,7 @@ export default function Login() {
   // TEMP MOCK LOGIN HANDLER
   const handleMockLogin = () => {
     // TEMP — replace this with your real seeded user _id from Mongo!
-    localStorage.setItem("userId", "PUT_USER_OBJECTID_HERE");
+    localStorage.setItem("userId", "683f9f0346cea04223081fec");
     localStorage.setItem("email", "lisa@email.com");
     localStorage.setItem("firstname", "Lisa");
     localStorage.setItem("lastname", "Jorgensen");

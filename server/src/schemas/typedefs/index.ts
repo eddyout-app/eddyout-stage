@@ -11,8 +11,6 @@ import campsiteTypeDefs from "./campsitesTypeDefs";
 import mealTypeDefs from "./mealsTypeDefs";
 import { userTypeDefs } from "./userTypeDefs";
 
-// import other typedefs when ready
-
 const baseTypeDefs = gql`
   type Query
   type Mutation

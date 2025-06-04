@@ -104,6 +104,13 @@ export default function MealSection({ trip, user }: MealSectionProps) {
                   userId: null,
                 };
 
+                // 👇 NEW SIMPLEST ASSIGNED NAME LOGIC
+                const assignedName = !mealToRender.userId
+                  ? "Unclaimed"
+                  : mealToRender.userId === user._id
+                  ? user.firstname ?? user.email
+                  : "Claimed";
+
                 return (
                   <div
                     key={`${date.toISOString()}-${mealType}`}
@@ -118,11 +125,7 @@ export default function MealSection({ trip, user }: MealSectionProps) {
                     </div>
 
                     {/* Assigned To */}
-                    <div>
-                      {mealToRender.userId
-                        ? user.firstname ?? user.email
-                        : "Unclaimed"}
-                    </div>
+                    <div>{assignedName}</div>
 
                     {/* Action */}
                     <div>

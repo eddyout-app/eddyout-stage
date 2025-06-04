@@ -7,7 +7,7 @@ const mealTypeDefs = gql`
     mealType: String!
     mealName: String
     date: String!
-    userId: User
+    userId: ID!
     createdAt: String!
     updatedAt: String!
   }

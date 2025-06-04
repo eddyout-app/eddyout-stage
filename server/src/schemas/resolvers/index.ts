@@ -7,6 +7,7 @@ import { gearListResolvers } from "./gearListResolver";
 import { weatherResolvers } from "./weatherResolver";
 import { gearCatalogResolvers } from "./gearCatalogResolver";
 import { mealResolvers } from "./mealsResolver";
+import { userResolvers } from "./userResolver";
 
 export const resolvers = {
   Query: {
@@ -35,7 +36,7 @@ export const resolvers = {
     ...tripResolvers.Query,
 
     // User Queries
-    // ...userResolvers.Query,
+    ...userResolvers.Query,
 
     // UserPreferences Queries
     ...userPreferencesResolvers.Query,
