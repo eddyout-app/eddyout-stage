@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 // Define the User Schema
 const UserSchema = new mongoose.Schema(
+<<<<<<< HEAD
   {
     username: {
       type: String,
@@ -29,6 +30,36 @@ const UserSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "UserPreferences", // Link to the UserPreferences model
   },
+=======
+
+    {
+        username: {
+            type: String,
+            required: true,
+            unique: true,
+        },
+        email: {
+            type: String,
+            required: true,
+            unique: true,
+        },
+        password: {
+            type: String,
+            required: true,
+        },
+        firstName: {
+            type: String,
+            required: true,
+        },
+        lastName: {
+            type: String,
+            required: true,
+        },
+        userDetails: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "UserPreferences", // Link to the UserPreferences model
+        },
+>>>>>>> main
   {
     timestamps: true,
   }

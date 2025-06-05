@@ -5,11 +5,19 @@ export async function seedUsers() {
   try {
     const users = await User.insertMany([
       {
+<<<<<<< HEAD
         username: "amania",
         email: "amani@email.com",
         password: "password",
         firstName: "Amani",
         lastName: "Akram",
+=======
+        username: "justinv1",
+        email: "justin@email.com",
+        password: "password", // plain text for now
+        firstName: "Justin",
+        lastName: "Vittitoe",
+>>>>>>> main
       },
       {
         username: "lisaj",
