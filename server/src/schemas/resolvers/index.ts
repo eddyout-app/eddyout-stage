@@ -8,11 +8,12 @@ import { gearListResolvers } from "./gearListResolver";
 import { gearCatalogResolvers } from "./gearCatalogResolver";
 import { mealResolvers } from "./mealsResolver";
 import { userResolvers } from "./userResolver";
+import { crewResolvers } from "./crewResolvers";
 
 export const resolvers = {
   Query: {
     // Crew Queries
-    // ...crewResolvers.Query,
+    ...crewResolvers.Query,
 
     // Expense Queries
     ...expenseResolvers.Query,
@@ -50,7 +51,7 @@ export const resolvers = {
     ...campsitesResolvers.Mutation,
 
     // Crew Queries
-    // ...crewResolvers.Mutation,
+    ...crewResolvers.Mutation,
 
     // Expense Queries
     ...expenseResolvers.Mutation,
