@@ -6,11 +6,11 @@ yarn-error.log*
 pnpm-debug.log*
 
 # Build output
-
+dist/
 build/
 .cache/
 .temp/
-
+sever/dist
 
 # TypeScript
 *.tsbuildinfo
