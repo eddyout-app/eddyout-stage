@@ -1,9 +1,7 @@
-// src/components/meals/MealModal.tsx
-
 import { useState } from "react";
-// import { useMutation, gql } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { MealData } from "../../types/meals";
-// import { CLAIM_MEAL, UPDATE_MEAL } from "../../graphql/meals/mutations";
+import { CLAIM_MEAL, UPDATE_MEAL } from "../../graphql/mutations/mealMutations";
 
 interface MealModalProps {
   meal: MealData;
@@ -24,19 +22,30 @@ export default function MealModal({
 }: MealModalProps) {
   const [mealName, setMealName] = useState(meal.mealName || "");
 
-  //   const [claimMeal] = useMutation(CLAIM_MEAL);
+  const [claimMeal] = useMutation(CLAIM_MEAL);
+  const [updateMeal] = useMutation(UPDATE_MEAL);
 
   const handleSave = async () => {
     try {
-      // Uncomment when backend is ready
-      // await claimMeal({
-      //   variables: {
-      //     mealId: meal._id,
-      //     userId: userId,
-      //     mealName: mealName
-      //   }
-      // });
+      if (meal._id.startsWith("unclaimed")) {
+        await claimMeal({
+          variables: {
+            mealId: meal._id,
+            userId: userId,
+            mealName: mealName,
+          },
+        });
+      } else {
+        await updateMeal({
+          variables: {
+            mealId: meal._id,
+            userId: userId,
+            mealName: mealName,
+          },
+        });
+      }
 
+      // Optional: update local UI immediately
       const updatedMeal: MealData = {
         ...meal,
         mealName: mealName,
@@ -49,7 +58,7 @@ export default function MealModal({
       onSave(updatedMeal);
       onClose();
     } catch (err) {
-      console.error("Error updating meal:", err);
+      console.error("Error saving meal:", err);
     }
   };
 

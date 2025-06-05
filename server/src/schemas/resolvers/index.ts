@@ -4,11 +4,10 @@ import userPreferencesResolvers from "./userPreferencesResolvers";
 import { campsitesResolvers } from "./campsitesResolver";
 import { gearItemResolvers } from "./gearItemResolver";
 import { gearListResolvers } from "./gearListResolver";
-import { weatherResolvers } from "./weatherResolver";
+// import { weatherResolvers } from "./weatherResolver";
 import { gearCatalogResolvers } from "./gearCatalogResolver";
 import { mealResolvers } from "./mealsResolver";
 import { userResolvers } from "./userResolver";
-
 
 export const resolvers = {
   Query: {
@@ -41,11 +40,15 @@ export const resolvers = {
 
     // UserPreferences Queries
     ...userPreferencesResolvers.Query,
+
     //Weather Queries
-    ...weatherResolvers.Query,
+    // ...weatherResolvers.Query,
   },
 
   Mutation: {
+    // Campsites Queries
+    ...campsitesResolvers.Mutation,
+
     // Crew Queries
     // ...crewResolvers.Mutation,
 

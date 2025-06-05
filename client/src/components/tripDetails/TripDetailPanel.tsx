@@ -21,11 +21,26 @@ export default function TripDetailPanel({
   console.log("TripDetailPanel trip prop:", trip);
   console.log("TripDetailPanel view:", view);
 
+  const startDateFormatted = new Date(trip.startDate).toLocaleDateString(
+    "en-US",
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }
+  );
+
+  const endDateFormatted = new Date(trip.endDate).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   return (
     <div className="trip-detail-panel p-4 border-t border-gray-300">
       <h2 className="text-xl mb-2">Trip Details: {trip.riverName}</h2>
       <p>
-        Dates: {trip.startDate.toString()} - {trip.endDate.toString()}
+        Dates: {startDateFormatted} to {endDateFormatted}
       </p>
       <p>
         Put In: {trip.putIn} | Take Out: {trip.takeOut} | Crew Size:{" "}

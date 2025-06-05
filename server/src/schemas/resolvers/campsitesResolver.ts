@@ -1,4 +1,5 @@
 import Campsites from "../../models/campsites";
+
 interface CampsitesArgs {
   tripId: string;
 }
@@ -6,23 +7,37 @@ interface CampsitesArgs {
 export const campsitesResolvers = {
   Query: {
     campsites: async (_parent: any, { tripId }: CampsitesArgs) => {
-      return await Campsites.find({ tripId });
+      const results = await Campsites.find({ tripId }).sort({ startDate: 1 });
+      console.log("Fetched campsites from DB:", results);
+
+      // Map results to convert startDate and endDate to strings
+      const mappedResults = results.map((c) => ({
+        ...c.toObject(),
+        startDate: c.startDate.toISOString(),
+        endDate: c.endDate ? c.endDate.toISOString() : null,
+      }));
+
+      console.log("Mapped campsites for GraphQL:", mappedResults);
+
+      return mappedResults;
     },
   },
 
   Mutation: {
     addCampsite: async (_parent: any, args: any) => {
       try {
+        console.log("addCampsite args:", args);
+
         const newCampsite = new Campsites({
           tripId: args.tripId,
-          userId: args.userId,
           name: args.name,
           description: args.description,
           location: args.location,
           startDate: args.startDate,
-          endDate: args.endDate,
+          endDate: args.endDate || args.startDate,
           weather: args.weather,
         });
+
         return await newCampsite.save();
       } catch (err) {
         console.error("Error adding campsite:", err);
@@ -39,11 +54,12 @@ export const campsitesResolvers = {
             description: args.description,
             location: args.location,
             startDate: args.startDate,
-            endDate: args.endDate,
+            endDate: args.endDate || args.startDate,
             weather: args.weather,
           },
           { new: true }
         );
+
         return updatedCampsite;
       } catch (err) {
         console.error("Error updating campsite:", err);

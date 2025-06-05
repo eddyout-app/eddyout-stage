@@ -1,18 +1,19 @@
+// src/schemas/typedefs/campsitesTypeDefs.ts
+
 import { gql } from "graphql-tag";
 
 const campsiteTypeDefs = gql`
   type Campsite {
     _id: ID!
     tripId: ID!
-    userId: ID
     name: String!
     description: String
     location: Location
     startDate: String!
-    endDate: String!
+    endDate: String
     weather: Weather
-    createdAt: String!
-    updatedAt: String!
+    createdAt: String
+    updatedAt: String
   }
 
   type Location {
@@ -48,12 +49,11 @@ const campsiteTypeDefs = gql`
   extend type Mutation {
     addCampsite(
       tripId: ID!
-      userId: ID
       name: String!
       description: String
       location: LocationInput
       startDate: String!
-      endDate: String!
+      endDate: String
       weather: WeatherInput
     ): Campsite!
 
