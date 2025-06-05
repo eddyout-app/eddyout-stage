@@ -17,8 +17,8 @@ export default function Dashboard() {
     createdAt: "",
     updatedAt: "",
   };
-  console.log("Dashboard userId:", userId);
-  console.log("Dashboard user:", user);
+  // console.log("Dashboard userId:", userId);
+  // console.log("Dashboard user:", user);
   const { data, loading, error } = useQuery<{ trips: TripData[] }>(
     GET_ALL_TRIPS,
     {

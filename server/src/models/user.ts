@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 // Define the User Schema
 const UserSchema = new mongoose.Schema(
+
     {
         username: {
             type: String,
@@ -29,11 +30,17 @@ const UserSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "UserPreferences", // Link to the UserPreferences model
         },
-    },
-    {
-        timestamps: true,
-    }
+  {
+    timestamps: true,
+  }
 );
+UserSchema.virtual("fullName").get(function () {
+  return `${this.firstName} ${this.lastName}`;
+});
+
+// ✅ Ensure virtuals are included in JSON responses
+UserSchema.set("toJSON", { virtuals: true });
+UserSchema.set("toObject", { virtuals: true });
 
 const User = mongoose.model("User", UserSchema);
 export default User;

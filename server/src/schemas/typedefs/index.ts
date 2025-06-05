@@ -2,7 +2,6 @@ import { gql } from "graphql-tag";
 import tripTypeDefs from "./tripTypeDefs";
 import { expenseTypeDefs } from "./expenseTypeDefs";
 import userPreferencesTypeDefs from "./userPreferencesTypeDefs";
-
 import { gearItemTypeDefs } from "./gearItemTypeDefs";
 import { gearListTypeDefs } from "./gearListTypeDefs";
 import { gearCatalogTypeDefs } from "./gearCatalogTypeDefs";
@@ -21,7 +20,6 @@ export default [
   tripTypeDefs,
   expenseTypeDefs,
   userPreferencesTypeDefs,
-
   gearItemTypeDefs,
   gearListTypeDefs,
   gearCatalogTypeDefs,
@@ -29,6 +27,4 @@ export default [
   weatherTypeDefs,
   mealTypeDefs,
   userTypeDefs,
-
-  // add others here as you build them
 ];

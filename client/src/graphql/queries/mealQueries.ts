@@ -8,7 +8,10 @@ export const GET_MEALS_BY_TRIP = gql`
       mealName
       date
       tripId
-      userId
+      userId {
+        _id
+        fullName
+      }
     }
   }
 `;
