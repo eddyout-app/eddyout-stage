@@ -1,20 +1,15 @@
 // import { seedCrew } from "./crew-seeds";
-<<<<<<< HEAD
 // import { seedGear } from "./gearItem-seeds";
-import { seedGearLists } from "./gearList-seeds";
-import { seedGearCatalog } from "./gearCatalog-seeds";
-=======
-import { seedGear } from "./gearItem-seeds";
 import { seedGearLists } from "./gearList-seeds";
 // import { seedMeals } from "./meal-seeds";
 // import { seedUser } from "./user-seeds";
 // import { seedSchedule } from "./schedule-seeds";
->>>>>>> main
 import { seedTrip } from "./trip-seeds";
 import { seedMeals } from "./meal-seeds";
 // import { seedCampsites } from "./campsite-seeds";
 // import { seedExpense } from "./expense-seeds";
 import { seedUsers } from "./user-seeds";
+import { seedGearCatalog } from "./gearCatalog-seeds";
 // import { seedUserPreferences } from "./userPreferences-seeds";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
@@ -30,20 +25,12 @@ const seedAll = async (): Promise<void> => {
     if (users.length === 0) throw new Error("User seed failed");
     console.log("\n✅ Users seeded\n");
 
-<<<<<<< HEAD
-    // Seed TRIPS
     const trips = await seedTrip([
       { _id: new mongoose.Types.ObjectId() },
-      { _id: new mongoose.Types.ObjectId() },
-=======
-    const trips = await seedTrip([
-      { _id: new mongoose.Types.ObjectId() },
->>>>>>> main
       { _id: new mongoose.Types.ObjectId() },
     ]);
     console.log("\n✅ Trips seeded\n");
 
-<<<<<<< HEAD
     // Seed MEALS
     await seedMeals(trips, users);
     console.log("\n✅ Meals seeded\n");
@@ -73,14 +60,6 @@ const seedAll = async (): Promise<void> => {
 
     // Seed USER PREFERENCES — not needed right now
     // await seedUserPreferences();
-=======
-    // await seedCrew(users, trips);
-    // await seedSchedule(trips);
-    // await seedMeals(trips);
-
-    const gearLists = await seedGearLists(trips);
-    // await seedGear(users, trips, gearLists); // ⚠️ uncomment when `users` is seeded
->>>>>>> main
 
     process.exit(0);
   } catch (error) {
