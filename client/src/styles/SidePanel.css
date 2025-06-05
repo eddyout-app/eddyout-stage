@@ -3,8 +3,8 @@
 .side-panel {
   position: fixed;
   top: 0;
-  right: -400px; /* hidden by default */
-  width: 400px;
+  right: -50%; /* hidden by default */
+  width: 50%;
   height: 100%;
   background-color: #f9f9f9;
   border-left: 1px solid #ccc;

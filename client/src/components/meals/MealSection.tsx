@@ -1,66 +1,95 @@
 import { useQuery } from "@apollo/client";
 import { GET_MEALS_BY_TRIP } from "../../graphql/queries/mealQueries";
-import { TripData } from "../../types/trip";
 import { MealData } from "../../types/meals";
 import MealModal from "./MealModal";
 import { useState } from "react";
+import { TripData } from "../../types/trip";
+import { UserData } from "../../types/user";
 
 interface MealSectionProps {
   trip: TripData;
+  user: UserData;
 }
 
 const MEAL_TYPES = ["Breakfast", "Lunch", "Dinner"] as const;
 
-export default function MealSection({ trip }: MealSectionProps) {
-  const { data, loading, error } = useQuery(GET_MEALS_BY_TRIP, {
+export default function MealSection({ trip, user }: MealSectionProps) {
+  const { data, loading, error, refetch } = useQuery(GET_MEALS_BY_TRIP, {
     variables: { tripId: trip._id },
+    skip: !trip._id,
   });
-  // Remove the three lines above this and uncomment the following 3 lines when backend is ready
-  //   const { data, loading, error, refetch } = useQuery(GET_MEALS_BY_TRIP, {
-  //   variables: { tripId: trip._id },
-  // });
-  const userId = localStorage.getItem("userId") || "";
-  const fullName = localStorage.getItem("fullName") || "";
+
   const [editMeal, setEditMeal] = useState<MealData | null>(null);
+  const meals: MealData[] = data?.mealsByTrip || [];
 
   const getMealDates = (startDate: Date, endDate: Date): Date[] => {
     const dates: Date[] = [];
-    const currentDate = new Date(startDate);
-    while (currentDate <= endDate) {
+
+    // Normalize to UTC midnight
+    const currentDate = new Date(
+      Date.UTC(
+        startDate.getUTCFullYear(),
+        startDate.getUTCMonth(),
+        startDate.getUTCDate()
+      )
+    );
+
+    const endUtcDate = new Date(
+      Date.UTC(
+        endDate.getUTCFullYear(),
+        endDate.getUTCMonth(),
+        endDate.getUTCDate()
+      )
+    );
+
+    while (currentDate <= endUtcDate) {
       dates.push(new Date(currentDate));
-      currentDate.setDate(currentDate.getDate() + 1);
+      currentDate.setUTCDate(currentDate.getUTCDate() + 1);
     }
+
     return dates;
   };
 
   if (loading) {
     return (
       <div className="text-center mt-10 text-textBody font-body text-lg">
-        Loading...
+        Loading meals...
       </div>
     );
   }
 
-  if (error || !data?.mealsByTrip) {
+  if (error) {
     return (
-      <div className="text-center mt-10 text-red-500 font-body text-lg">
-        Error loading meals.
+      <div className="text-center mt-10 text-red-600 font-body text-lg">
+        Error loading meals: {error.message}
       </div>
     );
   }
 
-  const meals: MealData[] = data.mealsByTrip;
-  const mealsByDate: Record<string, MealData[]> = {};
+  const mealsByDateAndType: Record<string, Record<string, MealData>> = {};
 
   meals.forEach((meal) => {
-    const dateKey = new Date(meal.date).toDateString();
-    if (!mealsByDate[dateKey]) mealsByDate[dateKey] = [];
-    mealsByDate[dateKey].push(meal);
+    const dateKey = new Date(Number(meal.date)).toISOString().split("T")[0];
+    if (!mealsByDateAndType[dateKey]) mealsByDateAndType[dateKey] = {};
+    mealsByDateAndType[dateKey][meal.mealType] = meal;
   });
+
+  console.log("Meals by date and type:", mealsByDateAndType);
+
+  // console.log("Fetched meals:", meals);
+  // console.log("Meals by date:", mealsByDate);
 
   const tripDates = getMealDates(
     new Date(trip.startDate),
     new Date(trip.endDate)
+  );
+  console.log(
+    "Trip Dates ISO:",
+    tripDates.map((d) => d.toISOString())
+  );
+  console.log(
+    "Meal Dates in data:",
+    meals.map((m) => m.date)
   );
 
   return (
@@ -71,7 +100,8 @@ export default function MealSection({ trip }: MealSectionProps) {
 
       <div className="overflow-y-auto max-h-[80vh] pr-2 mx-auto">
         {tripDates.map((date, i) => {
-          const dayMeals = mealsByDate[date.toDateString()] || [];
+          const dateKey = date.toISOString().split("T")[0];
+          // const dayMeals = mealsByDate[dateKey] || [];
 
           return (
             <div key={date.toISOString()} className="mb-10">
@@ -93,9 +123,8 @@ export default function MealSection({ trip }: MealSectionProps) {
               </div>
 
               {MEAL_TYPES.map((mealType) => {
-                const existingMeal = dayMeals.find(
-                  (meal) => meal.mealType === mealType
-                );
+                const existingMeal =
+                  mealsByDateAndType[dateKey]?.[mealType] ?? null;
 
                 const mealToRender: MealData = existingMeal || {
                   _id: `unclaimed-${date.toISOString()}-${mealType}`,
@@ -105,6 +134,17 @@ export default function MealSection({ trip }: MealSectionProps) {
                   date: date.toISOString(),
                   userId: null,
                 };
+
+                const userIdObj = mealToRender.userId as {
+                  _id: string;
+                  fullName: string;
+                } | null;
+
+                const assignedName = !mealToRender.userId
+                  ? "Unclaimed"
+                  : userIdObj && userIdObj._id === user._id
+                  ? userIdObj.fullName
+                  : userIdObj?.fullName ?? "Claimed";
 
                 return (
                   <div
@@ -120,11 +160,7 @@ export default function MealSection({ trip }: MealSectionProps) {
                     </div>
 
                     {/* Assigned To */}
-                    <div>
-                      {mealToRender.userId
-                        ? mealToRender.userId.fullName
-                        : "Unclaimed"}
-                    </div>
+                    <div>{assignedName}</div>
 
                     {/* Action */}
                     <div>
@@ -142,18 +178,17 @@ export default function MealSection({ trip }: MealSectionProps) {
           );
         })}
       </div>
+
       {editMeal && (
         <MealModal
           meal={editMeal}
-          userId={userId}
-          fullName={fullName}
+          userId={user._id}
+          // fullName={user.firstname ?? user.email}
           isLeader={false}
           onClose={() => setEditMeal(null)}
-          onSave={(updatedMeal) => {
-            // For now → update UI locally
+          onSave={async (updatedMeal) => {
             console.log("Updated meal:", updatedMeal);
-            // Uncomment the following line when backend is ready
-            // await refetch();
+            await refetch();
             setEditMeal(null);
           }}
         />

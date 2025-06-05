@@ -1,0 +1,6 @@
+# Ignore server build artifacts
+dist/
+# Env files
+.env
+.env.*.local
+.env.local

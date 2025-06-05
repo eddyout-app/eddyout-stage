@@ -1,20 +1,13 @@
-export type GearCatalogItem = {
-  _id: string;
-  itemName: string;
-  category: string;
-  isCustom?: boolean;
-  createdAt?: string;
-  updatedAt?: string;
-};
+// src/types/gear.ts
 
-export type AssignedGearItem = {
+export type GearItem = {
   _id: string;
+  gearItem: string;
+  quantity: number;
+  category: string;
+  claimedBy?: string | null;
   tripId: string;
-  userId: string;
-  gearCatalogItemId: string; // 🔗 ties to GearCatalogItem._id
-  quantity?: number;
-  notes?: string;
-  isPacked?: boolean;
+  gearListId: string;
   createdAt?: string;
   updatedAt?: string;
 };

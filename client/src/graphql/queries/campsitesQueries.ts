@@ -1,5 +1,3 @@
-// src/graphql/queries/campsitesQueries.ts
-
 import { gql } from "@apollo/client";
 
 export const GET_CAMPSITES = gql`
@@ -7,7 +5,7 @@ export const GET_CAMPSITES = gql`
     campsites(tripId: $tripId) {
       _id
       tripId
-      userId
+
       name
       description
       location {

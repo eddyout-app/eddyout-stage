@@ -1,41 +1,56 @@
-// import { seedCrew } from "./crew-seeds";
-import { seedGear } from "./gearItem-seeds";
-import { seedGearLists } from "./gearList-seeds";
-// import { seedMeals } from "./meal-seeds";
-// import { seedUser } from "./user-seeds";
-// import { seedSchedule } from "./schedule-seeds";
 import { seedTrip } from "./trip-seeds";
+import { seedUsers } from "./user-seeds";
+import { seedCrew } from "./crew-seeds";
+// import { seedMeals } from "./meal-seeds";
+
+// import { seedExpense } from "./expense-seeds";
+// import { seedGearCatalog } from "./gearCatalog-seeds";
+// import { seedGear } from "./gearItem-seeds";
+// import { seedGearLists } from "./gearList-seeds";
+// import { seedUserPreferences } from "./userPreferences-seeds";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+// import User from "../models/user";
+
 dotenv.config();
 
 const seedAll = async (): Promise<void> => {
   try {
+    // Log Mongo URI for debugging purposes
+    console.log("DEBUG: MONGODB_URI =", process.env.MONGODB_URI);
+
+    // Connect to MongoDB
     await mongoose.connect(process.env.MONGODB_URI as string);
     console.log("\n✅ MongoDB connected\n");
 
-    // const users = await seedUser();
-    // console.log("\n✅ Users seeded\n");
+    const users = await seedUsers();
+    if (users.length === 0) throw new Error("User seed failed");
+    console.log("\n✅ Users seeded\n");
 
-    const trips = await seedTrip([
-      { _id: new mongoose.Types.ObjectId() },
-      { _id: new mongoose.Types.ObjectId() },
-      { _id: new mongoose.Types.ObjectId() }
-    ]);
+    const trips = await seedTrip(users);
     console.log("\n✅ Trips seeded\n");
 
-    // await seedCrew(users, trips);
-    // await seedSchedule(trips);
-    // await seedMeals(trips);
+    await seedCrew(users, trips);
+    console.log("\n✅ Crew seeded\n");
 
-    const gearLists = await seedGearLists(trips);
-    // await seedGear(users, trips, gearLists); // ⚠️ uncomment when `users` is seeded
+    // Seed MEALS
+    // await seedMeals(trips, users);
+    // console.log("\n✅ Meals seeded\n");
 
-    process.exit(0);
+    // Seed GEAR CATALOG
+    // await seedGearCatalog();
+    // console.log("\n✅ GearCatalogItems seeded\n");
+
+    // Seed GEAR LISTS
+    // await seedGearLists(trips);
+    // console.log("\n✅ GearLists seeded\n");
+
+    process.exit(0); // Success
   } catch (error) {
     console.error("❌ Error seeding database:", error);
-    process.exit(1);
+    process.exit(1); // Failure
   }
 };
 
+// Run the seeding function
 seedAll();

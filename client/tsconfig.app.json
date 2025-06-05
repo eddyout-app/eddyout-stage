@@ -22,5 +22,16 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "archive/TripDetails.tsx", "archive/TripDetailsNav.tsx"]
+  "include": [
+    "src",
+    "archive/TripDetails.tsx",
+    "archive/TripDetailsNav.tsx",
+    "archive/GearItem.tsx",
+    "archive/GearList.tsx",
+    "archive/Crew.tsx",
+    "archive/scheduleAPI.tsx",
+    "archive/tripAPI.tsx",
+    "archive/crewAPI.tsx",
+    "archive/pages"
+  ]
 }

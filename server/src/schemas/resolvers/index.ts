@@ -1,78 +1,85 @@
 import { tripResolvers } from "./tripResolvers";
 import { expenseResolvers } from "./expenseResolver";
 import userPreferencesResolvers from "./userPreferencesResolvers";
-
+import { campsitesResolvers } from "./campsitesResolver";
 import { gearItemResolvers } from "./gearItemResolver";
 import { gearListResolvers } from "./gearListResolver";
-import { weatherResolvers } from "./weatherResolver";
+// import { weatherResolvers } from "./weatherResolver";
+import { gearCatalogResolvers } from "./gearCatalogResolver";
+import { mealResolvers } from "./mealsResolver";
+import { userResolvers } from "./userResolver";
+import { crewResolvers } from "./crewResolvers";
 
 export const resolvers = {
-    Query: {
-        // Crew Queries
-        // ...crewResolvers.Query,
+  Query: {
+    // Crew Queries
+    ...crewResolvers.Query,
 
-        // Expense Queries
-        ...expenseResolvers.Query,
+    // Expense Queries
+    ...expenseResolvers.Query,
 
-        // GearItem Queries
-        ...gearItemResolvers.Query,
+    // GearItem Queries
+    ...gearItemResolvers.Query,
 
-        // GearList Queries
-        ...gearListResolvers.Query,
+    // GearList Queries
+    ...gearListResolvers.Query,
 
-        // Meal Queries
-        // ...mealResolvers.Query,
+    // GearCatalog Queries
+    ...gearCatalogResolvers.Query,
 
-        // Schedule Queries
-        // ...scheduleResolvers.Query,
+    // Meal Queries
+    ...mealResolvers.Query,
 
-        // Trip Queries
-        ...tripResolvers.Query,
+    // Campsites Queries
+    ...campsitesResolvers.Query,
 
-        // User Queries
-        // ...userResolvers.Query,
+    // Trip Queries
+    ...tripResolvers.Query,
 
-        // UserPreferences Queries
-        ...userPreferencesResolvers.Query,
+    // User Queries
+    ...userResolvers.Query,
 
-        //Weather Queries
-        ...weatherResolvers.Query,
+    // UserPreferences Queries
+    ...userPreferencesResolvers.Query,
 
-    },
+    //Weather Queries
+    // ...weatherResolvers.Query,
+  },
 
-    Mutation: {
-        // Crew Queries
-        // ...crewResolvers.Mutation,
+  Mutation: {
+    // Campsites Queries
+    ...campsitesResolvers.Mutation,
 
-        // Expense Queries
-        ...expenseResolvers.Mutation,
+    // Crew Queries
+    ...crewResolvers.Mutation,
 
-        // GearItem Queries
-        ...gearItemResolvers.Mutation,
+    // Expense Queries
+    ...expenseResolvers.Mutation,
 
-        // GearList Queries
-        ...gearListResolvers.Mutation,
+    // GearItem Queries
+    ...gearItemResolvers.Mutation,
 
-        // Meal Queries
-        // ...mealResolvers.Mutation,
+    // GearList Queries
+    ...gearListResolvers.Mutation,
 
-        // Schedule Queries
-        // ...scheduleResolvers.Mutation,
+    // Meal Queries
+    ...mealResolvers.Mutation,
 
-        // Trip Queries
-        ...tripResolvers.Mutation,
+    // Trip Queries
+    ...tripResolvers.Mutation,
 
-        // User Queries
-        // ...userResolvers.Mutation,
+    // User Queries
+    ...userResolvers.Mutation,
 
-        // UserPreferences Queries
-        ...userPreferencesResolvers.Mutation,
+    // UserPreferences Queries
+    ...userPreferencesResolvers.Mutation,
 
-        // Weather Queries
-        // ...weatherResolvers.Mutation,
+    // Weather Queries
+    // ...weatherResolvers.Mutation,
+  },
 
-    },
-    Trip: {
-        ...tripResolvers.Trip,
-    },
+  Trip: {
+    ...tripResolvers.Trip,
+  },
 };
+

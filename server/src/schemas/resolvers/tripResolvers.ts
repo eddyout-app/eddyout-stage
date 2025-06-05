@@ -1,37 +1,43 @@
 import Trip from "../../models/trip";
-
+import mongoose from "mongoose";
 
 export const tripResolvers = {
-    Query: {
-        trips: async () => await Trip.find(),
-
-        trip: async (_: any, { id }: { id: string }) => {
-            return await Trip.findById(id);
-        }
+  Query: {
+    trips: async (_parent: any, { userId }: { userId: string }) => {
+      return await Trip.find({
+        organizerId: new mongoose.Types.ObjectId(userId),
+      });
     },
 
-    Mutation: {
-        createTrip: async (_: any, args: any) => {
-            const newTrip = await Trip.create({ ...args });
-            return newTrip;
-        },
+    trip: async (_: any, { id }: { id: string }) => {
+      return await Trip.findById(id);
+    },
+  },
 
-        updateTrip: async (_: any, { id, ...updates }: any) => {
-            const updatedTrip = await Trip.findByIdAndUpdate(id, updates, {
-                new: true,
-                runValidators: true
-            });
-            return updatedTrip;
-        },
-
-        deleteTrip: async (_: any, { id }: { id: string }) => {
-            await Trip.findByIdAndDelete(id);
-            return "Trip deleted";
-        }
+  Mutation: {
+    createTrip: async (_: any, args: any) => {
+      const newTrip = await Trip.create({ ...args });
+      return newTrip;
     },
 
-    Trip: {
-        startDate: (trip: { startDate: Date }) => new Date(trip.startDate).toISOString().split("T")[0],
-        endDate: (trip: { endDate: Date }) => new Date(trip.endDate).toISOString().split("T")[0],
+    updateTrip: async (_: any, { id, ...updates }: any) => {
+      const updatedTrip = await Trip.findByIdAndUpdate(id, updates, {
+        new: true,
+        runValidators: true,
+      });
+      return updatedTrip;
     },
+
+    deleteTrip: async (_: any, { id }: { id: string }) => {
+      await Trip.findByIdAndDelete(id);
+      return "Trip deleted";
+    },
+  },
+
+  Trip: {
+    startDate: (trip: { startDate: Date }) =>
+      new Date(trip.startDate).toISOString().split("T")[0],
+    endDate: (trip: { endDate: Date }) =>
+      new Date(trip.endDate).toISOString().split("T")[0],
+  },
 };
