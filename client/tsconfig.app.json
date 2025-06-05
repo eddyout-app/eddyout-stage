@@ -31,6 +31,7 @@
     "archive/Crew.tsx",
     "archive/scheduleAPI.tsx",
     "archive/tripAPI.tsx",
-    "archive/crewAPI.tsx"
+    "archive/crewAPI.tsx",
+    "archive/pages"
   ]
 }

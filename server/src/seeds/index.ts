@@ -1,14 +1,16 @@
-import { seedGear } from "./gearItem-seeds";
-import { seedGearLists } from "./gearList-seeds";
-import { seedMeals } from "./meal-seeds";
-import { seedUsers } from "./user-seeds";
 import { seedTrip } from "./trip-seeds";
+import { seedUsers } from "./user-seeds";
 import { seedCrew } from "./crew-seeds";
-import { seedCampsites } from "./campsite-seeds";
+// import { seedMeals } from "./meal-seeds";
+
 // import { seedExpense } from "./expense-seeds";
+// import { seedGearCatalog } from "./gearCatalog-seeds";
+// import { seedGear } from "./gearItem-seeds";
+// import { seedGearLists } from "./gearList-seeds";
+// import { seedUserPreferences } from "./userPreferences-seeds";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import User from "../models/user";
+// import User from "../models/user";
 
 dotenv.config();
 
@@ -21,36 +23,27 @@ const seedAll = async (): Promise<void> => {
     await mongoose.connect(process.env.MONGODB_URI as string);
     console.log("\n✅ MongoDB connected\n");
 
-    // Clear the users collection before seeding
-    await User.deleteMany({});  // Deletes all users
-    console.log("\n✅ Users collection cleared\n");
-
-    // Seed USERS — must happen first (needed for trips + meals)
     const users = await seedUsers();
     if (users.length === 0) throw new Error("User seed failed");
     console.log("\n✅ Users seeded\n");
 
-    // Seed TRIPS
-    const trips = await seedTrip([
-      { _id: new mongoose.Types.ObjectId() },
-      { _id: new mongoose.Types.ObjectId() },
-    ]);
+    const trips = await seedTrip(users);
     console.log("\n✅ Trips seeded\n");
 
-    // Uncomment to seed Crew or other data
     await seedCrew(users, trips);
-    await seedCampsites(trips);
-    await seedMeals(users, trips);  // Pass both users and trips as required
+    console.log("\n✅ Crew seeded\n");
 
-    // Seed Gear Lists
-    const gearLists = await seedGearLists(trips);
-    console.log("\n✅ Gear Lists seeded\n");
+    // Seed MEALS
+    // await seedMeals(trips, users);
+    // console.log("\n✅ Meals seeded\n");
 
-    // Uncomment if you want to seed Gear items (this requires users and trips data)
-    // await seedGear(users, trips, gearLists);  // ⚠️ uncomment when `users` is seeded
+    // Seed GEAR CATALOG
+    // await seedGearCatalog();
+    // console.log("\n✅ GearCatalogItems seeded\n");
 
-    // You can add more seeding functions here if needed
-    // await seedExpense(trips);
+    // Seed GEAR LISTS
+    // await seedGearLists(trips);
+    // console.log("\n✅ GearLists seeded\n");
 
     process.exit(0); // Success
   } catch (error) {

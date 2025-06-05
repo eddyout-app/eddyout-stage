@@ -9,6 +9,7 @@ import { weatherTypeDefs } from "./weatherTypeDefs";
 import campsiteTypeDefs from "./campsitesTypeDefs";
 import mealTypeDefs from "./mealsTypeDefs";
 import { userTypeDefs } from "./userTypeDefs";
+import crewTypeDefs from "./crewTypeDefs";
 
 const baseTypeDefs = gql`
   type Query
@@ -27,4 +28,5 @@ export default [
   weatherTypeDefs,
   mealTypeDefs,
   userTypeDefs,
+  crewTypeDefs,
 ];

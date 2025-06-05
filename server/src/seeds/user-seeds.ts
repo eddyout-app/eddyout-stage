@@ -1,14 +1,15 @@
 import User from "../models/user";
 
-export const seedUsers = async () => {
+export async function seedUsers() {
+  await User.deleteMany({});
   try {
     const users = await User.insertMany([
       {
-        username: "justinv1",
-        email: "justin@email.com",
-        password: "password", // plain text for now
-        firstName: "Justin",
-        lastName: "Vittitoe",
+        username: "amania",
+        email: "amani@email.com",
+        password: "password",
+        firstName: "Amani",
+        lastName: "Akram",
       },
       {
         username: "lisaj",
@@ -24,6 +25,20 @@ export const seedUsers = async () => {
         firstName: "Elli",
         lastName: "Mckinley",
       },
+      {
+        username: "toulousep",
+        email: "toulouse@email.com",
+        password: "password",
+        firstName: "Toulouse",
+        lastName: "Pierre",
+      },
+      {
+        username: "albusd",
+        email: "albus@email.com",
+        password: "password",
+        firstName: "Albus",
+        lastName: "Dumbledore",
+      },
     ]);
 
     console.log("✅ Users seeded successfully");
@@ -32,4 +47,4 @@ export const seedUsers = async () => {
     console.error("❌ Error seeding users:", error);
     return [];
   }
-};
+}

@@ -7,7 +7,7 @@ export type UserData = {
   _id: string;
   email: string;
   password?: string;
-  userame?: string | null;
+  username?: string | null;
   firstName?: string | null;
   lastName?: string | null;
   phone?: string | null;
