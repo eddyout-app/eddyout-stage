@@ -4,13 +4,15 @@ import { expressMiddleware } from "@apollo/server/express4";
 import typeDefs from "./schemas/typedefs/index.js";
 import { resolvers } from "./schemas/resolvers/index.js";
 import db from "./config/connection.js"; // Mongoose connection
+import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
-import cors from "cors";
 
 dotenv.config({
   path: path.resolve(__dirname, "../.env"),
 });
+
+console.log("DEBUG SERVER: MONGODB_URI =", process.env.MONGODB_URI);
 
 const app: Application = express(); // ✅ explicitly typed
 const PORT = process.env.PORT || 3001;
@@ -25,10 +27,7 @@ async function startApolloServer() {
 
   app.use(
     "/graphql",
-    cors({
-      origin: "http://localhost:3000", // allow your React app
-      credentials: true, // optional — if using cookies or auth headers
-    }),
+    cors({ origin: "http://localhost:3000", credentials: true }),
     express.json(),
     expressMiddleware(server)
   );
