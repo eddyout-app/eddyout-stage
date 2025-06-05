@@ -70,18 +70,18 @@ export default function Campsites({ trip, user }: CampsitesProps) {
     const dateKey = campsite.startDate.split("T")[0]; // no new Date(), no risk!
     campsitesByDate[dateKey] = campsite;
   });
-  console.log("Fetched campsites:", campsites);
-  console.log("Campsites by date:", campsitesByDate);
+  // console.log("Fetched campsites:", campsites);
+  // console.log("Campsites by date:", campsitesByDate);
 
   const tripDates = getTripDates(
     new Date(trip.startDate),
     new Date(trip.endDate)
   );
 
-  console.log(
-    "Trip dates:",
-    tripDates.map((d) => d.toISOString().split("T")[0])
-  );
+  // console.log(
+  //   "Trip dates:",
+  //   tripDates.map((d) => d.toISOString().split("T")[0])
+  // );
 
   return (
     <div className="bg-light-neutral min-h-screen py-10 px-4 font-body text-textBody">

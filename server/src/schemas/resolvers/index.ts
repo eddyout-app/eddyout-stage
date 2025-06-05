@@ -62,16 +62,13 @@ export const resolvers = {
     ...gearListResolvers.Mutation,
 
     // Meal Queries
-    // ...mealResolvers.Mutation,
-
-    // Schedule Queries
-    // ...scheduleResolvers.Mutation,
+    ...mealResolvers.Mutation,
 
     // Trip Queries
     ...tripResolvers.Mutation,
 
     // User Queries
-    // ...userResolvers.Mutation,
+    ...userResolvers.Mutation,
 
     // UserPreferences Queries
     ...userPreferencesResolvers.Mutation,

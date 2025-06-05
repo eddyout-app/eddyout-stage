@@ -18,8 +18,8 @@ export default function TripDetailPanel({
   view,
   onClose,
 }: TripDetailPanelProps) {
-  console.log("TripDetailPanel trip prop:", trip);
-  console.log("TripDetailPanel view:", view);
+  // console.log("TripDetailPanel trip prop:", trip);
+  // console.log("TripDetailPanel view:", view);
 
   const startDateFormatted = new Date(trip.startDate).toLocaleDateString(
     "en-US",
