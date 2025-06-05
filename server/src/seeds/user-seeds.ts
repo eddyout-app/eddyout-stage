@@ -4,7 +4,7 @@ export const seedUsers = async () => {
   try {
     const users = await User.insertMany([
       {
-        username: "justinv",
+        username: "justinv1",
         email: "justin@email.com",
         password: "password", // plain text for now
         firstName: "Justin",

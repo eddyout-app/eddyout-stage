@@ -5,17 +5,17 @@ const userPreferencesSeed = async () => {
         // Create sample user preferences
         const preferences1 = new UserPreferences({
             dietaryRestrictions: ["Vegan", "Gluten-Free"],
-            venmoHandle: "@veganchef123",
+            venmoHandle: "@tom123",
         });
 
         const preferences2 = new UserPreferences({
             dietaryRestrictions: ["Vegetarian"],
-            venmoHandle: "@vegetarian2022",
+            venmoHandle: "@jerry123",
         });
 
         const preferences3 = new UserPreferences({
             dietaryRestrictions: ["Dairy-Free", "Nut-Free"],
-            venmoHandle: "@allergenfreeeats",
+            venmoHandle: "@allergenfreak",
         });
 
         // Save preferences to the database
