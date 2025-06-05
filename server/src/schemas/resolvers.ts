@@ -1,6 +1,6 @@
-import { Crew } from "../controllers/crewControllers";
-import { Meals } from "../models/meals";
-import { User } from '../models/user.js';
+import  Crew  from "../models/crew";
+import  Meals  from "../models/meals";
+import  User  from '../models/user.js';
 import { signToken } from "../utils/auth";
 import { GraphQLError } from "graphql";
 

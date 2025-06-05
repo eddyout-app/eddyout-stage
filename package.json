@@ -20,11 +20,6 @@
     "@apollo/server": "^4.12.1",
     "@types/mongoose": "^5.11.96",
     "bcrypt": "^5.1.1",
-<<<<<<< HEAD
-    "esbuild": "0.25.2",
-    "graphql": "^16.11.0",
-    "postgres": "^3.4.5",
-=======
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
     "express": "^4.21.2",
@@ -32,7 +27,6 @@
     "graphql-tag": "^2.12.6",
     "mongodb": "^6.16.0",
     "mongoose": "^8.15.1",
->>>>>>> 773bed1a4aeed98b7278eb210f2227e7a1742ace
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.4.1",
