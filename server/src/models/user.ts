@@ -27,8 +27,7 @@ const UserSchema = new mongoose.Schema(
     },
     userDetails: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "UserDetails", // Link to the UserDetails model
-    },
+      ref: "UserPreferences", // Link to the UserPreferences model
   },
   {
     timestamps: true,
