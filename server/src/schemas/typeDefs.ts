@@ -1,50 +1,70 @@
 const typeDefs = `
   # Define which fields are accessible from the Class model
   type Meal {
-    id: string
-    tripId: String
+    id: ID
+    tripId: ID
     date: String
-    mealType: string
-    mealName: string
-    description: string
-    crewMember: string
+    mealType: String
+    mealName: String
+    description: String
+    crewMember: String
   }
 
   type User {
-    _id: ID!
+    id: ID!
     username: String
     email: String!
     password: String
+    firstName: String
+    lastName: String
+  }
+
+  type Crew {
+    id: ID!
+    tripId: ID!
+    userId: ID!
+    user: User
+  }
+
+  type Auth {
+    token: String!
+    user: User!
   }
 
   input MealInput {
     mealName: String!
     mealType: String!
     crewMember: String!
-    tripId: ID!;
-    date: String!; 
+    tripId: ID!
+    date: String!
     description: String
   }
 
   input UserInput {
-   username: String!;
-   email: String!;
-   password: String!
-   firstName: String
-   lastName: String
+    username: String!
+    email: String!
+    password: String!
+    firstName: String
+    lastName: String
   }
 
-  # Define which queries the front end is allowed to make and what data is returned
+  input CrewInput {
+    tripId: ID!
+    userId: ID!
+  }
+
   type Query {
     getUsers: [User]
-    getUser(id:ID!): User
-    getMealsForTrip(tripId: ID!) : [Meal]  
+    getUser(id: ID!): User
+    getAllCrew(tripId: ID!): [Crew]
+    getMealsForTrip(tripId: ID!): [Meal]
   }
 
   type Mutation {
     createMeal(input: MealInput!): Meal
     createUser(input: UserInput!): Auth
-    login(email: String!, password: String!): Auth 
+    createCrew(input: CrewInput!): Crew
+    login(email: String!, password: String!): Auth
   }
 `;
 

@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteCrew = exports.createCrew = exports.getAllCrew = void 0;
+exports.Crew = exports.deleteCrew = exports.createCrew = exports.getAllCrew = void 0;
 const crew_js_1 = require("../models/crew.js");
+Object.defineProperty(exports, "Crew", { enumerable: true, get: function () { return crew_js_1.Crew; } });
 const user_js_1 = require("../models/user.js");
 const getAllCrew = async (req, res) => {
     const { tripId } = req.params;

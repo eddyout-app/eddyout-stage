@@ -53,4 +53,4 @@ const deleteCrew = async (req:Request, res:Response) => {
 }
 
 
-export { getAllCrew, createCrew, deleteCrew}
+export { getAllCrew, createCrew, deleteCrew, Crew };
