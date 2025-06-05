@@ -6,17 +6,21 @@ import { resolvers } from "./schemas/resolvers/index.js";
 import db from "./config/connection.js"; // Mongoose connection
 import cors from "cors";
 import dotenv from "dotenv";
-import path from "path";
 
-dotenv.config({
-  path: path.resolve(__dirname, "../.env"),
-});
+// Load environment variables
+dotenv.config();  // No need to specify path if the .env file is in the root
 
+// Log the MongoDB URI to ensure it's being loaded correctly
 console.log("DEBUG SERVER: MONGODB_URI =", process.env.MONGODB_URI);
 
+// Log the server's port to ensure the value is loaded from the environment variables
+console.log("DEBUG SERVER: PORT =", process.env.PORT);
+
+// Define the app and port
 const app: Application = express(); // ✅ explicitly typed
 const PORT = process.env.PORT || 3001;
 
+// Apollo Server setup
 const server = new ApolloServer({
   typeDefs,
   resolvers,
@@ -32,7 +36,9 @@ async function startApolloServer() {
     expressMiddleware(server)
   );
 
+  // Wait for the MongoDB connection to open
   db.once("open", () => {
+    console.log("🌱 MongoDB connection established.");
     app.listen(PORT, () => {
       console.log(`🌐 Server running at http://localhost:${PORT}/graphql`);
     });
