@@ -7,9 +7,9 @@ export type UserData = {
   _id: string;
   email: string;
   password?: string;
-  username?: string | null;
-  firstname?: string | null;
-  lastname?: string | null;
+  userame?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
   phone?: string | null;
   dietaryRestrictions?: string | null;
   allergies?: string | null;
