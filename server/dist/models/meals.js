@@ -45,3 +45,4 @@ function MealFactory(sequelize) {
     });
     return Meals;
 }
+//# sourceMappingURL=meals.js.map

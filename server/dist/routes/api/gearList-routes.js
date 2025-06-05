@@ -10,3 +10,4 @@ const router = express_1.default.Router();
 exports.gearListRouter = router;
 router.get('/', gearListController_js_1.getGearLists);
 router.post('/', gearListController_js_1.createGearList);
+//# sourceMappingURL=gearList-routes.js.map

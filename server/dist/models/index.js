@@ -65,3 +65,4 @@ Trip.hasOne(Schedule, {
     as: "schedule",
 });
 Schedule.belongsTo(Trip, { foreignKey: "tripId" });
+//# sourceMappingURL=index.js.map

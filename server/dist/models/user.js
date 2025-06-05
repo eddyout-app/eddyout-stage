@@ -66,3 +66,4 @@ function UserFactory(sequelize) {
     });
     return User;
 }
+//# sourceMappingURL=user.js.map

@@ -62,3 +62,4 @@ const seedMeals = async (trips) => {
     ]);
 };
 exports.seedMeals = seedMeals;
+//# sourceMappingURL=meal-seeds.js.map

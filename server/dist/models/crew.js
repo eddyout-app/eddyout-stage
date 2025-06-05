@@ -37,3 +37,4 @@ function CrewFactory(sequelize) {
     });
     return Crew;
 }
+//# sourceMappingURL=crew.js.map

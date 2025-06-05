@@ -19,3 +19,4 @@ connection_js_1.sequelize.sync({ force: forceDatabaseRefresh }).then(() => {
         console.log(`Server is listening on port http://localhost:${PORT}`);
     });
 });
+//# sourceMappingURL=server.js.map

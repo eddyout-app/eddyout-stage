@@ -42,3 +42,4 @@ const updateScheduleById = async (req, res) => {
     }
 };
 exports.updateScheduleById = updateScheduleById;
+//# sourceMappingURL=scheduleController.js.map

@@ -10,3 +10,4 @@ const router = express_1.default.Router();
 exports.mealRouter = router;
 router.get('/:tripId', mealController_js_1.getMealsForTrip);
 router.post('/', mealController_js_1.createMeal);
+//# sourceMappingURL=meal-routes.js.map

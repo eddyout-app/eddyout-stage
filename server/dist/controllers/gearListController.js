@@ -22,3 +22,4 @@ const createGearList = async (req, res) => {
     }
 };
 exports.createGearList = createGearList;
+//# sourceMappingURL=gearListController.js.map

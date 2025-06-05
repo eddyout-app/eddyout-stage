@@ -12,3 +12,4 @@ exports.scheduleRouter = router;
 router.get("/", scheduleController_js_1.getSchedules);
 router.post("/", scheduleController_js_1.createSchedule);
 router.put("/:id", auth_js_1.authenticateToken, scheduleController_js_1.updateScheduleById);
+//# sourceMappingURL=schedule-routes.js.map

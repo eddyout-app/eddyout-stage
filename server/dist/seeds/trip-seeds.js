@@ -40,3 +40,4 @@ const seedTrip = async (users) => {
     return trips;
 };
 exports.seedTrip = seedTrip;
+//# sourceMappingURL=trip-seeds.js.map

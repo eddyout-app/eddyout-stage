@@ -34,3 +34,4 @@ const seedUser = async () => {
     return users;
 };
 exports.seedUser = seedUser;
+//# sourceMappingURL=user-seeds.js.map

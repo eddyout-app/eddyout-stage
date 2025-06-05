@@ -50,3 +50,4 @@ const typeDefs = `
   }
 `;
 exports.default = typeDefs;
+//# sourceMappingURL=typeDefs.js.map

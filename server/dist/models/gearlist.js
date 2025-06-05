@@ -32,3 +32,4 @@ function GearListFactory(sequelize) {
     });
     return GearList;
 }
+//# sourceMappingURL=gearList.js.map

@@ -38,3 +38,4 @@ function GearItemFactory(sequelize) {
     });
     return GearItem;
 }
+//# sourceMappingURL=gearItem.js.map

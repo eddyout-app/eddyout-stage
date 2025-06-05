@@ -17,3 +17,4 @@ router.use("/users", user_routes_js_1.userRouter);
 router.use("/gear/:id", gearItem_routes_js_1.gearItemRouter);
 router.use("/schedule/:id", schedule_routes_js_1.scheduleRouter);
 exports.default = router;
+//# sourceMappingURL=index.js.map
