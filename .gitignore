@@ -10,7 +10,7 @@ dist/
 build/
 .cache/
 .temp/
-server/dist/
+sever/dist
 
 # TypeScript
 *.tsbuildinfo
