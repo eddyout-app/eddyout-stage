@@ -1,5 +1,5 @@
 import type { JwtPayload } from "jwt-decode";
-import type { UserData } from "../interfaces/UserData";
+import type { UserData } from "../types/user";
 import { jwtDecode } from "jwt-decode";
 class AuthService {
   getProfile() {
@@ -36,8 +36,12 @@ class AuthService {
 
     try {
       const decoded = jwtDecode<UserData>(idToken);
-      if (decoded.id) {
-        localStorage.setItem("userId", decoded.id); // <-- NEW
+      if (decoded._id) {
+        localStorage.setItem("userId", decoded._id);
+        localStorage.setItem(
+          "fullName",
+          `${decoded.firstname ?? ""} ${decoded.lastname ?? ""}`.trim()
+        );
       } else {
         console.warn("Decoded token missing user ID");
       }
