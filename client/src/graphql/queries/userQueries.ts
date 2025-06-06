@@ -8,6 +8,7 @@ export const GET_ME = gql`
       email
       firstName
       lastName
+      role
       userDetails {
         id
         dietaryRestrictions
@@ -27,6 +28,7 @@ export const GET_USER_BY_ID = gql`
       email
       firstName
       lastName
+      role
       userDetails {
         id
         dietaryRestrictions
@@ -46,6 +48,7 @@ export const GET_USERS = gql`
       email
       firstName
       lastName
+      role
       createdAt
       updatedAt
     }

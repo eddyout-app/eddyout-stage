@@ -3,7 +3,6 @@ import tripTypeDefs from "./tripTypeDefs";
 import { expenseTypeDefs } from "./expenseTypeDefs";
 import userPreferencesTypeDefs from "./userPreferencesTypeDefs";
 import { gearItemTypeDefs } from "./gearItemTypeDefs";
-import { gearListTypeDefs } from "./gearListTypeDefs";
 import { gearCatalogTypeDefs } from "./gearCatalogTypeDefs";
 import { weatherTypeDefs } from "./weatherTypeDefs";
 import campsiteTypeDefs from "./campsitesTypeDefs";
@@ -22,7 +21,6 @@ export default [
   expenseTypeDefs,
   userPreferencesTypeDefs,
   gearItemTypeDefs,
-  gearListTypeDefs,
   gearCatalogTypeDefs,
   campsiteTypeDefs,
   weatherTypeDefs,

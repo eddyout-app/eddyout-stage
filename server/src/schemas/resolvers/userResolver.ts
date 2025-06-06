@@ -29,12 +29,14 @@ export const userResolvers = {
         password,
         firstName,
         lastName,
+        role,
       }: {
         username: string;
         email: string;
         password: string;
         firstName: string;
         lastName: string;
+        role?: string;
       }
     ) => {
       const existingUser = await User.findOne({ email });
@@ -50,6 +52,7 @@ export const userResolvers = {
         password: hashedPassword,
         firstName,
         lastName,
+        role: role || "user", // Default role if not provided
       });
 
       await user.save();
