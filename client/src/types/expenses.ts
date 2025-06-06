@@ -1,15 +1,10 @@
 export type ExpenseData = {
   _id: string;
-  tripId: string;
-  userId: string;
-  fees?: number;
-  food?: number;
-  airfare?: number;
-  lodging?: number;
-  groundTransportation?: number;
-  other?: number;
-  total?: number;
-  perPerson?: number;
+  description: string;
+  amount: number;
+  userId: string; // ObjectId as string → was paidBy
+  participants: string[]; // Array of ObjectIds as strings
+  tripId: string; // ObjectId as string
   createdAt: string;
   updatedAt: string;
 };

@@ -143,7 +143,7 @@ export default function MealSection({ trip, user }: MealSectionProps) {
                 const assignedName = !mealToRender.userId
                   ? "Unclaimed"
                   : userIdObj && userIdObj._id === user._id
-                  ? userIdObj.fullName
+                  ? "You"
                   : userIdObj?.fullName ?? "Claimed";
 
                 return (

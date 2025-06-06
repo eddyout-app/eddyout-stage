@@ -95,6 +95,7 @@ export default function Dashboard() {
 
   return (
     <div className="h-screen w-screen">
+      <Nav />
       <main>
         <div className="dashboard-page">
           {/* Dashboard Header with "New Trip" button */}
