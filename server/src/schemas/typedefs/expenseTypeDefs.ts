@@ -5,7 +5,7 @@ export const expenseTypeDefs = gql`
     _id: ID!
     description: String!
     amount: Float!
-    paidBy: ID!
+    userId: ID! # was paidBy
     participants: [ID!]!
     tripId: ID!
     createdAt: String
@@ -15,7 +15,7 @@ export const expenseTypeDefs = gql`
   input CreateExpenseInput {
     description: String!
     amount: Float!
-    paidBy: ID!
+    userId: ID! # was paidBy
     tripId: ID!
   }
 

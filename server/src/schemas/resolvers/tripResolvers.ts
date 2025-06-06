@@ -1,12 +1,37 @@
 import Trip from "../../models/trip";
+import Crew from "../../models/crew"; // 🚩 You need this!
 import mongoose from "mongoose";
 
 export const tripResolvers = {
   Query: {
-    trips: async (_parent: any, { userId }: { userId: string }) => {
-      return await Trip.find({
+    trips: async (_: any, { userId }: { userId: string }) => {
+      // 1️⃣ Trips where user is organizer
+      const organizerTrips = await Trip.find({
         organizerId: new mongoose.Types.ObjectId(userId),
       });
+
+      // 2️⃣ Trips where user is crew
+      const crewEntries = await Crew.find({
+        userId: new mongoose.Types.ObjectId(userId),
+      });
+
+      const crewTripIds = crewEntries.map((entry) => entry.tripId);
+
+      const crewTrips = await Trip.find({
+        _id: { $in: crewTripIds },
+      });
+
+      // 3️⃣ Combine both lists, deduplicate
+      const allTripsMap = new Map();
+
+      organizerTrips.forEach((trip) =>
+        allTripsMap.set(trip._id.toString(), trip)
+      );
+
+      crewTrips.forEach((trip) => allTripsMap.set(trip._id.toString(), trip));
+
+      // 4️⃣ Return as array
+      return Array.from(allTripsMap.values());
     },
 
     trip: async (_: any, { id }: { id: string }) => {

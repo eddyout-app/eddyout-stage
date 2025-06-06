@@ -8,13 +8,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 // Load environment variables
-dotenv.config();  // No need to specify path if the .env file is in the root
-
-// Log the MongoDB URI to ensure it's being loaded correctly
-console.log("DEBUG SERVER: MONGODB_URI =", process.env.MONGODB_URI);
-
-// Log the server's port to ensure the value is loaded from the environment variables
-console.log("DEBUG SERVER: PORT =", process.env.PORT);
+dotenv.config(); // No need to specify path if the .env file is in the root
 
 // Define the app and port
 const app: Application = express(); // ✅ explicitly typed

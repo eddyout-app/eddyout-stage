@@ -16,12 +16,8 @@ dotenv.config();
 
 const seedAll = async (): Promise<void> => {
   try {
-    // Log Mongo URI for debugging purposes
-    console.log("DEBUG: MONGODB_URI =", process.env.MONGODB_URI);
-
     // Connect to MongoDB
     await mongoose.connect(process.env.MONGODB_URI as string);
-    console.log("\n✅ MongoDB connected\n");
 
     const users = await seedUsers();
     if (users.length === 0) throw new Error("User seed failed");

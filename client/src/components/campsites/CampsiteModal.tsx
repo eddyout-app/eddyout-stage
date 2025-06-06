@@ -57,8 +57,6 @@ export default function CampsiteModal({
           ],
         });
 
-        console.log("AddCampsite result:", result.data);
-
         updatedCampsite = result.data.addCampsite;
       } else {
         const result = await updateCampsite({
@@ -73,8 +71,6 @@ export default function CampsiteModal({
             },
           ],
         });
-
-        console.log("UpdateCampsite result:", result.data);
 
         updatedCampsite = result.data.updateCampsite;
       }
