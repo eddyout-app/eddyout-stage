@@ -4,7 +4,6 @@ export const crewResolvers = {
   Query: {
     crewByTrip: async (_parent: any, { tripId }: { tripId: string }) => {
       const crew = await Crew.find({ tripId }).populate("userId");
-      console.log("Crew by trip:", JSON.stringify(crew, null, 2));
       return crew;
     },
   },

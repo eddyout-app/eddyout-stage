@@ -8,17 +8,12 @@ export const campsitesResolvers = {
   Query: {
     campsites: async (_parent: any, { tripId }: CampsitesArgs) => {
       const results = await Campsites.find({ tripId }).sort({ startDate: 1 });
-      console.log("Fetched campsites from DB:", results);
-
       // Map results to convert startDate and endDate to strings
       const mappedResults = results.map((c) => ({
         ...c.toObject(),
         startDate: c.startDate.toISOString(),
         endDate: c.endDate ? c.endDate.toISOString() : null,
       }));
-
-      console.log("Mapped campsites for GraphQL:", mappedResults);
-
       return mappedResults;
     },
   },
@@ -26,8 +21,6 @@ export const campsitesResolvers = {
   Mutation: {
     addCampsite: async (_parent: any, args: any) => {
       try {
-        console.log("addCampsite args:", args);
-
         const newCampsite = new Campsites({
           tripId: args.tripId,
           name: args.name,

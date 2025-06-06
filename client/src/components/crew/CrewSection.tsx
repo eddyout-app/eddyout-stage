@@ -20,15 +20,11 @@ export default function CrewSection({ trip, user }: CrewSectionProps) {
 
   const [editCrewMember, setEditCrewMember] = useState<CrewMember | null>(null);
 
-  // NEW — state to control the InviteCrewModal
   const [showInviteModal, setShowInviteModal] = useState(false);
 
-  // NEW — precompute isLeader once so it’s reusable
   const isLeader = user._id === trip.organizerId;
 
   const crew: CrewMember[] = data?.crewByTrip || [];
-
-  console.log("Crew members:", crew);
 
   if (loading) {
     return (

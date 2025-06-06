@@ -47,8 +47,6 @@ export default function MealModal({
           ],
         });
 
-        console.log("AddMeal result:", result.data);
-
         updatedMeal = result.data.addMeal;
       } else {
         const result = await updateMeal({
@@ -64,8 +62,6 @@ export default function MealModal({
             },
           ],
         });
-
-        console.log("UpdateMeal result:", result.data);
 
         updatedMeal = result.data.updateMeal;
       }

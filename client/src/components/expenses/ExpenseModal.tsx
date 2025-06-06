@@ -51,8 +51,6 @@ export default function ExpenseModal({
           ],
         });
 
-        console.log("CreateExpense result:", result.data);
-
         updatedExpense = result.data.createExpense;
       } else {
         const result = await updateExpense({
@@ -68,8 +66,6 @@ export default function ExpenseModal({
             { query: GET_BALANCES_BY_TRIP, variables: { tripId } },
           ],
         });
-
-        console.log("UpdateExpense result:", result.data);
 
         updatedExpense = result.data.updateExpense;
       }
