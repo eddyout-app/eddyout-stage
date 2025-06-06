@@ -10,6 +10,8 @@ export type UserData = {
   username?: string | null;
   firstName?: string | null;
   lastName?: string | null;
+  role?: "user" | "admin";
+
   phone?: string | null;
   dietaryRestrictions?: string | null;
   allergies?: string | null;

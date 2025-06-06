@@ -1,134 +1,119 @@
-import { useQuery, useMutation } from "@apollo/client";
-import { useState } from "react";
+import { useQuery } from "@apollo/client";
 import { GET_GEAR_ITEMS_BY_TRIP } from "../../graphql/queries/gearQueries";
-import {
-  CREATE_GEAR_ITEM,
-  DELETE_GEAR_ITEM,
-} from "../../graphql/mutations/gearMutations";
-import { GearItem } from "../../types/gear";
+import { GearItemData } from "../../types/gear";
 import GearModal from "./GearModal";
+import { useState } from "react";
+import { TripData } from "../../types/trip";
+import { UserData } from "../../types/user";
 
 interface GearSectionProps {
-  tripId: string;
-  userId: string;
-  crewNum: number; // Needed for GearModal V2
+  trip: TripData;
+  user: UserData;
 }
 
-export default function GearSection({
-  tripId,
-  userId,
-  crewNum,
-}: GearSectionProps) {
-  const { data, loading, error, refetch } = useQuery(GET_GEAR_ITEMS_BY_TRIP, {
-    variables: { tripId },
+export default function GearSection({ trip, user }: GearSectionProps) {
+  const {
+    data: gearData,
+    loading: gearLoading,
+    error: gearError,
+    refetch: refetchGearItems,
+  } = useQuery(GET_GEAR_ITEMS_BY_TRIP, {
+    variables: { tripId: trip._id },
+    skip: !trip._id,
   });
 
-  const [createGearItem] = useMutation(CREATE_GEAR_ITEM, {
-    onCompleted: () => refetch(),
-  });
+  const [editGearItem, setEditGearItem] = useState<GearItemData | null>(null);
 
-  const [deleteGearItem] = useMutation(DELETE_GEAR_ITEM, {
-    onCompleted: () => refetch(),
-  });
+  const gearItems: GearItemData[] = gearData?.gearItemsByTrip || [];
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleAddGearItem = () => {
+    const newGearItem: GearItemData = {
+      _id: `unclaimed-${Date.now()}`,
+      gearItem: "",
+      quantity: 1,
+      category: "Other",
+      userId: user._id,
+      tripId: trip._id,
+      createdAt: "",
+      updatedAt: "",
+    };
 
-  const gearItems: GearItem[] = data?.gearItemsByTrip || [];
-
-  // Separate your gear vs others' gear
-  const yourGear = gearItems.filter((item) => item.claimedBy === userId);
-  const otherGear = gearItems.filter(
-    (item) => item.claimedBy && item.claimedBy !== userId
-  );
-
-  const handleAddGearItem = async (
-    formData: Omit<GearItem, "_id" | "claimedBy" | "createdAt" | "updatedAt">
-  ) => {
-    await createGearItem({
-      variables: {
-        input: {
-          ...formData,
-          tripId,
-          claimedBy: userId, // This is what marks the item as "yours"
-        },
-      },
-    });
-    setIsModalOpen(false);
+    setEditGearItem(newGearItem);
   };
 
-  const handleDeleteGearItem = async (id: string) => {
-    await deleteGearItem({
-      variables: { id },
-    });
-  };
+  if (gearLoading) {
+    return (
+      <div className="text-center mt-10 text-textBody font-body text-lg">
+        Loading gear...
+      </div>
+    );
+  }
 
-  if (loading) return <p>Loading gear items...</p>;
-  if (error) return <p>Error loading gear items: {error.message}</p>;
+  if (gearError) {
+    return (
+      <div className="text-center mt-10 text-red-600 font-body text-lg">
+        Error loading gear: {gearError.message}
+      </div>
+    );
+  }
 
   return (
-    <div>
-      <h3 className="text-xl font-semibold mb-2">Gear Items</h3>
-      <button
-        onClick={() => setIsModalOpen(true)}
-        className="bg-blue-500 text-white px-4 py-2 rounded mb-4"
-      >
-        Add Gear Item
-      </button>
+    <div className="bg-light-neutral min-h-screen py-10 px-4 font-body text-textBody">
+      <h1 className="text-4xl font-header text-primary mb-6 text-center">
+        Trip Gear
+      </h1>
 
-      {/* Your Gear */}
-      <h4 className="text-lg font-semibold mb-1">Your Gear</h4>
-      {yourGear.length === 0 ? (
-        <p className="text-gray-500 mb-4">You haven't claimed any gear yet.</p>
-      ) : (
-        <ul className="space-y-2 mb-4">
-          {yourGear.map((item) => (
-            <li
-              key={item._id}
-              className="border p-2 flex justify-between items-center"
+      <div className="flex justify-center mb-6">
+        <button className="btn-primary" onClick={handleAddGearItem}>
+          Assign Yourself Gear
+        </button>
+      </div>
+
+      <div className="overflow-y-auto max-h-[60vh] pr-2 mx-auto">
+        {/* Grid header */}
+        <div className="grid grid-cols-4 gap-4 items-center text-center font-semibold mb-2 border-b border-gray-400 pb-2">
+          <div>Item</div>
+          <div>Quantity</div>
+          <div>Assigned To</div>
+          <div>Action</div>
+        </div>
+
+        {gearItems.map((gear) => {
+          const isOwner = gear.userId === user._id;
+
+          return (
+            <div
+              key={gear._id}
+              className="grid grid-cols-4 gap-4 items-center text-center py-2 border-b border-gray-200"
             >
+              <div>{gear.gearItem}</div>
+              <div>{gear.quantity}</div>
+              <div>{isOwner ? "You" : gear.userId}</div>
+
               <div>
-                <p className="font-bold">{item.gearItem}</p>
-                <p>Quantity: {item.quantity}</p>
-                <p>Category: {item.category}</p>
+                <button
+                  className="btn-action"
+                  onClick={() => setEditGearItem(gear)}
+                >
+                  {isOwner ? "Edit" : "View"}
+                </button>
               </div>
-              <button
-                onClick={() => handleDeleteGearItem(item._id)}
-                className="text-red-500 hover:text-red-700"
-              >
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
+            </div>
+          );
+        })}
+      </div>
 
-      {/* Other Users' Gear */}
-      <h4 className="text-lg font-semibold mb-1">Other Users' Gear</h4>
-      {otherGear.length === 0 ? (
-        <p className="text-gray-500">No other gear has been claimed yet.</p>
-      ) : (
-        <ul className="space-y-2">
-          {otherGear.map((item) => (
-            <li key={item._id} className="border p-2">
-              <p className="font-bold">{item.gearItem}</p>
-              <p>Quantity: {item.quantity}</p>
-              <p>Category: {item.category}</p>
-              <p className="italic text-sm">
-                Claimed by user: {item.claimedBy}
-              </p>
-              {/* Later, you can replace claimedBy with the user's name if you populate that */}
-            </li>
-          ))}
-        </ul>
-      )}
-
-      {isModalOpen && (
+      {editGearItem && (
         <GearModal
-          tripId={tripId}
-          userId={userId}
-          crewNum={crewNum} // Pass crewNum for quantity calc
-          onClose={() => setIsModalOpen(false)}
-          onSave={handleAddGearItem}
+          gearItem={editGearItem}
+          userId={user._id}
+          tripId={trip._id}
+          onClose={() => setEditGearItem(null)}
+          onSave={async (updatedGearItem) => {
+            console.log("Updated gear item:", updatedGearItem);
+            await refetchGearItems();
+            setEditGearItem(null);
+          }}
         />
       )}
     </div>

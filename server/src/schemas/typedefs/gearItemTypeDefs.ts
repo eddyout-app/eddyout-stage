@@ -6,9 +6,8 @@ export const gearItemTypeDefs = gql`
     gearItem: String!
     quantity: Int!
     category: String!
-    claimedBy: ID
+    userId: ID
     tripId: ID!
-    gearListId: ID!
     createdAt: String
     updatedAt: String
   }
@@ -18,19 +17,18 @@ export const gearItemTypeDefs = gql`
     quantity: Int!
     category: String
     tripId: ID!
-    gearListId: ID!
+    userId: ID
   }
 
   input UpdateGearItemInput {
     gearItem: String
     quantity: Int
     category: String
-    claimedBy: ID
+    userId: ID
   }
 
   type Query {
     gearItemsByTrip(tripId: ID!): [GearItem!]!
-    gearItemsByGearList(gearListId: ID!): [GearItem!]!
   }
 
   type Mutation {

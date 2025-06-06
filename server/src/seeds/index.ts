@@ -6,7 +6,7 @@ import { seedCrew } from "./crew-seeds";
 // import { seedExpense } from "./expense-seeds";
 // import { seedGearCatalog } from "./gearCatalog-seeds";
 // import { seedGear } from "./gearItem-seeds";
-// import { seedGearLists } from "./gearList-seeds";
+
 // import { seedUserPreferences } from "./userPreferences-seeds";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
