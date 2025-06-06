@@ -6,9 +6,10 @@ import { resolvers } from "./schemas/resolvers/index.js";
 import db from "./config/connection.js"; // Mongoose connection
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path"; // Import path to serve static files
 
 // Load environment variables
-dotenv.config();  // No need to specify path if the .env file is in the root
+dotenv.config();
 
 // Log the MongoDB URI to ensure it's being loaded correctly
 console.log("DEBUG SERVER: MONGODB_URI =", process.env.MONGODB_URI);
@@ -17,7 +18,7 @@ console.log("DEBUG SERVER: MONGODB_URI =", process.env.MONGODB_URI);
 console.log("DEBUG SERVER: PORT =", process.env.PORT);
 
 // Define the app and port
-const app: Application = express(); // ✅ explicitly typed
+const app: Application = express();
 const PORT = process.env.PORT || 3001;
 
 // Apollo Server setup
@@ -36,7 +37,19 @@ async function startApolloServer() {
     expressMiddleware(server)
   );
 
-  // Wait for the MongoDB connection to open
+  // Serve static files (client-side) in production
+  if (process.env.NODE_ENV === "production") {
+    // Serve the built client files from the root `dist` directory
+    app.use(express.static(path.join(__dirname, "../dist")));
+
+    // Serve `index.html` for any non-API route (to let React Router handle routing)
+    app.get("*", (_, res) => {
+      res.sendFile(path.join(__dirname, "../dist/index.html"));
+    });
+  }
+  console.log("DEBUG SERVER: NODE_ENV =", process.env.NODE_ENV);  // Add this line to log NODE_ENV
+
+  // Wait for MongoDB connection to open
   db.once("open", () => {
     console.log("🌱 MongoDB connection established.");
     app.listen(PORT, () => {

@@ -1,11 +1,16 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import path from "path";
 
+// Log current working directory to verify where it's running
+// console.log("DEBUG SERVER: Current Working Directory:", process.cwd());
+// console.log(path.resolve(__dirname));
+// console.log(path.join(__dirname, "../../.."));
 // Load environment variables from .env file
-dotenv.config();
+dotenv.config({ path: path.resolve("../.env") });
 
 // Log all environment variables to verify they are loaded correctly
-console.log("DEBUG CONNECTION: Environment Variables Loaded:", process.env);
+// console.log("DEBUG CONNECTION: Environment Variables Loaded:", process.env);
 
 // Log the Mongo URI specifically to ensure it's set correctly
 console.log("DEBUG CONNECTION: MONGODB_URI =", process.env.MONGODB_URI);
