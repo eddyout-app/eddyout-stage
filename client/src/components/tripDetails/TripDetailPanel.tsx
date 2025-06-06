@@ -5,6 +5,7 @@ import SidePanel from "../SidePanel";
 import { TripData } from "../../types/trip";
 import { UserData } from "../../types/user";
 import CrewSection from "../crew/CrewSection";
+import ExpensesSection from "../expenses/ExpensesSection";
 
 interface TripDetailPanelProps {
   trip: TripData;
@@ -50,7 +51,7 @@ export default function TripDetailPanel({
         {view === "campsites" && <CampsitesSection trip={trip} user={user} />}
         {/* {view === "gear" && <GearSection trip={trip} user={user} />} */}
         {view === "crew" && <CrewSection trip={trip} user={user} />}
-        {/* {view === "expenses" && <ExpensesSection trip={trip} user={user}/>} */}
+        {view === "expenses" && <ExpensesSection trip={trip} user={user} />}
       </SidePanel>
 
       <button

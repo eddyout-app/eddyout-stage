@@ -8,6 +8,7 @@ export const userTypeDefs = gql`
     password: String
     firstName: String!
     lastName: String!
+    role: String!
     userDetails: UserPreferences
     createdAt: String!
     updatedAt: String!
@@ -32,6 +33,7 @@ export const userTypeDefs = gql`
       password: String!
       firstName: String!
       lastName: String!
+      role: String
     ): AuthPayload!
 
     login(email: String!, password: String!): AuthPayload!

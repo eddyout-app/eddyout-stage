@@ -25,6 +25,11 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
     userDetails: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "UserPreferences", // Link to the UserPreferences model

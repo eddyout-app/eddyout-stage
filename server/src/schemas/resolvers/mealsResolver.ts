@@ -4,10 +4,6 @@ export const mealResolvers = {
   Query: {
     mealsByTrip: async (_parent: any, { tripId }: { tripId: string }) => {
       const meals = await Meal.find({ tripId }).populate("userId");
-      console.log(
-        "Meals with populated userId:",
-        JSON.stringify(meals, null, 2)
-      );
       return meals;
     },
   },
@@ -53,7 +49,6 @@ export const mealResolvers = {
         },
         { new: true }
       ).populate("userId");
-      console.log("Populated meal userId:", updatedMeal?.userId);
 
       return updatedMeal;
     },

@@ -27,10 +27,6 @@ const Nav = () => {
 
       {/* Right Section: New Trip + Logout */}
       <div className="flex items-center space-x-4">
-        <Link to="/NewTrip" className="btn-dark">
-          New Trip
-        </Link>
-
         <button
           onClick={handleLogout}
           className="text-gray-500 hover:text-blue-600 focus:outline-none text-sm"

@@ -74,22 +74,9 @@ export default function MealSection({ trip, user }: MealSectionProps) {
     mealsByDateAndType[dateKey][meal.mealType] = meal;
   });
 
-  console.log("Meals by date and type:", mealsByDateAndType);
-
-  // console.log("Fetched meals:", meals);
-  // console.log("Meals by date:", mealsByDate);
-
   const tripDates = getMealDates(
     new Date(trip.startDate),
     new Date(trip.endDate)
-  );
-  console.log(
-    "Trip Dates ISO:",
-    tripDates.map((d) => d.toISOString())
-  );
-  console.log(
-    "Meal Dates in data:",
-    meals.map((m) => m.date)
   );
 
   return (
@@ -143,7 +130,7 @@ export default function MealSection({ trip, user }: MealSectionProps) {
                 const assignedName = !mealToRender.userId
                   ? "Unclaimed"
                   : userIdObj && userIdObj._id === user._id
-                  ? userIdObj.fullName
+                  ? "You"
                   : userIdObj?.fullName ?? "Claimed";
 
                 return (

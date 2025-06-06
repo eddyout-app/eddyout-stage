@@ -25,7 +25,7 @@ if (!mongoURI) {
 
 // Connect to MongoDB
 mongoose
-  .connect(mongoURI)  // Mongoose 6.x no longer needs options like useNewUrlParser or useUnifiedTopology
+  .connect(mongoURI) // Mongoose 6.x no longer needs options like useNewUrlParser or useUnifiedTopology
   .then(() => console.log("🌱 MongoDB connection successful"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 

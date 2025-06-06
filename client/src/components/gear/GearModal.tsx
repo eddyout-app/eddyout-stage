@@ -1,158 +1,197 @@
-import { useState, useEffect } from "react";
-import { useQuery } from "@apollo/client";
-import { GET_GEAR_CATALOG_ITEMS } from "../../graphql/queries/gearCatalog";
-import { GearCatalogItem } from "../../types/gearCatalog";
-import { GearItem } from "../../types/gear";
+// components/gear/GearModal.tsx
+
+import { useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
+import { GearItemData, GearCatalogItemData } from "../../types/gear";
+import {
+  CREATE_GEAR_ITEM,
+  UPDATE_GEAR_ITEM,
+} from "../../graphql/mutations/gearMutations";
+import {
+  GET_GEAR_ITEMS_BY_TRIP,
+  GET_GEAR_CATALOG_ITEMS,
+} from "../../graphql/queries/gearQueries";
 
 interface GearModalProps {
-  tripId: string;
+  gearItem: GearItemData;
   userId: string;
-  crewNum: number; // Pass this so we can calculate!
+  tripId: string;
   onClose: () => void;
-  onSave: (
-    formData: Omit<GearItem, "_id" | "claimedBy" | "createdAt" | "updatedAt">
-  ) => void;
+  onSave: (updatedGearItem: GearItemData) => void;
 }
 
 export default function GearModal({
+  gearItem,
+  userId,
   tripId,
-  crewNum,
   onClose,
   onSave,
 }: GearModalProps) {
-  const { data } = useQuery(GET_GEAR_CATALOG_ITEMS);
+  const { data: catalogData } = useQuery(GET_GEAR_CATALOG_ITEMS);
 
-  const catalogItems: GearCatalogItem[] = data?.gearCatalogItems || [];
+  const [category, setCategory] = useState(gearItem.category || "Other");
+  const [itemName, setItemName] = useState(gearItem.gearItem || "");
+  const [quantity, setQuantity] = useState(gearItem.quantity || 1);
 
-  const [selectedCatalogId, setSelectedCatalogId] = useState<string>("");
-  const [gearItemName, setGearItemName] = useState<string>("");
-  const [category, setCategory] = useState<string>("Other");
-  const [quantity, setQuantity] = useState<number>(1);
-  const [customMode, setCustomMode] = useState<boolean>(false);
+  const [createGearItem] = useMutation(CREATE_GEAR_ITEM);
+  const [updateGearItem] = useMutation(UPDATE_GEAR_ITEM);
 
-  // Auto-update fields when catalog item selected
-  useEffect(() => {
-    if (selectedCatalogId) {
-      const selectedItem = catalogItems.find(
-        (item) => item._id === selectedCatalogId
-      );
-      if (selectedItem) {
-        setGearItemName(selectedItem.itemName);
-        setCategory(selectedItem.category);
+  const handleSave = async () => {
+    try {
+      let updatedGearItem: GearItemData;
 
-        if (selectedItem.perPersonQty && selectedItem.perPersonQty > 0) {
-          setQuantity(Math.ceil(selectedItem.perPersonQty * crewNum));
-        } else {
-          setQuantity(1);
-        }
+      if (gearItem._id.startsWith("unclaimed")) {
+        const result = await createGearItem({
+          variables: {
+            input: {
+              gearItem: itemName,
+              quantity: quantity,
+              category: category,
+              tripId: tripId,
+              userId: userId,
+            },
+          },
+          refetchQueries: [
+            { query: GET_GEAR_ITEMS_BY_TRIP, variables: { tripId } },
+          ],
+        });
 
-        setCustomMode(false);
+        updatedGearItem = result.data.createGearItem;
+      } else {
+        const result = await updateGearItem({
+          variables: {
+            id: gearItem._id,
+            input: {
+              gearItem: itemName,
+              quantity: quantity,
+              category: category,
+              userId: userId,
+            },
+          },
+          refetchQueries: [
+            { query: GET_GEAR_ITEMS_BY_TRIP, variables: { tripId } },
+          ],
+        });
+
+        updatedGearItem = result.data.updateGearItem;
       }
-    }
-  }, [selectedCatalogId, catalogItems, crewNum]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSave({
-      gearItem: gearItemName,
-      quantity,
-      category,
-      tripId,
-      gearListId: "", // If you wire GearList later
-    });
+      onSave(updatedGearItem);
+      onClose();
+    } catch (err) {
+      console.error("Error saving gear item:", err);
+    }
   };
 
+  const canEdit =
+    (gearItem.userId && gearItem.userId === userId) ||
+    gearItem._id.startsWith("unclaimed");
+
+  if (!canEdit) {
+    return null;
+  }
+
+  // Extract categories from catalog
+  const categories: string[] = Array.from(
+    new Set(
+      catalogData?.gearCatalogItems.map(
+        (item: GearCatalogItemData) => item.category
+      )
+    )
+  );
+
+  // Filter items by selected category
+  const itemsInCategory = catalogData?.gearCatalogItems
+    .filter((item: GearCatalogItemData) => item.category === category)
+    .map((item: GearCatalogItemData) => item.itemName);
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded shadow-md w-full max-w-md">
-        <h2 className="text-lg font-bold mb-4">Add Gear Item</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {!customMode && (
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Select Item:
-              </label>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white p-6 rounded-md shadow-md w-96">
+        <h2 className="text-xl font-header mb-4">
+          {gearItem._id.startsWith("unclaimed")
+            ? "Add Gear Item"
+            : "Edit Gear Item"}
+        </h2>
+
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSave();
+          }}
+        >
+          {/* Category select */}
+          <div className="mb-4">
+            <label className="block mb-1 font-medium">Category</label>
+            <select
+              value={category}
+              onChange={(e) => {
+                setCategory(e.target.value);
+                setItemName(""); // reset item when category changes
+              }}
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+              required
+            >
+              {categories.map((cat: string) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Item select OR freeform input if "Other" */}
+          <div className="mb-4">
+            <label className="block mb-1 font-medium">Item</label>
+            {category === "Other" ? (
+              <input
+                type="text"
+                value={itemName}
+                onChange={(e) => setItemName(e.target.value)}
+                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                required
+              />
+            ) : (
               <select
-                value={selectedCatalogId}
-                onChange={(e) => setSelectedCatalogId(e.target.value)}
-                className="w-full border rounded px-3 py-2"
+                value={itemName}
+                onChange={(e) => setItemName(e.target.value)}
+                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                required
               >
-                <option value="">-- Choose an item --</option>
-                {catalogItems.map((item) => (
-                  <option key={item._id} value={item._id}>
-                    {item.itemName} ({item.category})
+                <option value="" disabled>
+                  Select Item
+                </option>
+                {itemsInCategory?.map((itemName: string) => (
+                  <option key={itemName} value={itemName}>
+                    {itemName}
                   </option>
                 ))}
               </select>
-            </div>
-          )}
+            )}
+          </div>
 
-          {customMode && (
-            <>
-              <div>
-                <label className="block text-sm font-medium">Item Name:</label>
-                <input
-                  type="text"
-                  value={gearItemName}
-                  onChange={(e) => setGearItemName(e.target.value)}
-                  required
-                  className="w-full border rounded px-3 py-2"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium">Category:</label>
-                <select
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  className="w-full border rounded px-3 py-2"
-                >
-                  <option value="Kitchen">Kitchen</option>
-                  <option value="Boat Gear">Boat Gear</option>
-                  <option value="Camp Gear">Camp Gear</option>
-                  <option value="Personal">Personal</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-            </>
-          )}
-
-          <div>
-            <label className="block text-sm font-medium">Quantity:</label>
+          {/* Quantity */}
+          <div className="mb-4">
+            <label className="block mb-1 font-medium">Quantity</label>
             <input
               type="number"
+              min="1"
               value={quantity}
-              onChange={(e) => setQuantity(Number(e.target.value))}
-              min={1}
+              onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
               required
-              className="w-full border rounded px-3 py-2"
             />
           </div>
 
-          <div className="flex justify-between items-center mt-2">
-            <button
-              type="button"
-              onClick={() => setCustomMode((prev) => !prev)}
-              className="text-blue-500 hover:underline"
-            >
-              {customMode ? "← Use Catalog" : "Add Custom Item"}
-            </button>
-          </div>
-
-          <div className="flex justify-end space-x-2 mt-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 border rounded"
-            >
+          {/* Action buttons */}
+          <div className="flex justify-end space-x-3 mt-6">
+            <button type="button" onClick={onClose} className="btn-secondary">
               Cancel
             </button>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-blue-500 text-white rounded"
-              disabled={!gearItemName || quantity < 1}
-            >
-              Save
+            <button type="submit" className="btn-primary">
+              {gearItem._id.startsWith("unclaimed")
+                ? "Add Gear"
+                : "Save Changes"}
             </button>
           </div>
         </form>

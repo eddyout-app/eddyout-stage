@@ -6,7 +6,7 @@ import { seedCrew } from "./crew-seeds";
 // import { seedExpense } from "./expense-seeds";
 // import { seedGearCatalog } from "./gearCatalog-seeds";
 // import { seedGear } from "./gearItem-seeds";
-// import { seedGearLists } from "./gearList-seeds";
+
 // import { seedUserPreferences } from "./userPreferences-seeds";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
@@ -16,12 +16,8 @@ dotenv.config();
 
 const seedAll = async (): Promise<void> => {
   try {
-    // Log Mongo URI for debugging purposes
-    console.log("DEBUG: MONGODB_URI =", process.env.MONGODB_URI);
-
     // Connect to MongoDB
     await mongoose.connect(process.env.MONGODB_URI as string);
-    console.log("\n✅ MongoDB connected\n");
 
     const users = await seedUsers();
     if (users.length === 0) throw new Error("User seed failed");
