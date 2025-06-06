@@ -40,7 +40,7 @@ class AuthService {
         localStorage.setItem("userId", decoded._id);
         localStorage.setItem(
           "fullName",
-          `${decoded.firstname ?? ""} ${decoded.lastname ?? ""}`.trim()
+          `${decoded.firstName ?? ""} ${decoded.lastName ?? ""}`.trim()
         );
       } else {
         console.warn("Decoded token missing user ID");

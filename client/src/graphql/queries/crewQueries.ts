@@ -1,17 +1,16 @@
+// src/graphql/queries/crewQueries.ts
 import { gql } from "@apollo/client";
 
-export const GET_CREW_MEMBERS = gql`
-  query GetCrewMembersByTrip($tripId: ID!) {
-    crewMembersByTrip(tripId: $tripId) {
+export const GET_CREW_BY_TRIP = gql`
+  query GetCrewByTrip($tripId: ID!) {
+    crewByTrip(tripId: $tripId) {
       _id
       tripId
-      userId
-      roleId
-      role {
+      userId {
         _id
-        name
-        description
+        fullName
       }
+      role
       createdAt
       updatedAt
     }

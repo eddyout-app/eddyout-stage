@@ -4,10 +4,10 @@ const crewTypeDefs = gql`
   type Crew {
     _id: ID!
     tripId: ID!
-    role: String!
-    userId: ID!
-    createdAt: String!
-    updatedAt: String!
+    userId: User!
+    role: String
+    createdAt: String
+    updatedAt: String
   }
 
   extend type Query {
@@ -15,9 +15,9 @@ const crewTypeDefs = gql`
   }
 
   extend type Mutation {
-    assignCrewMember(crewId: ID!, userId: ID!, role: String!): Crew!
-    updateCrewMember(crewId: ID!, userId: ID!, role: String!): Crew!
-    assignOrUpdateCrewMember(crewId: ID!, userId: ID!, role: String!): Crew!
+    addCrewMember(tripId: ID!, userId: ID!, role: String): Crew!
+    updateCrewMember(crewId: ID!, role: String!): Crew!
+    removeCrewMember(crewId: ID!): Boolean!
   }
 `;
 

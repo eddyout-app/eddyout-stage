@@ -11,6 +11,7 @@ export const userTypeDefs = gql`
     userDetails: UserPreferences
     createdAt: String!
     updatedAt: String!
+    fullName: String!
   }
 
   type AuthPayload {

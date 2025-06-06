@@ -1,13 +1,18 @@
 import Footer from "../components/Footer";
 import Login from "../components/Login";
 import { Link } from "react-router-dom";
+
 export default function Home() {
-    return (<div className="flex flex-col min-h-screen w-screen overflow-hidden">
+  return (
+    <div className="flex flex-col min-h-screen w-screen overflow-hidden">
       {/* Background Layer */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <div className="h-full w-full bg-cover bg-center overflow-hidden" style={{
+        <div
+          className="h-full w-full bg-cover bg-center overflow-hidden"
+          style={{
             backgroundImage: "url('/river.jpg')",
-        }}></div>
+          }}
+        ></div>
       </div>
 
       {/* Content & Sidebar */}
@@ -35,7 +40,11 @@ export default function Home() {
               </Link>
             </p>
             <div className="flex justify-center mt-10 px-4">
-              <img src="/Logo_EddyOut.png" alt="Eddy Out Logo" className="h-24 w-auto object-contain"/>
+              <img
+                src="/Logo_EddyOut.png"
+                alt="Eddy Out Logo"
+                className="h-24 w-auto object-contain"
+              />
             </div>
           </div>
         </div>
@@ -43,5 +52,6 @@ export default function Home() {
 
       {/* Footer */}
       <Footer />
-    </div>);
+    </div>
+  );
 }

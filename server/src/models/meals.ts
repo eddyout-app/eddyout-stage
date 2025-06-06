@@ -1,4 +1,3 @@
-// src/models/meal.ts
 import { Schema, model, Types } from "mongoose";
 
 const mealSchema = new Schema(

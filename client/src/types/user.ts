@@ -8,8 +8,8 @@ export type UserData = {
   email: string;
   password?: string;
   username?: string | null;
-  firstname?: string | null;
-  lastname?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
   phone?: string | null;
   dietaryRestrictions?: string | null;
   allergies?: string | null;

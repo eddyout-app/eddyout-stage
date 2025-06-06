@@ -1,7 +1,6 @@
 export type CampsiteData = {
   _id: string;
   tripId: string;
-  userId: string;
   name: string;
   description?: string | null;
   location: {
@@ -15,8 +14,8 @@ export type CampsiteData = {
     humidity?: number | null;
     precipitation?: number | null;
   };
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate?: string | null;
   createdAt?: string | null;
   updatedAt?: string | null;
 };

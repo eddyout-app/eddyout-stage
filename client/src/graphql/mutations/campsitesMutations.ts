@@ -3,17 +3,15 @@ import { gql } from "@apollo/client";
 export const ADD_CAMPSITE = gql`
   mutation AddCampsite(
     $tripId: ID!
-    $userId: ID
     $name: String!
     $description: String
     $location: LocationInput
     $startDate: String!
-    $endDate: String!
+    $endDate: String
     $weather: WeatherInput
   ) {
     addCampsite(
       tripId: $tripId
-      userId: $userId
       name: $name
       description: $description
       location: $location
@@ -23,7 +21,6 @@ export const ADD_CAMPSITE = gql`
     ) {
       _id
       tripId
-      userId
       name
       description
       location {
@@ -66,7 +63,7 @@ export const UPDATE_CAMPSITE = gql`
     ) {
       _id
       tripId
-      userId
+
       name
       description
       location {

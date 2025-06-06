@@ -1,10 +1,8 @@
 import Trip from "../models/trip";
 import { Types } from "mongoose";
-// import User from "./models/user";
 
-// Adjust the type if needed
 export const seedTrip = async (users: { _id: Types.ObjectId }[]) => {
-  await Trip.deleteMany({}); // clear old data (optional)
+  await Trip.deleteMany({});
 
   const trips = await Trip.insertMany([
     {
@@ -33,6 +31,24 @@ export const seedTrip = async (users: { _id: Types.ObjectId }[]) => {
       takeOut: "Cache Bar",
       crewNum: 7,
       organizerId: users[2]._id,
+    },
+    {
+      riverName: "Rogue River",
+      startDate: new Date("2023-09-10"),
+      endDate: new Date("2023-09-15"),
+      putIn: "Grave Creek",
+      takeOut: "Foster Bar",
+      crewNum: 10,
+      organizerId: users[3]._id,
+    },
+    {
+      riverName: "Colorado through the Grand Canyon",
+      startDate: new Date("2025-09-01"),
+      endDate: new Date("2025-09-18"),
+      putIn: "Lees Ferry",
+      takeOut: "Diamond Creek",
+      crewNum: 16,
+      organizerId: users[1]._id,
     },
   ]);
 

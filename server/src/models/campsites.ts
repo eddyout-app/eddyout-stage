@@ -8,11 +8,6 @@ const campsiteSchema = new Schema(
       ref: "Trip",
       required: true,
     },
-    userId: {
-      type: Types.ObjectId,
-      ref: "User",
-      required: false, // Optional — not in your original model
-    },
     name: {
       type: String,
       required: true,
@@ -34,7 +29,6 @@ const campsiteSchema = new Schema(
     },
     endDate: {
       type: Date,
-      required: true,
     },
     weather: {
       temperature: Number,
@@ -45,7 +39,7 @@ const campsiteSchema = new Schema(
     },
   },
   {
-    timestamps: true, // createdAt and updatedAt
+    timestamps: true,
   }
 );
 

@@ -4,16 +4,16 @@ import userPreferencesResolvers from "./userPreferencesResolvers";
 import { campsitesResolvers } from "./campsitesResolver";
 import { gearItemResolvers } from "./gearItemResolver";
 import { gearListResolvers } from "./gearListResolver";
-import { weatherResolvers } from "./weatherResolver";
+// import { weatherResolvers } from "./weatherResolver";
 import { gearCatalogResolvers } from "./gearCatalogResolver";
 import { mealResolvers } from "./mealsResolver";
 import { userResolvers } from "./userResolver";
-
+import { crewResolvers } from "./crewResolvers";
 
 export const resolvers = {
   Query: {
     // Crew Queries
-    // ...crewResolvers.Query,
+    ...crewResolvers.Query,
 
     // Expense Queries
     ...expenseResolvers.Query,
@@ -41,13 +41,17 @@ export const resolvers = {
 
     // UserPreferences Queries
     ...userPreferencesResolvers.Query,
+
     //Weather Queries
-    ...weatherResolvers.Query,
+    // ...weatherResolvers.Query,
   },
 
   Mutation: {
+    // Campsites Queries
+    ...campsitesResolvers.Mutation,
+
     // Crew Queries
-    // ...crewResolvers.Mutation,
+    ...crewResolvers.Mutation,
 
     // Expense Queries
     ...expenseResolvers.Mutation,
@@ -59,16 +63,13 @@ export const resolvers = {
     ...gearListResolvers.Mutation,
 
     // Meal Queries
-    // ...mealResolvers.Mutation,
-
-    // Schedule Queries
-    // ...scheduleResolvers.Mutation,
+    ...mealResolvers.Mutation,
 
     // Trip Queries
     ...tripResolvers.Mutation,
 
     // User Queries
-    // ...userResolvers.Mutation,
+    ...userResolvers.Mutation,
 
     // UserPreferences Queries
     ...userPreferencesResolvers.Mutation,
@@ -81,3 +82,4 @@ export const resolvers = {
     ...tripResolvers.Trip,
   },
 };
+

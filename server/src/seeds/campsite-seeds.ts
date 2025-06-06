@@ -1,5 +1,4 @@
-// import { Campsites } from "../models/campsites";
-// import { Trip } from "../models/trip";
+// import Campsites from "../models/campsites";
 
 // export const seedCampsites = async (trips: Trip[]) => {
 //   await Campsites.insertMany([
