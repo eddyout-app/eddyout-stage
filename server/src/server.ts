@@ -40,13 +40,19 @@ async function startApolloServer() {
   // Serve static files (client-side) in production
   if (process.env.NODE_ENV === "production") {
     // Serve the built client files from the root `dist` directory
-    app.use(express.static(path.join(__dirname, "../dist")));
+    console.log("DEBUG: Serving static files from", path.join(__dirname, "../../dist"));
+    app.use(express.static(path.join(__dirname, "../../dist")));  // Serve the files in dist/
+
+    // Serve assets (JS, CSS) from dist/assets
+    app.use("/assets", express.static(path.join(__dirname, "../../dist/assets")));
 
     // Serve `index.html` for any non-API route (to let React Router handle routing)
     app.get("*", (_, res) => {
-      res.sendFile(path.join(__dirname, "../dist/index.html"));
+      console.log("DEBUG: Serving index.html for client-side routing");
+      res.sendFile(path.join(__dirname, "../../dist/index.html"));
     });
   }
+
   console.log("DEBUG SERVER: NODE_ENV =", process.env.NODE_ENV);  // Add this line to log NODE_ENV
 
   // Wait for MongoDB connection to open
