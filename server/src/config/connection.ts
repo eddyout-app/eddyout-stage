@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 // ✅ Adjusted for compiled file in server/dist/config
 const envPath = __dirname.includes("/dist")
   ? path.resolve(__dirname, "../../.env") // from dist/config → server/.env
-  : path.resolve(__dirname, "../.env");   // from src/config → server/.env
+  : path.resolve(__dirname, "../.env"); // from src/config → server/.env
 
 dotenv.config({ path: envPath });
 

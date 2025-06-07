@@ -5,7 +5,7 @@ import { UserData } from "../../types/user";
 import { TripData } from "../../types/trip";
 import CrewModal from "./CrewModal";
 import InviteCrewModal from "./InviteCrewModal";
-import { AddCrewModal } from "./AddCrewModal";
+import AddCrewModal from "./AddCrewModal";
 import { useState } from "react";
 
 interface CrewSectionProps {
@@ -20,11 +20,10 @@ export default function CrewSection({ trip, user }: CrewSectionProps) {
   });
 
   const [editCrewMember, setEditCrewMember] = useState<CrewMember | null>(null);
-
   const [showInviteModal, setShowInviteModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   const isLeader = user._id === trip.organizerId;
-
   const crew: CrewMember[] = data?.crewByTrip || [];
 
   if (loading) {
@@ -77,18 +76,23 @@ export default function CrewSection({ trip, user }: CrewSectionProps) {
         );
       })}
 
-      {/* NEW — Invite Crew Member button, visible ONLY to leader */}
+      {/* Buttons — visible only to Leader */}
       {isLeader && (
-        <div className="mt-6 text-center">
+        <div className="mt-6 text-center space-x-4">
           <button
             className="btn-primary"
             onClick={() => setShowInviteModal(true)}
           >
             Invite Crew Member
           </button>
+
+          <button className="btn-primary" onClick={() => setShowAddModal(true)}>
+            Add Crew Member
+          </button>
         </div>
       )}
 
+      {/* Edit crew modal */}
       {editCrewMember && (
         <CrewModal
           crewMember={editCrewMember}
@@ -103,11 +107,22 @@ export default function CrewSection({ trip, user }: CrewSectionProps) {
         />
       )}
 
-      {/* NEW — InviteCrewModal */}
+      {/* Invite Crew Modal */}
       {showInviteModal && (
         <InviteCrewModal
           trip={trip}
           onClose={() => setShowInviteModal(false)}
+        />
+      )}
+
+      {/* Add Crew Modal */}
+      {showAddModal && (
+        <AddCrewModal
+          trip={trip}
+          onClose={async () => {
+            setShowAddModal(false);
+            await refetch(); // Refresh crew after adding!
+          }}
         />
       )}
     </div>
