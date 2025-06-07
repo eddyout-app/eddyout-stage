@@ -1,13 +1,32 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  createHttpLink,
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
 
 import "./styles/index.css";
 import App from "./App";
 
-// Update this with your actual backend URI
-const client = new ApolloClient({
+const httpLink = createHttpLink({
   uri: import.meta.env.VITE_GRAPHQL_URI,
+});
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem("token");
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    },
+  };
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 

@@ -1,7 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 
-const Nav = () => {
-  // const currentPage = useLocation().pathname;
+interface NavProps {
+  onProfileClick: () => void;
+}
+
+const Nav = ({ onProfileClick }: NavProps) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -25,8 +28,21 @@ const Nav = () => {
         </Link>
       </div>
 
-      {/* Right Section: New Trip + Logout */}
+      {/* Right Section: Avatar + Logout */}
       <div className="flex items-center space-x-4">
+        {/* Avatar button */}
+        <button
+          onClick={onProfileClick}
+          className="hover:opacity-80 transition-opacity"
+        >
+          <img
+            src="/path-to-avatar.jpg" // replace later with real avatar
+            alt="User Avatar"
+            className="w-10 h-10 rounded-full border-2 border-blue-600"
+          />
+        </button>
+
+        {/* Logout button */}
         <button
           onClick={handleLogout}
           className="text-gray-500 hover:text-blue-600 focus:outline-none text-sm"
@@ -34,23 +50,6 @@ const Nav = () => {
           Logout
         </button>
       </div>
-      {/* <Link to="/UserProfile">
-          <img
-            src="/path-to-avatar.jpg" // Replace with the actual avatar URL
-            alt="User Avatar"
-            className="w-10 h-10 rounded-full border-2 border-blue-600 hover:opacity-80 transition-opacity"
-          />
-        </Link> */}
-      {/* <Link
-            to="/MyTrips"
-            className={`${
-              currentPage === "/MyTrips"
-                ? "text-blue-600 border-b-2 border-blue-600"
-                : "text-gray-700 hover:text-blue-600"
-            } pb-1 transition-colors duration-200`}
-          >
-            My Trips
-          </Link> */}
     </nav>
   );
 };

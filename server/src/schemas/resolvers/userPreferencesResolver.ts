@@ -1,73 +1,112 @@
-import UserPreferences from "../../models/userPreferences"; // UserPreferences model
-import User from "../../models/user"; // User model
+import UserPreferences from "../../models/userPreferences";
+import User from "../../models/user";
 
 const userPreferencesResolvers = {
-    Query: {
-        // Fetch User Preferences based on userId
-        getUserPreferences: async (_: any, { userId }: { userId: string }) => {
-            try {
-                // Find the user by userId and populate the userPreferences field
-                const user = await User.findById(userId).populate("userPreferences");
+  Query: {
+    getUserPreferences: async (_: any, { userId }: { userId: string }) => {
+      try {
+        const userPreferences = await UserPreferences.findOne({ userId });
 
-                const userPreferences = user?.get('userPreferences');
-                if (!user || !userPreferences) {
-                    throw new Error("User preferences not found");
-                }
+        if (!userPreferences) {
+          throw new Error("User preferences not found");
+        }
 
-                return userPreferences;
-            } catch (error) {
-                if (error instanceof Error) {
-                    throw new Error("Error fetching user preferences: " + error.message);
-                } else {
-                    throw new Error("Error fetching user preferences: " + String(error));
-                }
-            }
-        },
+        return userPreferences;
+      } catch (error) {
+        if (error instanceof Error) {
+          throw new Error("Error fetching user preferences: " + error.message);
+        } else {
+          throw new Error("Error fetching user preferences: " + String(error));
+        }
+      }
     },
-    Mutation: {
-        // Update or create User Preferences for a user
-        updateUserPreferences: async (
-            _: any,
-            { userId, dietaryRestrictions, venmoHandle }: { userId: string; dietaryRestrictions: string[]; venmoHandle: string }
-        ) => {
-            try {
-                // Find user by userId
-                const user = await User.findById(userId);
+  },
 
-                if (!user) {
-                    throw new Error("User not found");
-                }
+  Mutation: {
+    updateUserPreferences: async (
+      _: any,
+      {
+        userId,
+        dietaryRestrictions,
+        venmoHandle,
+        phone,
+        allergies,
+        medicalConditions,
+        emergencyContactName,
+        emergencyContactPhone,
+        medicalTraining,
+        preferredPaymentMethod,
+        paymentHandle,
+        avatar,
+      }: {
+        userId: string;
+        dietaryRestrictions: string[];
+        venmoHandle: string;
+        phone: string;
+        allergies: string;
+        medicalConditions: string;
+        emergencyContactName: string;
+        emergencyContactPhone: string;
+        medicalTraining: boolean;
+        preferredPaymentMethod: string;
+        paymentHandle: string;
+        avatar: string;
+      }
+    ) => {
+      try {
+        const user = await User.findById(userId);
 
-                // Check if user already has preferences
-                let userPreferences = (user as any).userPreferences;
+        if (!user) {
+          throw new Error("User not found");
+        }
 
-                if (!userPreferences) {
-                    // Create new UserPreferences if not already present
-                    userPreferences = new UserPreferences({
-                        dietaryRestrictions,
-                        venmoHandle,
-                    });
+        let userPreferences = await UserPreferences.findOne({ userId });
 
-                    await userPreferences.save(); // Save the new UserPreferences
-                    (user as any).userPreferences = userPreferences._id; // Link UserPreferences to the User
-                } else {
-                    // Update existing UserPreferences
-                    userPreferences.dietaryRestrictions = dietaryRestrictions;
-                    userPreferences.venmoHandle = venmoHandle;
-                    await userPreferences.save(); // Save the updated UserPreferences
-                }
+        if (!userPreferences) {
+          // Create new preferences
+          userPreferences = new UserPreferences({
+            userId, // IMPORTANT!
+            dietaryRestrictions,
+            venmoHandle,
+            phone,
+            allergies,
+            medicalConditions,
+            emergencyContactName,
+            emergencyContactPhone,
+            medicalTraining,
+            preferredPaymentMethod,
+            paymentHandle,
+            avatar,
+          });
 
-                await user.save(); // Save the User document with the updated reference to UserPreferences
-                return userPreferences;
-            } catch (error) {
-                if (error instanceof Error) {
-                    throw new Error("Error updating user preferences: " + error.message);
-                } else {
-                    throw new Error("Error updating user preferences: " + String(error));
-                }
-            }
-        },
+          await userPreferences.save();
+        } else {
+          // Update existing preferences
+          userPreferences.dietaryRestrictions = dietaryRestrictions;
+          userPreferences.venmoHandle = venmoHandle;
+          userPreferences.phone = phone;
+          userPreferences.allergies = allergies;
+          userPreferences.medicalConditions = medicalConditions;
+          userPreferences.emergencyContactName = emergencyContactName;
+          userPreferences.emergencyContactPhone = emergencyContactPhone;
+          userPreferences.medicalTraining = medicalTraining;
+          userPreferences.preferredPaymentMethod = preferredPaymentMethod;
+          userPreferences.paymentHandle = paymentHandle;
+          userPreferences.avatar = avatar;
+
+          await userPreferences.save();
+        }
+
+        return userPreferences;
+      } catch (error) {
+        if (error instanceof Error) {
+          throw new Error("Error updating user preferences: " + error.message);
+        } else {
+          throw new Error("Error updating user preferences: " + String(error));
+        }
+      }
     },
+  },
 };
 
 export default userPreferencesResolvers;
