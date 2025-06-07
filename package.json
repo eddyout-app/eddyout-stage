@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
 "scripts": {
-  "postinstall": "npm --prefix client install && npm --prefix server install",
+  "preinstall": "npm config set production false",
+  "postinstall": "npm install --prefix client && npm install --prefix server",
   "build": "npm run build --prefix client && npm run build --prefix server",
   "start": "NODE_ENV=production node server/dist/server.js",
   "develop": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server\""
