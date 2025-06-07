@@ -4,7 +4,8 @@ import { CrewMember } from "../../types/crew";
 import { UserData } from "../../types/user";
 import { TripData } from "../../types/trip";
 import CrewModal from "./CrewModal";
-import InviteCrewModal from "./InviteCrewModal"; // NEW — import the modal
+import InviteCrewModal from "./InviteCrewModal";
+import { AddCrewModal } from "./AddCrewModal";
 import { useState } from "react";
 
 interface CrewSectionProps {
@@ -88,7 +89,6 @@ export default function CrewSection({ trip, user }: CrewSectionProps) {
         </div>
       )}
 
-      {/* EXISTING — edit crew modal */}
       {editCrewMember && (
         <CrewModal
           crewMember={editCrewMember}
