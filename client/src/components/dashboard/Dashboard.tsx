@@ -8,6 +8,7 @@ import { useQuery } from "@apollo/client";
 import { GET_ALL_TRIPS } from "../../graphql";
 import NewTripForm from "../../components/NewTrip";
 import SidePanel from "../../components/SidePanel";
+import UserProfile from "../../components/user/UserProfile";
 
 export default function Dashboard() {
   const userId = localStorage.getItem("userId") || "";
@@ -20,6 +21,7 @@ export default function Dashboard() {
     updatedAt: "",
   };
   const [isNewTripOpen, setIsNewTripOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const { data, loading, error, refetch } = useQuery<{ trips: TripData[] }>(
     GET_ALL_TRIPS,
@@ -53,7 +55,8 @@ export default function Dashboard() {
   if (loading) {
     return (
       <>
-        <Nav />
+        <Nav onProfileClick={() => setIsProfileOpen(true)} />
+
         <div className="text-center mt-10 text-textBody font-body text-lg">
           Loading trips...
         </div>
@@ -65,7 +68,8 @@ export default function Dashboard() {
   if (error) {
     return (
       <>
-        <Nav />
+        <Nav onProfileClick={() => setIsProfileOpen(true)} />
+
         <div className="text-center mt-10 text-textBody font-body text-lg">
           Error loading trips: {error.message}
         </div>
@@ -95,7 +99,8 @@ export default function Dashboard() {
 
   return (
     <div className="h-screen w-screen">
-      <Nav />
+      <Nav onProfileClick={() => setIsProfileOpen(true)} />
+
       <main>
         <div className="dashboard-page">
           {/* Dashboard Header with "New Trip" button */}
@@ -302,6 +307,13 @@ export default function Dashboard() {
             onClose={() => setIsNewTripOpen(false)}
             refetchTrips={refetch}
           />
+        </SidePanel>
+
+        <SidePanel
+          isOpen={isProfileOpen}
+          onClose={() => setIsProfileOpen(false)}
+        >
+          <UserProfile userId={user._id} />
         </SidePanel>
       </main>
 

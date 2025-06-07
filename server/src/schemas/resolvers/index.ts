@@ -1,6 +1,6 @@
 import { tripResolvers } from "./tripResolvers";
 import { expenseResolvers } from "./expenseResolver";
-import userPreferencesResolvers from "./userPreferencesResolvers";
+import userPreferencesResolvers from "./userPreferencesResolver";
 import { campsitesResolvers } from "./campsitesResolver";
 import { gearItemResolvers } from "./gearItemResolver";
 // import { weatherResolvers } from "./weatherResolver";

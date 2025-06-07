@@ -1,24 +1,41 @@
+// userPreferencesTypeDefs.ts
+
 import { gql } from "graphql-tag";
 
 const userPreferencesTypeDefs = gql`
-  # The UserPreferences type
   type UserPreferences {
     id: ID!
-    dietaryRestrictions: [String] # Array of strings for multiple dietary restrictions
+    dietaryRestrictions: [String]
     venmoHandle: String
+    phone: String
+    allergies: String
+    medicalConditions: String
+    emergencyContactName: String
+    emergencyContactPhone: String
+    medicalTraining: Boolean
+    preferredPaymentMethod: String
+    paymentHandle: String
+    avatar: String
   }
 
-  # The root Query type
   type Query {
     getUserPreferences(userId: ID!): UserPreferences
   }
 
-  # The root Mutation type
   type Mutation {
     updateUserPreferences(
       userId: ID!
       dietaryRestrictions: [String]
       venmoHandle: String
+      phone: String
+      allergies: String
+      medicalConditions: String
+      emergencyContactName: String
+      emergencyContactPhone: String
+      medicalTraining: Boolean
+      preferredPaymentMethod: String
+      paymentHandle: String
+      avatar: String
     ): UserPreferences
   }
 `;
