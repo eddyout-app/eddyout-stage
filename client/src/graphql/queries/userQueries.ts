@@ -9,11 +9,6 @@ export const GET_ME = gql`
       firstName
       lastName
       role
-      userDetails {
-        id
-        dietaryRestrictions
-        venmoHandle
-      }
       createdAt
       updatedAt
     }
@@ -29,11 +24,6 @@ export const GET_USER_BY_ID = gql`
       firstName
       lastName
       role
-      userDetails {
-        id
-        dietaryRestrictions
-        venmoHandle
-      }
       createdAt
       updatedAt
     }
