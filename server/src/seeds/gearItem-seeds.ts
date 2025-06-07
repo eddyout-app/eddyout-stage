@@ -1,4 +1,4 @@
-import GearItem from "../models/gearItem";
+import GearItem from "../models/gearItem.js";
 import type mongoose from "mongoose";
 
 // Minimal inline types for clarity

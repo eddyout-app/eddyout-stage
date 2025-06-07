@@ -57,9 +57,19 @@ import db from "./config/connection.js"; // Mongoose connection
 import cors from "cors";
 import dotenv from "dotenv";
 import path from "path"; // Import path to serve static files
+import { fileURLToPath } from "url";
 
-// Load environment variables
-dotenv.config();
+
+// Universal __dirname workaround for ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Dynamically resolve .env path whether running from /src or /dist
+const envPath = __dirname.includes("/dist")
+  ? path.resolve(__dirname, "../.env") // when in dist/
+  : path.resolve(__dirname, "../.env"); // when in src/ (can be same if .env is in server/)
+
+dotenv.config({ path: envPath });
 
 // Log the MongoDB URI to ensure it's being loaded correctly
 console.log("DEBUG SERVER: MONGODB_URI =", process.env.MONGODB_URI);
@@ -78,10 +88,11 @@ const server = new ApolloServer({
 });
 
 async function startApolloServer() {
+  console.log('🔧 Apollo Server setup starting');
   await server.start();
+  console.log('✅ Apollo Server started');
 
-  app.use(
-    "/graphql",
+  app.use("/graphql",
     cors({ origin: "http://localhost:3000", credentials: true }),
     express.json(),
     expressMiddleware(server)

@@ -1,5 +1,5 @@
-import Trip from "../../models/trip";
-import Crew from "../../models/crew"; // 🚩 You need this!
+import Trip from "../../models/trip.js";
+import Crew from "../../models/crew.js"; // 🚩 You need this!
 import mongoose from "mongoose";
 
 export const tripResolvers = {

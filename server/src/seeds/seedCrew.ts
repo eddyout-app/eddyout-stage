@@ -1,8 +1,8 @@
 import dotenv from "dotenv";
-import db from "../config/connection";
-import User from "../models/user";
-import Trip from "../models/trip";
-import Crew from "../models/crew";
+import db from "../config/connection.js";
+import User from "../models/user.js";
+import Trip from "../models/trip.js";
+import Crew from "../models/crew.js";
 
 // Load env variables
 dotenv.config({ path: "../.env" });
@@ -50,8 +50,7 @@ async function seedCrew() {
         });
 
         console.log(
-          `✅ Added YOU to trip as ${
-            trip.organizerId.toString() === myUserId ? "leader" : "participant"
+          `✅ Added YOU to trip as ${trip.organizerId.toString() === myUserId ? "leader" : "participant"
           }`
         );
       } else {

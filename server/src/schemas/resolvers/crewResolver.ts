@@ -1,4 +1,4 @@
-import Crew from "../../models/crew";
+import Crew from "../../models/crew.js";
 
 export const crewResolvers = {
   Query: {

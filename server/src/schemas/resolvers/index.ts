@@ -1,13 +1,13 @@
-import { tripResolvers } from "./tripResolvers";
-import { expenseResolvers } from "./expenseResolver";
-import userPreferencesResolvers from "./userPreferencesResolvers";
-import { campsitesResolvers } from "./campsitesResolver";
-import { gearItemResolvers } from "./gearItemResolver";
-// import { weatherResolvers } from "./weatherResolver";
-import { gearCatalogResolvers } from "./gearCatalogResolver";
-import { mealResolvers } from "./mealsResolver";
-import { userResolvers } from "./userResolver";
-import { crewResolvers } from "./crewResolvers";
+import { tripResolvers } from "./tripResolvers.js";
+import { expenseResolvers } from "./expenseResolver.js";
+import userPreferencesResolvers from "./userPreferencesResolvers.js";
+import { campsitesResolvers } from "./campsitesResolver.js";
+import { gearItemResolvers } from "./gearItemResolver.js";
+// import { weatherResolvers } from "./weatherResolver.js";
+import { gearCatalogResolvers } from "./gearCatalogResolver.js";
+import { mealResolvers } from "./mealsResolver.js";
+import { userResolvers } from "./userResolver.js";
+import { crewResolvers } from "./crewResolvers.js";
 
 export const resolvers = {
   Query: {
