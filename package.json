@@ -4,17 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=production npm run build && npm run server",
-    "start:dev": "concurrently \"npm run server:dev\" \"wait-on tcp:3001 && npm run client:dev\"",
-    "server": "cd server && npm start",
-    "server:dev": "cd server && npm run dev",
-    "install": "cd server && npm i && cd ../client && npm i",
-    "client:build": "cd client && npm run build",
-    "client:dev": "cd client && npm run dev",
+    "install": "npm --prefix client install && npm --prefix server install",
     "build": "npm run build --prefix client && npm run build --prefix server",
-    "seed": "cd server && npm run seed",
-    "render-build": "npm install && npm run build"
+    "start": "NODE_ENV=production node server/dist/server.js",
+    "develop": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server\""
   },
   "dependencies": {
     "@apollo/server": "^4.12.1",
