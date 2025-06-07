@@ -25,33 +25,49 @@ GitHub Repository: [https://github.com/ellimckinley/EddyOut](https://github.com/
 
 ## Features
 
+### User Profile
+
+- Add full name, email, preferred contact, upload image, and payment preferences including Venmo handle.
+- Store dietary preferences, allergies, and medical training
+<!-- - Trip leader can assign role in crew (e.g., Trip Leader, Boat Capitain, Passenger) -->
+
 ### Trip Management
 
 - Create, view, and manage multi-day river trips
-- Include river name, unique trip name, put-in/take-out locations, and crew size
+- Include river name, put-in/take-out locations, and crew size
 
-<!-- ### Gear, Meals & Crew
+<!-- ### Gear
 
 - Build collagorative gear lists and assign items to trip members
 - Plan meals by day and meal type, with cook assignments
 - Manage crew members and roles for each trip -->
 
-### Schedule & Coordination
+### Campsites
 
-- Add scheduled activities and campsite plans to each day of the trip
+- Add campsite plans to each day of the trip
 - Centralized dashboard to keep all crew on the same page
+
+### Meals
+
+- Assign meal responsibilities by day and type (breakfast/lunch/dinner)
+- Show who is bring what and prevent duplicate meals
+
+### Expenses
+
+- Log shared purchases and view balances
+- Designed to keep everyone paid and easily break out who owes who
 
 ## Installation Instructions
 
 1. Clone the repo
 2. Run npm install in both /client and /server
-   Setup a PostgreSQL database and .env file with your credentials
-   Run npm run dev to start both servers in development mode
+3. Create a .env file in /server and configure your MongoDB URI and other environment variables
+4. Run npm run develop from teh root to start client and server in development mode
 
 ## Usage Information
 
 - After registering or logging in, users can create a trip, invite crew members, build gear lists, assign meals, and manage schedules from a central dashboard.
-- Only the trip leader can edit trip details; all crew members can interact with meals and gear.
+- Only the trip leader can edit trip details; all crew members can interact with user preferences, meals, and expenses.
 
 ## License
 
@@ -70,7 +86,7 @@ This project is licensed under the [MIT](https://opensource.org/licenses/MIT) li
 ### Backend
 
 - Node.js & Express
-- MongoDB
+- MongoDB (via Mongoose)
 - Apollo GraphQL
 
 ### Other Tools
@@ -82,16 +98,14 @@ This project is licensed under the [MIT](https://opensource.org/licenses/MIT) li
 ## Future Development
 
 - Build collagorative gear lists and assign items to trip members
-- Plan meals by day and meal type, with cook assignments
-- Manage crew members and roles for each trip
-- Refined TailwindCSS code
-- Expense Tracking for group items purchased and owed for trip
-- Meal Preferences
+- Meal Preferences and Dietary alerts on Meals
 - Weather Forecast for trip dates and locations
+- Invite trip members via email
+- Forgot Password
 - Offline Mode
 - Mobile App
 - Realtime Collaboration
-- Map integration
+- Map integration with campsite pins
 
 ## Contribution Guidelines
 
@@ -104,6 +118,10 @@ Not accepting contributions at this time.
 - Amani Akram - [akramamani75@gmail.com](akramamani75@gmail.com)
 
 Checkout our other GitHub projects: [@lisaj5472](https://github.com/lisaj5472), [@Amaniakram](https://github.com/Amaniakram), [@ellimckinley](https://github.com/ellimckinley).
+
+## Aknowledgement
+
+Thank you to [Justin Vittitoe](https://github.com/justinvittitoe) for your collaboration and work on EddyOut V1, the original PERN application.
 
 ## Screenshots
 
