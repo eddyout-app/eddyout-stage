@@ -1,4 +1,4 @@
-import Campsites from "../../models/campsites";
+import Campsites from "../../models/campsites.js";
 
 interface CampsitesArgs {
   tripId: string;

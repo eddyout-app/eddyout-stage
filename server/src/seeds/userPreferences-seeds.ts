@@ -1,4 +1,4 @@
-import UserPreferences from "../models/userPreferences"; // Import UserPreferences model
+import UserPreferences from "../models/userPreferences.js"; // Import UserPreferences model
 
 const userPreferencesSeed = async () => {
     try {

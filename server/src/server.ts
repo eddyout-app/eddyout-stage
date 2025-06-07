@@ -1,27 +1,29 @@
 import express, { Application } from "express";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
+import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
+
 import typeDefs from "./schemas/typedefs/index.js";
 import { resolvers } from "./schemas/resolvers/index.js";
-import db from "./config/connection.js"; // Mongoose connection
-import cors from "cors";
-import dotenv from "dotenv";
+import db from "./config/connection.js";
 
-// Load environment variables
-dotenv.config(); // No need to specify path if the .env file is in the root
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// Define the app and port
-const app: Application = express(); // ✅ explicitly typed
+const app: Application = express();
 const PORT = process.env.PORT || 3001;
 
-// Apollo Server setup
 const server = new ApolloServer({
   typeDefs,
   resolvers,
 });
 
 async function startApolloServer() {
+  console.log("🔧 Apollo Server setup starting");
   await server.start();
+  console.log("✅ Apollo Server started");
 
   app.use(
     "/graphql",
@@ -30,11 +32,24 @@ async function startApolloServer() {
     expressMiddleware(server)
   );
 
-  // Wait for the MongoDB connection to open
+  // ✅ Confirm this block is running in logs
+  if (process.env.NODE_ENV === "production") {
+    const clientBuildPath = path.resolve(__dirname, "../../client/dist");
+    console.log("📦 Serving static client from:", clientBuildPath);
+
+    app.use(express.static(clientBuildPath));
+    app.use("/assets", express.static(path.join(clientBuildPath, "assets")));
+
+    app.get("*", (_, res) => {
+      console.log("📄 Serving index.html for client route");
+      res.sendFile(path.join(clientBuildPath, "index.html"));
+    });
+  }
+
   db.once("open", () => {
     console.log("🌱 MongoDB connection established.");
     app.listen(PORT, () => {
-      console.log(`🌐 Server running at http://localhost:${PORT}/graphql`);
+      console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`);
     });
   });
 }

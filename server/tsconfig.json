@@ -1,13 +1,18 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "module": "CommonJS",
-    /* Modules */
-    "rootDir": "src" /* Specify the root folder within your source files. */,
-    /* Emit */
-    "outDir": "dist" /* Specify an output folder for all emitted files. */
-    // "noEmitOnError": true /* Disable emitting files if any type checking errors are reported. */
+    "target": "ES2022",                       // Ensure modern JS support
+    "module": "NodeNext",                     // Enable import.meta and ESM
+    "moduleResolution": "NodeNext",           // Required with NodeNext module
+    "rootDir": "src",                         // Source folder
+    "outDir": "dist",                         // Build output folder
+    "esModuleInterop": true,                  // For compatibility
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true                 // (Optional) If you import JSON configs
   },
   "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"],
   "typeRoots": ["./node_modules/@types", "./src/types"]
 }

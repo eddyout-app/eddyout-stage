@@ -1,13 +1,13 @@
-import { seedTrip } from "./trip-seeds";
-import { seedUsers } from "./user-seeds";
-import { seedCrew } from "./crew-seeds";
-// import { seedMeals } from "./meal-seeds";
+import { seedTrip } from "./trip-seeds.js";
+import { seedUsers } from "./user-seeds.js";
+import { seedCrew } from "./crew-seeds.js";
+// import { seedMeals } from "./meal-seeds.js";
 
-// import { seedExpense } from "./expense-seeds";
-// import { seedGearCatalog } from "./gearCatalog-seeds";
-// import { seedGear } from "./gearItem-seeds";
+// import { seedExpense } from "./expense-seeds.js";
+// import { seedGearCatalog } from "./gearCatalog-seeds.js";
+// import { seedGear } from "./gearItem-seeds.js";
 
-// import { seedUserPreferences } from "./userPreferences-seeds";
+// import { seedUserPreferences } from "./userPreferences-seeds.js";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 // import User from "../models/user";

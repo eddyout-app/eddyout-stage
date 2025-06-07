@@ -1,4 +1,4 @@
-import Meal from "../../models/meals";
+import Meal from "../../models/meals.js";
 
 export const mealResolvers = {
   Query: {

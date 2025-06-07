@@ -1,5 +1,5 @@
-import UserPreferences from "../../models/userPreferences";
-import User from "../../models/user";
+import UserPreferences from "../../models/userPreferences.js";
+import User from "../../models/user.js";
 
 const userPreferencesResolvers = {
   Query: {
