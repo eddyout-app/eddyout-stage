@@ -1,4 +1,4 @@
-import Trip from "../models/trip";
+import Trip from "../models/trip.js";
 import { Types } from "mongoose";
 
 export const seedTrip = async (users: { _id: Types.ObjectId }[]) => {

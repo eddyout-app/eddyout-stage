@@ -1,7 +1,7 @@
 import CampsitesSection from "../campsites/CampsitesSection";
 import MealSection from "../meals/MealSection";
 import SidePanel from "../SidePanel";
-import GearSection from "../gear/GearSection";
+// import GearSection from "../gear/GearSection";
 import { TripData } from "../../types/trip";
 import { UserData } from "../../types/user";
 import CrewSection from "../crew/CrewSection";
@@ -58,7 +58,7 @@ export default function TripDetailPanel({
       <SidePanel isOpen={!!view} onClose={onClose}>
         {view === "meals" && <MealSection trip={trip} user={user} />}
         {view === "campsites" && <CampsitesSection trip={trip} user={user} />}
-        {view === "gear" && <GearSection trip={trip} user={user} />}
+        {/* {view === "gear" && <GearSection trip={trip} user={user} />} */}
         {view === "crew" && <CrewSection trip={trip} user={user} />}
         {view === "expenses" && <ExpensesSection trip={trip} user={user} />}
       </SidePanel>

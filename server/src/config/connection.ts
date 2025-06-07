@@ -1,20 +1,30 @@
-import mongoose from "mongoose";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+import mongoose from "mongoose";
 
-// Load environment variables from .env file
-dotenv.config();
+// ESM __dirname workaround
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// Check if Mongo URI is undefined
+// ✅ Adjusted for compiled file in server/dist/config
+const envPath = __dirname.includes("/dist")
+  ? path.resolve(__dirname, "../../.env") // from dist/config → server/.env
+  : path.resolve(__dirname, "../.env");   // from src/config → server/.env
+
+dotenv.config({ path: envPath });
+
+console.log("DEBUG CONNECTION: .env loaded from:", envPath);
+console.log("DEBUG CONNECTION: MONGODB_URI =", process.env.MONGODB_URI);
+
 const mongoURI = process.env.MONGODB_URI as string;
 
 if (!mongoURI) {
-  console.error("❌ MongoDB URI is not defined in .env file");
-  throw new Error("MongoDB URI is not defined in .env file");
+  throw new Error("❌ MONGODB_URI is not defined in .env");
 }
 
-// Connect to MongoDB
 mongoose
-  .connect(mongoURI) // Mongoose 6.x no longer needs options like useNewUrlParser or useUnifiedTopology
+  .connect(mongoURI)
   .then(() => console.log("🌱 MongoDB connection successful"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 

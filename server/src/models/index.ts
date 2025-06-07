@@ -1,3 +1,3 @@
-import Trip from './trip';
+import Trip from './trip.js';
 
 export { Trip };

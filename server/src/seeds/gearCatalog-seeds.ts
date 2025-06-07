@@ -1,4 +1,4 @@
-import GearCatalogItem from "../models/gearCatalogItem";
+import GearCatalogItem from "../models/gearCatalogItem.js";
 
 export const seedGearCatalog = async () => {
   try {
