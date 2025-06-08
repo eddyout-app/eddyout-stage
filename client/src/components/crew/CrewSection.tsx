@@ -1,10 +1,12 @@
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { GET_CREW_BY_TRIP } from "../../graphql/queries/crewQueries";
+import { REMOVE_CREW_MEMBER } from "../../graphql/mutations/crewMutations";
 import { CrewMember } from "../../types/crew";
 import { UserData } from "../../types/user";
 import { TripData } from "../../types/trip";
 import CrewModal from "./CrewModal";
-import InviteCrewModal from "./InviteCrewModal"; // NEW — import the modal
+import InviteCrewModal from "./InviteCrewModal";
+import AddCrewModal from "./AddCrewModal";
 import { useState } from "react";
 
 interface CrewSectionProps {
@@ -18,13 +20,28 @@ export default function CrewSection({ trip, user }: CrewSectionProps) {
     skip: !trip._id,
   });
 
-  const [editCrewMember, setEditCrewMember] = useState<CrewMember | null>(null);
+  const [removeCrewMember] = useMutation(REMOVE_CREW_MEMBER);
 
+  const [editCrewMember, setEditCrewMember] = useState<CrewMember | null>(null);
   const [showInviteModal, setShowInviteModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   const isLeader = user._id === trip.organizerId;
-
   const crew: CrewMember[] = data?.crewByTrip || [];
+
+  const handleRemoveCrewMember = async (crewMemberId: string) => {
+    try {
+      await removeCrewMember({
+        variables: {
+          crewMemberId,
+        },
+      });
+      console.log(`Removed crew member ${crewMemberId}`);
+      await refetch();
+    } catch (err) {
+      console.error("Error removing crew member:", err);
+    }
+  };
 
   if (loading) {
     return (
@@ -64,31 +81,48 @@ export default function CrewSection({ trip, user }: CrewSectionProps) {
           >
             <div>{userIdObj?.fullName || "Unknown"}</div>
             <div>{member.role || "—"}</div>
-            <div>
-              <button
-                className="btn-action"
-                onClick={() => setEditCrewMember(member)}
-              >
-                Edit
-              </button>
+            <div className="space-x-2">
+              {/* Edit button — only visible to leader */}
+              {isLeader && (
+                <button
+                  className="btn-action"
+                  onClick={() => setEditCrewMember(member)}
+                >
+                  Edit
+                </button>
+              )}
+
+              {/* Remove button — visible to leader */}
+              {isLeader && (
+                <button
+                  className="btn-action"
+                  onClick={() => handleRemoveCrewMember(member._id)}
+                >
+                  Remove
+                </button>
+              )}
             </div>
           </div>
         );
       })}
 
-      {/* NEW — Invite Crew Member button, visible ONLY to leader */}
+      {/* Buttons — visible only to Leader */}
       {isLeader && (
-        <div className="mt-6 text-center">
+        <div className="mt-6 text-center space-x-4">
           <button
             className="btn-primary"
             onClick={() => setShowInviteModal(true)}
           >
             Invite Crew Member
           </button>
+
+          <button className="btn-primary" onClick={() => setShowAddModal(true)}>
+            Add Crew Member
+          </button>
         </div>
       )}
 
-      {/* EXISTING — edit crew modal */}
+      {/* Edit crew modal */}
       {editCrewMember && (
         <CrewModal
           crewMember={editCrewMember}
@@ -103,11 +137,22 @@ export default function CrewSection({ trip, user }: CrewSectionProps) {
         />
       )}
 
-      {/* NEW — InviteCrewModal */}
+      {/* Invite Crew Modal */}
       {showInviteModal && (
         <InviteCrewModal
           trip={trip}
           onClose={() => setShowInviteModal(false)}
+        />
+      )}
+
+      {/* Add Crew Modal */}
+      {showAddModal && (
+        <AddCrewModal
+          trip={trip}
+          onClose={async () => {
+            setShowAddModal(false);
+            await refetch(); // Refresh crew after adding!
+          }}
         />
       )}
     </div>
