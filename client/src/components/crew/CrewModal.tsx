@@ -7,6 +7,7 @@ import {
 import { GET_CREW_BY_TRIP } from "../../graphql/queries/crewQueries";
 import { handleSave } from "../../utils/handleSave"; // adjust path if needed
 import { useState } from "react";
+import { CrewRole, CREW_ROLE_OPTIONS } from "../../types/roles"; // ✅ NEW
 
 interface CrewModalProps {
   crewMember: CrewMember;
@@ -16,16 +17,6 @@ interface CrewModalProps {
   onSave: (updatedMember: CrewMember) => void;
 }
 
-const ROLE_OPTIONS = [
-  "Trip Leader",
-  "Safety Officer",
-  "Chef",
-  "Gear Manager",
-  "Navigator",
-  "First Aid",
-  "Crew Member",
-];
-
 export default function CrewModal({
   crewMember,
   userId,
@@ -33,7 +24,7 @@ export default function CrewModal({
   onClose,
   onSave,
 }: CrewModalProps) {
-  const [role, setRole] = useState(crewMember.role || "");
+  const [role, setRole] = useState<CrewRole>(crewMember.role as CrewRole); // ✅ NEW
 
   const [addCrewMember] = useMutation(ADD_CREW_MEMBER);
   const [updateCrewMember] = useMutation(UPDATE_CREW_MEMBER);
@@ -87,10 +78,10 @@ export default function CrewModal({
             <label className="block mb-1 font-medium">Role</label>
             <select
               value={role}
-              onChange={(e) => setRole(e.target.value)}
+              onChange={(e) => setRole(e.target.value as CrewRole)} // ✅ Cast
               className="w-full border border-gray-300 rounded px-3 py-2"
             >
-              {ROLE_OPTIONS.map((option) => (
+              {CREW_ROLE_OPTIONS.map((option) => (
                 <option key={option} value={option}>
                   {option}
                 </option>

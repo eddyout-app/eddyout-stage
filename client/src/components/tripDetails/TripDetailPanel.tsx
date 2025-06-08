@@ -12,6 +12,7 @@ interface TripDetailPanelProps {
   user: UserData;
   view: string;
   onClose: () => void;
+  onViewChange: (viewName: string) => void;
 }
 
 export default function TripDetailPanel({
@@ -19,6 +20,7 @@ export default function TripDetailPanel({
   user,
   view,
   onClose,
+  onViewChange,
 }: TripDetailPanelProps) {
   const startDateFormatted = new Date(trip.startDate).toLocaleDateString(
     "en-US",
@@ -45,6 +47,13 @@ export default function TripDetailPanel({
         Put In: {trip.putIn} | Take Out: {trip.takeOut} | Crew Size:{" "}
         {trip.crewNum}
       </p>
+      <div className="trip-detail-buttons mt-4">
+        <button onClick={() => onViewChange("campsites")}>Campsites</button>
+        <button onClick={() => onViewChange("meals")}>Meals</button>
+        <button onClick={() => onViewChange("gear")}>Gear</button>
+        <button onClick={() => onViewChange("crew")}>Crew</button>
+        <button onClick={() => onViewChange("expenses")}>Expenses</button>
+      </div>
 
       <SidePanel isOpen={!!view} onClose={onClose}>
         {view === "meals" && <MealSection trip={trip} user={user} />}

@@ -56,7 +56,6 @@ export default function Dashboard() {
     return (
       <>
         <Nav onProfileClick={() => setIsProfileOpen(true)} />
-
         <div className="text-center mt-10 text-textBody font-body text-lg">
           Loading trips...
         </div>
@@ -69,7 +68,6 @@ export default function Dashboard() {
     return (
       <>
         <Nav onProfileClick={() => setIsProfileOpen(true)} />
-
         <div className="text-center mt-10 text-textBody font-body text-lg">
           Error loading trips: {error.message}
         </div>
@@ -103,6 +101,15 @@ export default function Dashboard() {
 
       <main>
         <div className="dashboard-page">
+          <div className="hero-banner p-6 mb-8 text-center bg-gradient-to-r from-blue-200 to-green-200 shadow rounded">
+            <h1 className="text-4xl md:text-5xl font-header text-primary mb-2">
+              Welcome to Eddy Out
+            </h1>
+            <p className="text-lg md:text-xl text-textBody">
+              Plan your next river trip — everything in one place.
+            </p>
+          </div>
+
           {/* Dashboard Header with "New Trip" button */}
           <div className="flex items-center justify-between mb-6 px-4 mt-10">
             <h1 className="text-2xl font-bold">Trip Dashboard</h1>
@@ -139,50 +146,15 @@ export default function Dashboard() {
                       onClick={() => handleOpenDetail(mostCurrentTrip._id, "")}
                     />
 
-                    <div className="trip-detail-buttons">
-                      <button
-                        onClick={() =>
-                          handleOpenDetail(mostCurrentTrip._id, "campsites")
-                        }
-                      >
-                        Campsites
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleOpenDetail(mostCurrentTrip._id, "meals")
-                        }
-                      >
-                        Meals
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleOpenDetail(mostCurrentTrip._id, "gear")
-                        }
-                      >
-                        Gear
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleOpenDetail(mostCurrentTrip._id, "crew")
-                        }
-                      >
-                        Crew
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleOpenDetail(mostCurrentTrip._id, "expenses")
-                        }
-                      >
-                        Expenses
-                      </button>
-                    </div>
-
                     {selectedTripId === mostCurrentTrip._id && (
                       <TripDetailPanel
                         trip={mostCurrentTrip}
                         user={user}
                         view={selectedDetailView || ""}
                         onClose={clearSelectedTrip}
+                        onViewChange={(viewName) =>
+                          handleOpenDetail(mostCurrentTrip._id, viewName)
+                        }
                       />
                     )}
                   </div>
@@ -199,35 +171,6 @@ export default function Dashboard() {
                         trip={trip}
                         onClick={() => handleOpenDetail(trip._id, "")}
                       />
-                      <div className="trip-detail-buttons">
-                        <button
-                          onClick={() =>
-                            handleOpenDetail(trip._id, "campsites")
-                          }
-                        >
-                          Campsites
-                        </button>
-                        <button
-                          onClick={() => handleOpenDetail(trip._id, "meals")}
-                        >
-                          Meals
-                        </button>
-                        <button
-                          onClick={() => handleOpenDetail(trip._id, "gear")}
-                        >
-                          Gear
-                        </button>
-                        <button
-                          onClick={() => handleOpenDetail(trip._id, "crew")}
-                        >
-                          Crew
-                        </button>
-                        <button
-                          onClick={() => handleOpenDetail(trip._id, "expenses")}
-                        >
-                          Expenses
-                        </button>
-                      </div>
 
                       {selectedTripId === trip._id && (
                         <TripDetailPanel
@@ -235,6 +178,9 @@ export default function Dashboard() {
                           user={user}
                           view={selectedDetailView || ""}
                           onClose={clearSelectedTrip}
+                          onViewChange={(viewName) =>
+                            handleOpenDetail(trip._id, viewName)
+                          }
                         />
                       )}
                     </div>
@@ -252,35 +198,6 @@ export default function Dashboard() {
                         trip={trip}
                         onClick={() => handleOpenDetail(trip._id, "")}
                       />
-                      <div className="trip-detail-buttons">
-                        <button
-                          onClick={() =>
-                            handleOpenDetail(trip._id, "campsites")
-                          }
-                        >
-                          Campsites
-                        </button>
-                        <button
-                          onClick={() => handleOpenDetail(trip._id, "meals")}
-                        >
-                          Meals
-                        </button>
-                        <button
-                          onClick={() => handleOpenDetail(trip._id, "gear")}
-                        >
-                          Gear
-                        </button>
-                        <button
-                          onClick={() => handleOpenDetail(trip._id, "crew")}
-                        >
-                          Crew
-                        </button>
-                        <button
-                          onClick={() => handleOpenDetail(trip._id, "expenses")}
-                        >
-                          Expenses
-                        </button>
-                      </div>
 
                       {selectedTripId === trip._id && (
                         <TripDetailPanel
@@ -288,6 +205,9 @@ export default function Dashboard() {
                           user={user}
                           view={selectedDetailView || ""}
                           onClose={clearSelectedTrip}
+                          onViewChange={(viewName) =>
+                            handleOpenDetail(trip._id, viewName)
+                          }
                         />
                       )}
                     </div>
@@ -309,6 +229,7 @@ export default function Dashboard() {
           />
         </SidePanel>
 
+        {/* User Profile SidePanel */}
         <SidePanel
           isOpen={isProfileOpen}
           onClose={() => setIsProfileOpen(false)}

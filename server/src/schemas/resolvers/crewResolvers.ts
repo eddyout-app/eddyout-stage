@@ -40,8 +40,11 @@ export const crewResolvers = {
       return updatedCrew;
     },
 
-    removeCrewMember: async (_parent: any, { crewId }: { crewId: string }) => {
-      const result = await Crew.findByIdAndDelete(crewId);
+    removeCrewMember: async (
+      _parent: any,
+      { crewMemberId }: { crewMemberId: string }
+    ) => {
+      const result = await Crew.findByIdAndDelete(crewMemberId);
       return !!result;
     },
   },

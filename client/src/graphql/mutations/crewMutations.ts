@@ -34,7 +34,7 @@ export const UPDATE_CREW_MEMBER = gql`
 `;
 
 export const REMOVE_CREW_MEMBER = gql`
-  mutation RemoveCrewMember($crewId: ID!) {
-    removeCrewMember(crewId: $crewId)
+  mutation RemoveCrewMember($crewMemberId: ID!) {
+    removeCrewMember(crewMemberId: $crewMemberId)
   }
 `;
