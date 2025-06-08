@@ -37,5 +37,7 @@ export const userTypeDefs = gql`
     ): AuthPayload!
 
     login(email: String!, password: String!): AuthPayload!
+    requestPasswordReset(email: String!): Boolean!
+    resetPassword(token: String!, newPassword: String!): Boolean!
   }
 `;
