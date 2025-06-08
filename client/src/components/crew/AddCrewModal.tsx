@@ -1,6 +1,6 @@
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_USERS } from "../../graphql/queries/userQueries";
-import { GET_CREW_BY_TRIP } from "../../graphql/queries/crewQueries"; // ✅ Add this!
+import { GET_CREW_BY_TRIP } from "../../graphql/queries/crewQueries";
 import { ADD_CREW_MEMBER } from "../../graphql/mutations/crewMutations";
 import { TripData } from "../../types/trip";
 import { UserData } from "../../types/user";
@@ -26,6 +26,7 @@ export default function AddCrewModal({ trip, onClose }: AddCrewModalProps) {
   const [roleInputs, setRoleInputs] = useState<{ [userId: string]: CrewRole }>(
     {}
   );
+  const [addedUserIds, setAddedUserIds] = useState<Set<string>>(new Set()); // ✅ NEW
 
   const allUsers: UserData[] = data?.users || [];
 
@@ -62,12 +63,15 @@ export default function AddCrewModal({ trip, onClose }: AddCrewModalProps) {
       });
       console.log(`User ${userId} added to crew with role ${role}!`);
 
-      // Optional: clear role input for this user
-      setRoleInputs((prev) => {
-        const newInputs = { ...prev };
-        delete newInputs[userId];
-        return newInputs;
-      });
+      // ✅ After success → track added user
+      setAddedUserIds((prev) => new Set(prev).add(userId));
+
+      // Optional: clear role input for this user (optional, can keep or remove)
+      // setRoleInputs((prev) => {
+      //   const newInputs = { ...prev };
+      //   delete newInputs[userId];
+      //   return newInputs;
+      // });
     } catch (err) {
       console.error("Error adding crew member:", err);
     } finally {
@@ -113,6 +117,7 @@ export default function AddCrewModal({ trip, onClose }: AddCrewModalProps) {
           ) : (
             filteredUsers.map((user) => {
               const isAlreadyOnCrew = existingCrewUserIds.has(user._id);
+              const isJustAdded = addedUserIds.has(user._id);
 
               return (
                 <div
@@ -139,7 +144,7 @@ export default function AddCrewModal({ trip, onClose }: AddCrewModalProps) {
                         }))
                       }
                       className="flex-1 border border-gray-300 rounded px-2 py-1"
-                      disabled={isAlreadyOnCrew}
+                      disabled={isAlreadyOnCrew || isJustAdded}
                     >
                       {CREW_ROLE_OPTIONS.map((role) => (
                         <option key={role} value={role}>
@@ -149,13 +154,21 @@ export default function AddCrewModal({ trip, onClose }: AddCrewModalProps) {
                     </select>
                     <button
                       className={`btn-primary ${
-                        isAlreadyOnCrew ? "opacity-50 cursor-not-allowed" : ""
+                        isAlreadyOnCrew || isJustAdded
+                          ? "opacity-50 cursor-not-allowed"
+                          : ""
                       }`}
-                      disabled={addingUserId === user._id || isAlreadyOnCrew}
+                      disabled={
+                        addingUserId === user._id ||
+                        isAlreadyOnCrew ||
+                        isJustAdded
+                      }
                       onClick={() => handleAddCrew(user._id)}
                     >
                       {isAlreadyOnCrew
                         ? "Already in Crew"
+                        : isJustAdded
+                        ? "Added"
                         : addingUserId === user._id
                         ? "Adding..."
                         : "Add"}
