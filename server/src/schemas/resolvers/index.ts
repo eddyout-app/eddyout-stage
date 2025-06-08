@@ -1,6 +1,5 @@
 import { tripResolvers } from "./tripResolvers.js";
 import { expenseResolvers } from "./expenseResolver.js";
-// import userPreferencesResolvers from "./userPreferencesResolvers.js";
 import userPreferencesResolvers from "./userPreferencesResolver.js";
 import { campsitesResolvers } from "./campsitesResolver.js";
 import { gearItemResolvers } from "./gearItemResolver.js";

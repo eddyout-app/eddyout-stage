@@ -1,8 +1,10 @@
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_USERS } from "../../graphql/queries/userQueries";
+import { GET_CREW_BY_TRIP } from "../../graphql/queries/crewQueries"; // ✅ Add this!
 import { ADD_CREW_MEMBER } from "../../graphql/mutations/crewMutations";
 import { TripData } from "../../types/trip";
 import { UserData } from "../../types/user";
+import { CrewRole, CREW_ROLE_OPTIONS } from "../../types/roles";
 import { useState } from "react";
 
 interface AddCrewModalProps {
@@ -12,13 +14,29 @@ interface AddCrewModalProps {
 
 export default function AddCrewModal({ trip, onClose }: AddCrewModalProps) {
   const { data, loading, error } = useQuery(GET_USERS);
+  const { data: crewData, loading: crewLoading } = useQuery(GET_CREW_BY_TRIP, {
+    variables: { tripId: trip._id },
+    skip: !trip._id,
+  });
 
   const [addCrewMember] = useMutation(ADD_CREW_MEMBER);
 
   const [search, setSearch] = useState("");
   const [addingUserId, setAddingUserId] = useState<string | null>(null);
+  const [roleInputs, setRoleInputs] = useState<{ [userId: string]: CrewRole }>(
+    {}
+  );
 
   const allUsers: UserData[] = data?.users || [];
+
+  // Build Set of existing crew userIds
+  const existingCrewUserIds = new Set(
+    (crewData?.crewByTrip || []).map((member) =>
+      typeof member.userId === "string"
+        ? member.userId
+        : (member.userId as any)._id
+    )
+  );
 
   // Simple search filter: match on name or email
   const filteredUsers = allUsers.filter((user) => {
@@ -32,16 +50,24 @@ export default function AddCrewModal({ trip, onClose }: AddCrewModalProps) {
   });
 
   const handleAddCrew = async (userId: string) => {
+    const role = roleInputs[userId] || "Crew";
     try {
       setAddingUserId(userId);
       await addCrewMember({
         variables: {
           tripId: trip._id,
           userId,
-          role: "Crew", // Default role, can be changed later
+          role,
         },
       });
-      console.log(`User ${userId} added to crew!`);
+      console.log(`User ${userId} added to crew with role ${role}!`);
+
+      // Optional: clear role input for this user
+      setRoleInputs((prev) => {
+        const newInputs = { ...prev };
+        delete newInputs[userId];
+        return newInputs;
+      });
     } catch (err) {
       console.error("Error adding crew member:", err);
     } finally {
@@ -56,6 +82,7 @@ export default function AddCrewModal({ trip, onClose }: AddCrewModalProps) {
           Add Crew Member
         </h2>
 
+        {/* Search */}
         <div className="mb-4">
           <input
             type="text"
@@ -66,7 +93,8 @@ export default function AddCrewModal({ trip, onClose }: AddCrewModalProps) {
           />
         </div>
 
-        {loading && (
+        {/* Loading/Error */}
+        {(loading || crewLoading) && (
           <div className="text-center text-textBody mb-4">Loading users...</div>
         )}
 
@@ -76,36 +104,71 @@ export default function AddCrewModal({ trip, onClose }: AddCrewModalProps) {
           </div>
         )}
 
+        {/* User list */}
         <div className="max-h-64 overflow-y-auto mb-6">
           {filteredUsers.length === 0 && !loading ? (
             <div className="text-center text-textBody">
               No matching users found.
             </div>
           ) : (
-            filteredUsers.map((user) => (
-              <div
-                key={user._id}
-                className="flex justify-between items-center border-b py-2"
-              >
-                <div>
-                  <div className="font-semibold">
-                    `${user.firstName || ""} ${user.lastName || ""}`.trim()
-                  </div>
-                  <div className="text-sm text-gray-600">{user.email}</div>
-                </div>
-                <button
-                  className="btn-primary"
-                  disabled={addingUserId === user._id}
-                  onClick={() => handleAddCrew(user._id)}
+            filteredUsers.map((user) => {
+              const isAlreadyOnCrew = existingCrewUserIds.has(user._id);
+
+              return (
+                <div
+                  key={user._id}
+                  className="flex flex-col border-b py-2 space-y-2"
                 >
-                  {addingUserId === user._id ? "Adding..." : "Add"}
-                </button>
-              </div>
-            ))
+                  {/* User name + email */}
+                  <div>
+                    <div className="font-semibold">
+                      {`${user.firstName || ""} ${user.lastName || ""}`.trim()}
+                    </div>
+                    <div className="text-sm text-gray-600">{user.email}</div>
+                  </div>
+
+                  {/* Role dropdown + Add button */}
+                  <div className="flex items-center space-x-3">
+                    <label className="font-medium">Role:</label>
+                    <select
+                      value={roleInputs[user._id] || "Crew"}
+                      onChange={(e) =>
+                        setRoleInputs((prev) => ({
+                          ...prev,
+                          [user._id]: e.target.value as CrewRole,
+                        }))
+                      }
+                      className="flex-1 border border-gray-300 rounded px-2 py-1"
+                      disabled={isAlreadyOnCrew}
+                    >
+                      {CREW_ROLE_OPTIONS.map((role) => (
+                        <option key={role} value={role}>
+                          {role}
+                        </option>
+                      ))}
+                    </select>
+                    <button
+                      className={`btn-primary ${
+                        isAlreadyOnCrew ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
+                      disabled={addingUserId === user._id || isAlreadyOnCrew}
+                      onClick={() => handleAddCrew(user._id)}
+                    >
+                      {isAlreadyOnCrew
+                        ? "Already in Crew"
+                        : addingUserId === user._id
+                        ? "Adding..."
+                        : "Add"}
+                    </button>
+                  </div>
+                </div>
+              );
+            })
           )}
         </div>
 
-        <div className="flex justify-end space-x-3">
+        {/* Modal Close */}
+        <div className="flex justify-end space-x-3 mt-6">
           <button className="btn-secondary" onClick={onClose}>
             Close
           </button>

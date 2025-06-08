@@ -17,7 +17,7 @@ const crewTypeDefs = gql`
   extend type Mutation {
     addCrewMember(tripId: ID!, userId: ID!, role: String): Crew!
     updateCrewMember(crewId: ID!, role: String!): Crew!
-    removeCrewMember(crewId: ID!): Boolean!
+    removeCrewMember(crewMemberId: ID!): Boolean!
   }
 `;
 

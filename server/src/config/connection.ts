@@ -7,10 +7,15 @@ import mongoose from "mongoose";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// ✅ Adjusted for compiled file in server/dist/config
-const envPath = __dirname.includes("/dist")
-  ? path.resolve(__dirname, "../../.env") // from dist/config → server/.env
-  : path.resolve(__dirname, "../.env"); // from src/config → server/.env
+// ✅ Normalize for cross-platform (Windows vs Linux/Mac)
+const normalizedDir = __dirname.replace(/\\/g, "/");
+
+// ✅ Add stronger match — safer for all cases
+const isDist = normalizedDir.includes("/dist/");
+
+const envPath = isDist
+  ? path.resolve(__dirname, "../../.env")
+  : path.resolve(__dirname, "../.env");
 
 dotenv.config({ path: envPath });
 
