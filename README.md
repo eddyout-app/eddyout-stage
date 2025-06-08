@@ -98,8 +98,8 @@ This project is licensed under the [MIT](https://opensource.org/licenses/MIT) li
 ## Future Development
 
 - Build collagorative gear lists and assign items to trip members
-- Meal Preferences and Dietary alerts on Meals
-- Weather Forecast for trip dates and locations
+- Meal Preferences and Dietary alerts on Meals Panel
+- Weather Forecast for trip start location
 - Invite trip members via email
 - Forgot Password
 - Offline Mode
@@ -129,6 +129,6 @@ Thank you to [Justin Vittitoe](https://github.com/justinvittitoe) for your colla
 ! [Trip_Dashboard](./server/src/assets/dashboard.png)
 ! [Schedule](./server/src/assets/schedule.png)
 ! [Meals](./server/src/assets/meal.png)
-! [OarGanizer](./server/src/assets/gear.png)
+! [Gear](./server/src/assets/gear.png)
 ! [Crew](./server/src/assets/crew.png)
 ! [Create_New_Trip](./server/src/assets/create_new_trip.png)
