@@ -6,7 +6,7 @@ import { TripData } from "../../types/trip";
 import { UserData } from "../../types/user";
 import { CrewRole, CREW_ROLE_OPTIONS } from "../../types/roles";
 import { useState } from "react";
-
+import { CrewMember } from "../../types/crew";
 interface AddCrewModalProps {
   trip: TripData;
   onClose: () => void;
@@ -32,10 +32,8 @@ export default function AddCrewModal({ trip, onClose }: AddCrewModalProps) {
 
   // Build Set of existing crew userIds
   const existingCrewUserIds = new Set(
-    (crewData?.crewByTrip || []).map((member) =>
-      typeof member.userId === "string"
-        ? member.userId
-        : (member.userId as any)._id
+    (crewData?.crewByTrip || []).map((member: CrewMember) =>
+      typeof member.userId === "string" ? member.userId : member.userId._id
     )
   );
 

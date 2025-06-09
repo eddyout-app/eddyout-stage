@@ -1,0 +1,170 @@
+@import "tailwindcss"; /* if still needed for utilities */
+
+/* CSS Variables */
+:root {
+  --color-primary: #3a9188;
+  --color-accent: #d9a441;
+  --color-dark-accent: #0b3d4a;
+  --color-light-neutral: #f5f5f2;
+  --color-muted-secondary: #7f9f9f;
+  --color-text-body: #2f2f2f;
+  --font-header: "Raleway", sans-serif;
+  --font-body: "Open Sans", sans-serif;
+}
+
+/* Global Reset */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: auto; /* let content grow! */
+  width: 100%; /* safe! */
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* prevent horizontal scroll */
+  overflow-y: auto; /* allow vertical scroll! */
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url("/hero-banner.jpg") center center / cover no-repeat;
+  background-position: bottom 50%;
+  filter: blur(12px);
+  opacity: 0.6;
+  z-index: -1;
+}
+
+body {
+  background-color: var(
+    --color-light-neutral
+  ); /* fallback if image doesn't load */
+  background-attachment: fixed;
+}
+
+/* Main layout wrapper */
+main {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+/* Links */
+a {
+  font-weight: 500;
+  color: var(--color-dark-accent);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-primary);
+}
+
+/* Form Elements */
+input,
+label,
+textarea,
+select {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-text-body);
+}
+
+.form-group {
+  margin-bottom: 1.5rem; /* spacing between fields */
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.25rem; /* spacing between label and input */
+  font-weight: 500;
+  color: var(--color-dark-accent);
+}
+
+.form-input {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  background-color: white;
+  color: var(--color-text-body);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.form-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(17, 168, 173, 0.2); /* subtle focus */
+}
+
+/* Buttons - base button (can be overridden in buttons.css) */
+button {
+  all: unset;
+  display: inline-block;
+  cursor: pointer;
+  font-family: var(--font-header);
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  background-color: var(--color-primary);
+  color: white;
+  transition: background-color 0.25s, border-color 0.25s, color 0.25s;
+  margin: 1rem;
+}
+
+button:hover {
+  background-color: var(--color-accent);
+}
+
+.btn-secondary {
+  cursor: pointer;
+  background-color: transparent;
+  color: var(--color-dark-accent);
+  border: 1px solid var(--color-dark-accent);
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  margin: 1rem;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-dark-accent);
+  color: white;
+  border-color: var(--color-dark-accent);
+}
+
+/* Scrollbar for main */
+main::-webkit-scrollbar {
+  width: 0.75em;
+}
+
+main::-webkit-scrollbar-thumb {
+  background-color: var(--color-muted-secondary);
+  border-radius: 9999px;
+}
+
+/* FOOTER */
+footer {
+  background-color: var(--color-dark-accent);
+  color: white;
+  text-align: center;
+  padding: 0.75rem 0;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+footer p {
+  color: white;
+}

@@ -6,6 +6,9 @@ import { CampsiteData } from "../../types/campsites";
 import { useState } from "react";
 import CampsiteModal from "./CampsiteModal";
 
+// Import global Sections styles
+import "../../styles/sections.css";
+
 interface CampsitesProps {
   trip: TripData;
   user: UserData;
@@ -22,8 +25,6 @@ export default function Campsites({ trip, user }: CampsitesProps) {
 
   const getTripDates = (startDate: Date, endDate: Date): Date[] => {
     const dates: Date[] = [];
-
-    // Normalize to UTC midnight
     const currentDate = new Date(
       Date.UTC(
         startDate.getUTCFullYear(),
@@ -50,24 +51,24 @@ export default function Campsites({ trip, user }: CampsitesProps) {
 
   if (loading) {
     return (
-      <div className="text-center mt-10 text-textBody font-body text-lg">
+      <p style={{ textAlign: "center", marginTop: "2rem" }}>
         Loading campsite schedule...
-      </div>
+      </p>
     );
   }
 
   if (error) {
     return (
-      <div className="text-center mt-10 text-red-600 font-body text-lg">
+      <p style={{ textAlign: "center", marginTop: "2rem", color: "red" }}>
         Error loading campsites: {error.message}
-      </div>
+      </p>
     );
   }
 
   const campsitesByDate: Record<string, CampsiteData> = {};
 
   campsites.forEach((campsite) => {
-    const dateKey = campsite.startDate.split("T")[0]; // no new Date(), no risk!
+    const dateKey = campsite.startDate.split("T")[0];
     campsitesByDate[dateKey] = campsite;
   });
 
@@ -77,75 +78,75 @@ export default function Campsites({ trip, user }: CampsitesProps) {
   );
 
   return (
-    <div className="bg-light-neutral min-h-screen py-10 px-4 font-body text-textBody">
-      <h1 className="text-4xl font-header text-primary mb-6 text-center">
-        Campsite Schedule
-      </h1>
+    <div className="section-container">
+      <h1>Campsite Schedule</h1>
 
-      <div className="overflow-y-auto max-h-[80vh] pr-2 mx-auto">
-        {tripDates.map((date, i) => {
-          const dateKey = date.toISOString().split("T")[0];
-          const existingCampsite = campsitesByDate[dateKey];
-          const campsiteToRender: CampsiteData = existingCampsite || {
-            _id: `unassigned-${date.toISOString()}`,
-            tripId: trip._id,
-            startDate: date.toISOString(),
-            name: "",
-            location: {
-              latitude: 0,
-              longitude: 0,
-            },
-            weather: undefined,
-          };
+      {tripDates.map((date, i) => {
+        const dateKey = date.toISOString().split("T")[0];
+        const existingCampsite = campsitesByDate[dateKey];
+        const campsiteToRender: CampsiteData = existingCampsite || {
+          _id: `unassigned-${date.toISOString()}`,
+          tripId: trip._id,
+          startDate: date.toISOString(),
+          name: "",
+          location: {
+            latitude: 0,
+            longitude: 0,
+          },
+          weather: undefined,
+        };
 
-          return (
-            <div key={date.toISOString()} className="mb-10">
-              <div className="text-center mb-4">
-                <h2 className="text-2xl font-bold text-primary">
-                  {date.getTime() === new Date(trip.endDate).getTime()
-                    ? "Last Day"
-                    : `Day ${i + 1}`}
-                </h2>
-                <p className="text-lg text-gray-600">{date.toDateString()}</p>
+        const formattedDate = date.toLocaleDateString("en-US", {
+          weekday: "long",
+          month: "long",
+          day: "numeric",
+          year: "numeric",
+        });
+
+        return (
+          <div key={date.toISOString()} className="section-block">
+            {/* One-line Day + Date */}
+            <div className="section-day-header">
+              <span className="day-number">
+                {date.getTime() === new Date(trip.endDate).getTime()
+                  ? "Last Day"
+                  : `Day ${i + 1}`}
+              </span>
+              <span className="day-date">— {formattedDate}</span>
+            </div>
+
+            {/* Grid Header */}
+            <div className="section-data-label-row">
+              <div className="section-data-label">Campsite Location</div>
+              {user._id === trip.organizerId && (
+                <div className="section-data-label">Action</div>
+              )}
+            </div>
+
+            {/* Grid Data */}
+            <div className="section-data-grid">
+              <div>
+                {campsiteToRender.name ? campsiteToRender.name : "Unassigned"}
               </div>
-
-              <div className="grid grid-cols-2 gap-4 items-center text-center py-2 border-b border-gray-200">
-                <div>Campsite Location</div>
-                {/* <div>Latitude / Longitude</div> */}
-                <div>Action</div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 items-center text-center py-2 border-b border-gray-200">
-                {/* Campsite Location */}
-                <div>
-                  {campsiteToRender.name ? campsiteToRender.name : "Unassigned"}
-                </div>
-
-                {/* Lat / Lon */}
-                {/* <div>
-                  {campsiteToRender.location.latitude},{" "}
-                  {campsiteToRender.location.longitude}
-                </div> */}
-
-                {/* Action */}
-                <div>
+              {user._id === trip.organizerId && (
+                <div className="section-action">
                   <button
-                    className="btn-action"
+                    className="btn-secondary"
                     onClick={() => setEditCampsite(campsiteToRender)}
                   >
                     Edit
                   </button>
                 </div>
-              </div>
+              )}
             </div>
-          );
-        })}
-      </div>
+          </div>
+        );
+      })}
 
       {editCampsite && (
         <CampsiteModal
           campsite={editCampsite}
-          isLeader={user._id === trip.organizerId} // adjust as needed
+          isLeader={user._id === trip.organizerId}
           onClose={() => setEditCampsite(null)}
           onSave={async (updatedCampsite) => {
             console.log("Updated campsite:", updatedCampsite);

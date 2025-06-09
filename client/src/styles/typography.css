@@ -1,0 +1,50 @@
+/* Headings */
+h1 {
+  font-family: var(--font-header);
+  font-size: 3rem;
+  color: var(--color-dark-accent);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+h2 {
+  font-family: var(--font-header);
+  font-size: 2rem;
+  color: var(--color-dark-accent);
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+h3 {
+  font-family: var(--font-header);
+  font-size: 1.5rem;
+  color: var(--color-dark-accent);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+h4,
+h5,
+h6 {
+  font-family: var(--font-header);
+  color: var(--color-dark-accent);
+  margin-bottom: 0.5rem;
+}
+
+p {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-body);
+  margin-bottom: 1rem;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-accent);
+}

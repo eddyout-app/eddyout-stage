@@ -1,0 +1,47 @@
+/* Make main content grow to fill space */
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Side panel responsiveness */
+.side-panel {
+  position: fixed;
+  top: 0;
+  right: -80%;
+  width: 80%;
+  height: 100%;
+  background-color: #f9f9f9;
+  border-left: 1px solid #ccc;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: right 0.3s ease;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.side-panel.open {
+  right: 0;
+}
+
+@media (min-width: 768px) {
+  .side-panel {
+    width: 50%;
+    right: -50%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .side-panel {
+    width: 40%;
+    right: -40%;
+  }
+}
+
+/* App full-page flex layout */
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}

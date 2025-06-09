@@ -2,27 +2,23 @@ import { TripData } from "../../types/trip";
 
 interface TripSummaryCardProps {
   trip: TripData;
-  onClick: () => void;
+  onClick: (tripId: string) => void;
 }
 
 export default function TripSummaryCard({
   trip,
-  onClick,
+  onClick: handleOpenDetail,
 }: TripSummaryCardProps) {
   return (
-    <div className="trip-summary">
-      <h2>
-        <button
-          onClick={onClick}
-          className="text-primary hover:underline text-xl font-bold"
-        >
-          River: {trip.riverName}
-        </button>
-      </h2>
-      <p>
-        Start Date: {trip.startDate.toLocaleDateString()} to End Date:{" "}
+    <div className="trip-row" onClick={() => handleOpenDetail(trip._id)}>
+      <div className="trip-name">River: {trip.riverName}</div>
+      <div className="trip-dates">
+        {trip.startDate.toLocaleDateString()} →{" "}
         {trip.endDate.toLocaleDateString()}
-      </p>
+      </div>
+      <div className="trip-action">
+        View Details <span className="arrow">→</span>
+      </div>
     </div>
   );
 }

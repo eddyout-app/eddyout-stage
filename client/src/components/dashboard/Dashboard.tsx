@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TripData } from "../../types/trip";
 import TripSummaryCard from "../../components/tripDetails/TripSummaryCard";
 import Nav from "../../components/Nav";
@@ -22,6 +22,19 @@ export default function Dashboard() {
   };
   const [isNewTripOpen, setIsNewTripOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [showUpcoming, setShowUpcoming] = useState(true);
+  const [showPast, setShowPast] = useState(false);
+
+  const [navScrolled, setNavScrolled] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      setNavScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const { data, loading, error, refetch } = useQuery<{ trips: TripData[] }>(
     GET_ALL_TRIPS,
@@ -42,9 +55,20 @@ export default function Dashboard() {
     null
   );
 
-  function handleOpenDetail(tripId: string, detailView: string) {
-    setSelectedTripId(tripId);
-    setSelectedDetailView(detailView);
+  function handleOpenDetail(tripId: string) {
+    if (selectedTripId === tripId) {
+      // Clicking the same trip → close it
+      setSelectedTripId(null);
+      setSelectedDetailView(null);
+    } else {
+      // Clicking a new trip → open it
+      setSelectedTripId(tripId);
+      setSelectedDetailView(""); // reset component view
+    }
+  }
+
+  function handleChangeDetailView(viewName: string) {
+    setSelectedDetailView(viewName);
   }
 
   function clearSelectedTrip() {
@@ -56,9 +80,9 @@ export default function Dashboard() {
     return (
       <>
         <Nav onProfileClick={() => setIsProfileOpen(true)} />
-        <div className="text-center mt-10 text-textBody font-body text-lg">
+        <p style={{ textAlign: "center", marginTop: "2rem" }}>
           Loading trips...
-        </div>
+        </p>
         <Footer />
       </>
     );
@@ -68,9 +92,9 @@ export default function Dashboard() {
     return (
       <>
         <Nav onProfileClick={() => setIsProfileOpen(true)} />
-        <div className="text-center mt-10 text-textBody font-body text-lg">
+        <p style={{ textAlign: "center", marginTop: "2rem", color: "red" }}>
           Error loading trips: {error.message}
-        </div>
+        </p>
         <Footer />
       </>
     );
@@ -96,126 +120,139 @@ export default function Dashboard() {
   );
 
   return (
-    <div className="h-screen w-screen">
-      <Nav onProfileClick={() => setIsProfileOpen(true)} />
-
+    <div className="app-layout">
+      <Nav
+        onProfileClick={() => setIsProfileOpen(true)}
+        isScrolled={navScrolled}
+      />
       <main>
+        <div className="hero-banner">
+          <div className="hero-overlay">
+            <h1>Welcome to Eddy Out</h1>
+            <p>Plan your next river trip — everything in one place.</p>
+          </div>
+        </div>
         <div className="dashboard-page">
-          <div className="hero-banner p-6 mb-8 text-center bg-gradient-to-r from-blue-200 to-green-200 shadow rounded">
-            <h1 className="text-4xl md:text-5xl font-header text-primary mb-2">
-              Welcome to Eddy Out
-            </h1>
-            <p className="text-lg md:text-xl text-textBody">
-              Plan your next river trip — everything in one place.
-            </p>
-          </div>
+          <div className="dashboard-content">
+            {/* Dashboard Header with "New Trip" button */}
+            <div className="dashboard-header">
+              <h1>Trip Dashboard</h1>
+              <button onClick={() => setIsNewTripOpen(true)}>+ New Trip</button>
+            </div>
 
-          {/* Dashboard Header with "New Trip" button */}
-          <div className="flex items-center justify-between mb-6 px-4 mt-10">
-            <h1 className="text-2xl font-bold">Trip Dashboard</h1>
-            <button className="btn-dark" onClick={() => setIsNewTripOpen(true)}>
-              + New Trip
-            </button>
-          </div>
+            {/* Conditional content */}
+            {trips.length === 0 ? (
+              <>
+                <p className="no-trips-message">
+                  You do not have any trips yet.
+                </p>
+                <p className="no-trips-sub">
+                  Once you're added to a trip or create a new one, it will
+                  appear here.
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="description">
+                  Here is a list of all available trips. Click each one to see
+                  more details or assign yourself to a task.
+                </p>
 
-          {/* Conditional content */}
-          {trips.length === 0 ? (
-            <>
-              <div className="text-center mt-20 text-primary font-header text-xl">
-                You do not have any trips yet.
-              </div>
-              <div className="text-center mt-4 text-textBody font-body text-lg">
-                Once you're added to a trip or create a new one, it will appear
-                here.
-              </div>
-            </>
-          ) : (
-            <>
-              <p className="description">
-                Here is a list of all available trips. Click each one to see
-                more details or assign yourself to a task.
-              </p>
-
-              {/* Most Current Trip */}
-              {mostCurrentTrip && (
-                <section className="dashboard-section">
-                  <h2>Most Current Trip</h2>
-                  <div key={mostCurrentTrip._id} className="trip-card">
-                    <TripSummaryCard
-                      trip={mostCurrentTrip}
-                      onClick={() => handleOpenDetail(mostCurrentTrip._id, "")}
-                    />
-
-                    {selectedTripId === mostCurrentTrip._id && (
-                      <TripDetailPanel
+                {/* Most Current Trip */}
+                {mostCurrentTrip && (
+                  <section className="dashboard-section">
+                    <h2>Most Current Trip</h2>
+                    <div className="trip-summary">
+                      <TripSummaryCard
                         trip={mostCurrentTrip}
-                        user={user}
-                        view={selectedDetailView || ""}
-                        onClose={clearSelectedTrip}
-                        onViewChange={(viewName) =>
-                          handleOpenDetail(mostCurrentTrip._id, viewName)
-                        }
+                        onClick={() => handleOpenDetail(mostCurrentTrip._id)}
                       />
-                    )}
+
+                      {selectedTripId === mostCurrentTrip._id && (
+                        <TripDetailPanel
+                          trip={mostCurrentTrip}
+                          user={user}
+                          view={selectedDetailView || ""}
+                          onClose={clearSelectedTrip}
+                          onViewChange={handleChangeDetailView}
+                        />
+                      )}
+                    </div>
+                  </section>
+                )}
+
+                {/* Upcoming Trips */}
+                <section className="dashboard-section">
+                  <div className="dashboard-section-header">
+                    <h2>Upcoming Trips</h2>
+                    <button
+                      className="btn-action"
+                      onClick={() => setShowUpcoming(!showUpcoming)}
+                    >
+                      {showUpcoming ? "Hide" : "Show"}
+                    </button>
                   </div>
-                </section>
-              )}
 
-              {/* Upcoming Trips */}
-              {futureTrips.length > 0 && (
+                  {showUpcoming && (
+                    <>
+                      {filteredFutureTrips.map((trip) => (
+                        <div key={trip._id} className="trip-summary">
+                          <TripSummaryCard
+                            trip={trip}
+                            onClick={() => handleOpenDetail(trip._id)}
+                          />
+                          {selectedTripId === trip._id && (
+                            <TripDetailPanel
+                              trip={trip}
+                              user={user}
+                              view={selectedDetailView || ""}
+                              onClose={clearSelectedTrip}
+                              onViewChange={handleChangeDetailView}
+                            />
+                          )}
+                        </div>
+                      ))}
+                    </>
+                  )}
+                </section>
+
+                {/* Past Trips */}
                 <section className="dashboard-section">
-                  <h2>Upcoming Trips</h2>
-                  {filteredFutureTrips.map((trip) => (
-                    <div key={trip._id} className="trip-card">
-                      <TripSummaryCard
-                        trip={trip}
-                        onClick={() => handleOpenDetail(trip._id, "")}
-                      />
+                  <div className="dashboard-section-header">
+                    <h2>Past Trips</h2>
+                    <button
+                      className="btn-action"
+                      onClick={() => setShowPast(!showPast)}
+                    >
+                      {showPast ? "Hide" : "Show"}
+                    </button>
+                  </div>
 
-                      {selectedTripId === trip._id && (
-                        <TripDetailPanel
-                          trip={trip}
-                          user={user}
-                          view={selectedDetailView || ""}
-                          onClose={clearSelectedTrip}
-                          onViewChange={(viewName) =>
-                            handleOpenDetail(trip._id, viewName)
-                          }
-                        />
-                      )}
-                    </div>
-                  ))}
+                  {showPast && (
+                    <>
+                      {filteredPastTrips.map((trip) => (
+                        <div key={trip._id} className="trip-summary">
+                          <TripSummaryCard
+                            trip={trip}
+                            onClick={() => handleOpenDetail(trip._id)}
+                          />
+                          {selectedTripId === trip._id && (
+                            <TripDetailPanel
+                              trip={trip}
+                              user={user}
+                              view={selectedDetailView || ""}
+                              onClose={clearSelectedTrip}
+                              onViewChange={handleChangeDetailView}
+                            />
+                          )}
+                        </div>
+                      ))}
+                    </>
+                  )}
                 </section>
-              )}
-
-              {/* Past Trips */}
-              {pastTrips.length > 0 && (
-                <section className="dashboard-section">
-                  <h2>Past Trips</h2>
-                  {filteredPastTrips.map((trip) => (
-                    <div key={trip._id} className="trip-card">
-                      <TripSummaryCard
-                        trip={trip}
-                        onClick={() => handleOpenDetail(trip._id, "")}
-                      />
-
-                      {selectedTripId === trip._id && (
-                        <TripDetailPanel
-                          trip={trip}
-                          user={user}
-                          view={selectedDetailView || ""}
-                          onClose={clearSelectedTrip}
-                          onViewChange={(viewName) =>
-                            handleOpenDetail(trip._id, viewName)
-                          }
-                        />
-                      )}
-                    </div>
-                  ))}
-                </section>
-              )}
-            </>
-          )}
+              </>
+            )}
+          </div>
         </div>
 
         {/* New Trip SidePanel */}

@@ -1,0 +1,34 @@
+/* 2-column flex layout */
+.trip-detail-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+/* Left column: details + buttons */
+.trip-detail-left {
+  flex: 1;
+}
+
+/* Right column: side panel */
+.trip-detail-right {
+  flex: 1;
+  min-width: 300px; /* adjust as needed */
+}
+
+/* Button row spacing */
+.trip-detail-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  gap: 0.5rem;
+}
+
+.trip-detail-buttons-left {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
