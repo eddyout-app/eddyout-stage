@@ -1,6 +1,7 @@
 import User from "../../models/user.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import { sendResetEmail } from "../../utils/sendEmail.js"; // adjust path if needed
 
 const SECRET = process.env.JWT_SECRET || "mysecretkey"; // Replace with your real secret in production!
 
@@ -53,6 +54,15 @@ export const userResolvers = {
       if (existingUser) {
         throw new Error("Email already registered");
       }
+      if (
+        !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/.test(
+          password
+        )
+      ) {
+        throw new Error(
+          "Password must be at least 8 characters and include uppercase, lowercase, number, and special character."
+        );
+      }
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -94,66 +104,75 @@ export const userResolvers = {
 
       return { token, user };
     },
+
+    requestPasswordReset: async (
+      _parent: any,
+      { email }: { email: string }
+    ) => {
+      const user = await User.findOne({ email });
+      if (!user) {
+        return true;
+      }
+
+      const resetToken = jwt.sign(
+        { _id: user._id, email: user.email },
+        SECRET,
+        { expiresIn: "1h" }
+      );
+
+      user.passwordResetToken = resetToken;
+      user.passwordResetExpires = new Date(Date.now() + 3600000); // 1 hour
+
+      await user.save();
+
+      const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
+      await sendResetEmail(user.email, resetUrl);
+
+      return true;
+    },
+
+    resetPassword: async (
+      _parent: any,
+      { token, newPassword }: { token: string; newPassword: string }
+    ) => {
+      try {
+        const payload = jwt.verify(token, SECRET) as {
+          _id: string;
+          email: string;
+        };
+
+        const user = await User.findOne({
+          _id: payload._id,
+          passwordResetToken: token,
+          passwordResetExpires: { $gt: new Date() },
+        });
+
+        if (!user) {
+          throw new Error("Invalid or expired reset token");
+        }
+
+        if (
+          !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/.test(
+            newPassword
+          )
+        ) {
+          throw new Error(
+            "Password must be at least 8 characters and include uppercase, lowercase, number, and special character."
+          );
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword;
+        user.passwordResetToken = null;
+        user.passwordResetExpires = null;
+
+        await user.save();
+
+        return true;
+      } catch (err) {
+        console.error("Reset password error:", err);
+        throw new Error("Failed to reset password");
+      }
+    },
   },
 };
-
-// // requestPasswordReset
-// requestPasswordReset: async (_parent, { email }) => {
-//   const user = await User.findOne({ email });
-//   if (!user) {
-//     // For security → do not reveal if email is valid
-//     return true;
-//   }
-
-//   // Generate reset token (simple JWT)
-//   const resetToken = jwt.sign(
-//     { _id: user._id, email: user.email },
-//     SECRET,
-//     { expiresIn: "1h" }
-//   );
-
-//   user.passwordResetToken = resetToken;
-//   user.passwordResetExpires = new Date(Date.now() + 3600000); // 1 hour
-
-//   await user.save();
-
-//   // For dev: log the "email" to console
-//   const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
-//   console.log(`Password reset link: ${resetUrl}`);
-
-//   return true;
-// },
-
-// // resetPassword
-// resetPassword: async (_parent, { token, newPassword }) => {
-//   try {
-//     // Verify token
-//     const payload = jwt.verify(token, SECRET);
-
-//     // Find user with matching token and valid expiration
-//     const user = await User.findOne({
-//       _id: payload._id,
-//       passwordResetToken: token,
-//       passwordResetExpires: { $gt: new Date() },
-//     });
-
-//     if (!user) {
-//       throw new Error("Invalid or expired reset token");
-//     }
-
-//     // Hash new password
-//     const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-//     // Update user password + clear reset token fields
-//     user.password = hashedPassword;
-//     user.passwordResetToken = undefined;
-//     user.passwordResetExpires = undefined;
-
-//     await user.save();
-
-//     return true;
-//   } catch (err) {
-//     console.error("Reset password error:", err);
-//     throw new Error("Failed to reset password");
-//   }
-// },

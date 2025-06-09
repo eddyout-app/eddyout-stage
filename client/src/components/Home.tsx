@@ -1,9 +1,13 @@
+import { useState } from "react";
 import Footer from "../components/Footer";
 import Login from "../components/Login";
+import ForgotPasswordForm from "../components/user/ForgotPasswordForm";
 import { Link } from "react-router-dom";
 import "../styles/home.css";
 
 export default function Home() {
+  const [showForgotModal, setShowForgotModal] = useState(false);
+
   return (
     <div className="home-page">
       {/* Background */}
@@ -19,13 +23,22 @@ export default function Home() {
 
         {/* Sidebar */}
         <div className="home-sidebar">
-          <h2 className="home-login-title">Login</h2>
           <Login />
           <p className="signup-text">
             New user?{" "}
             <Link to="/signup" className="signup-link">
               Sign up!
             </Link>
+          </p>
+          <p className="forgot-password-text">
+            <span
+              role="button"
+              onClick={() => setShowForgotModal(true)}
+              className="signup-link"
+              style={{ cursor: "pointer" }}
+            >
+              Forgot Password?
+            </span>
           </p>
           <div className="home-logo">
             <img
@@ -39,6 +52,11 @@ export default function Home() {
 
       {/* Footer */}
       <Footer />
+
+      {/* Modal */}
+      {showForgotModal && (
+        <ForgotPasswordForm onClose={() => setShowForgotModal(false)} />
+      )}
     </div>
   );
 }
