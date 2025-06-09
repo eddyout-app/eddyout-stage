@@ -43,35 +43,30 @@ export default function GearSection({ trip, user }: GearSectionProps) {
 
   if (gearLoading) {
     return (
-      <div className="text-center mt-10 text-textBody font-body text-lg">
-        Loading gear...
-      </div>
+      <p style={{ textAlign: "center", marginTop: "2rem" }}>Loading gear...</p>
     );
   }
 
   if (gearError) {
     return (
-      <div className="text-center mt-10 text-red-600 font-body text-lg">
+      <p style={{ textAlign: "center", marginTop: "2rem", color: "red" }}>
         Error loading gear: {gearError.message}
-      </div>
+      </p>
     );
   }
 
   return (
-    <div className="bg-light-neutral min-h-screen py-10 px-4 font-body text-textBody">
-      <h1 className="text-4xl font-header text-primary mb-6 text-center">
-        Trip Gear
-      </h1>
+    <div className="section-container">
+      <h1>Trip Gear</h1>
 
-      <div className="flex justify-center mb-6">
+      <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
         <button className="btn-primary" onClick={handleAddGearItem}>
           Assign Yourself Gear
         </button>
       </div>
 
-      <div className="overflow-y-auto max-h-[60vh] pr-2 mx-auto">
-        {/* Grid header */}
-        <div className="grid grid-cols-4 gap-4 items-center text-center font-semibold mb-2 border-b border-gray-400 pb-2">
+      <div className="planner-grid">
+        <div className="planner-grid-header">
           <div>Item</div>
           <div>Quantity</div>
           <div>Assigned To</div>
@@ -82,21 +77,18 @@ export default function GearSection({ trip, user }: GearSectionProps) {
           const isOwner = gear.userId === user._id;
 
           return (
-            <div
-              key={gear._id}
-              className="grid grid-cols-4 gap-4 items-center text-center py-2 border-b border-gray-200"
-            >
+            <div key={gear._id} className="planner-grid-row">
               <div>{gear.gearItem}</div>
               <div>{gear.quantity}</div>
               <div>{isOwner ? "You" : gear.userId}</div>
 
               <div>
-                <button
-                  className="btn-action"
+                <div
+                  className="inline-action"
                   onClick={() => setEditGearItem(gear)}
                 >
-                  {isOwner ? "Edit" : "View"}
-                </button>
+                  {isOwner ? "Edit" : "View"} <span className="arrow">→</span>
+                </div>
               </div>
             </div>
           );

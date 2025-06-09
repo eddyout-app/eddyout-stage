@@ -5,9 +5,11 @@ import {
   UPDATE_CREW_MEMBER,
 } from "../../graphql/mutations/crewMutations";
 import { GET_CREW_BY_TRIP } from "../../graphql/queries/crewQueries";
-import { handleSave } from "../../utils/handleSave"; // adjust path if needed
+import { handleSave } from "../../utils/handleSave";
 import { useState } from "react";
-import { CrewRole, CREW_ROLE_OPTIONS } from "../../types/roles"; // ✅ NEW
+import { CrewRole, CREW_ROLE_OPTIONS } from "../../types/roles";
+
+import "../../styles/modal.css"; // ✅ GLOBAL modal styles
 
 interface CrewModalProps {
   crewMember: CrewMember;
@@ -24,7 +26,7 @@ export default function CrewModal({
   onClose,
   onSave,
 }: CrewModalProps) {
-  const [role, setRole] = useState<CrewRole>(crewMember.role as CrewRole); // ✅ NEW
+  const [role, setRole] = useState<CrewRole>(crewMember.role as CrewRole);
 
   const [addCrewMember] = useMutation(ADD_CREW_MEMBER);
   const [updateCrewMember] = useMutation(UPDATE_CREW_MEMBER);
@@ -39,11 +41,11 @@ export default function CrewModal({
       updateMutation: updateCrewMember,
       addVariables: (item) => ({
         tripId: item.tripId,
-        userId: userId, // for add
+        userId: userId,
         role: role,
       }),
       updateVariables: (item) => ({
-        crewId: item._id, // for update
+        crewId: item._id,
         role: role,
       }),
       refetchQueries: [
@@ -58,13 +60,13 @@ export default function CrewModal({
   };
 
   if (!isLeader) {
-    return null; // Only leader can edit
+    return null;
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-md shadow-md w-96">
-        <h2 className="text-xl font-header mb-4">
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h2>
           {isUnclaimed(crewMember) ? "Add Crew Member" : "Edit Crew Member"}
         </h2>
 
@@ -74,12 +76,15 @@ export default function CrewModal({
             handleSubmit();
           }}
         >
-          <div className="mb-4">
-            <label className="block mb-1 font-medium">Role</label>
+          <div className="form-group">
+            <label htmlFor="role" className="form-label">
+              Role
+            </label>
             <select
+              id="role"
               value={role}
-              onChange={(e) => setRole(e.target.value as CrewRole)} // ✅ Cast
-              className="w-full border border-gray-300 rounded px-3 py-2"
+              onChange={(e) => setRole(e.target.value as CrewRole)}
+              className="form-input"
             >
               {CREW_ROLE_OPTIONS.map((option) => (
                 <option key={option} value={option}>
@@ -89,7 +94,7 @@ export default function CrewModal({
             </select>
           </div>
 
-          <div className="flex justify-end space-x-3 mt-6">
+          <div className="modal-buttons">
             <button type="button" onClick={onClose} className="btn-secondary">
               Cancel
             </button>
