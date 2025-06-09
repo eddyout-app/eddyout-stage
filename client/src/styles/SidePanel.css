@@ -1,6 +1,4 @@
-/* components/SidePanel.css */
-
-.side-panel {
+components/SidePanel.css .side-panel {
   position: fixed;
   top: 0;
   right: -50%; /* hidden by default */

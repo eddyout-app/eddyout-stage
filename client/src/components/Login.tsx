@@ -40,26 +40,23 @@ const Login = () => {
   };
 
   return (
-    <div className="form-container">
-      <form className="space-y-6" onSubmit={handleSubmit}>
-        <h1 className="text-2xl font-bold text-center mb-4">Login</h1>
+    <div className="trip-form">
+      <form onSubmit={handleSubmit}>
+        <h1>Login</h1>
 
         {errorMessage && (
-          <div className="text-red-600 font-semibold text-sm text-center">
+          <p style={{ color: "red", fontWeight: "600", textAlign: "center" }}>
             {errorMessage}
-          </div>
+          </p>
         )}
 
-        <div className="flex flex-col">
-          <label
-            htmlFor="email"
-            className="mb-1 text-sm font-medium text-gray-700"
-          >
+        <div className="form-group">
+          <label htmlFor="email" className="form-label">
             Email
           </label>
           <input
             id="email"
-            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="form-input"
             type="text"
             name="email"
             value={loginData.email || ""}
@@ -67,16 +64,13 @@ const Login = () => {
           />
         </div>
 
-        <div className="flex flex-col">
-          <label
-            htmlFor="password"
-            className="mb-1 text-sm font-medium text-gray-700"
-          >
+        <div className="form-group">
+          <label htmlFor="password" className="form-label">
             Password
           </label>
           <input
             id="password"
-            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="form-input"
             type="password"
             name="password"
             value={loginData.password || ""}
@@ -84,9 +78,7 @@ const Login = () => {
           />
         </div>
 
-        <button className="btn-dark" type="submit">
-          Login
-        </button>
+        <button type="submit">Login</button>
       </form>
     </div>
   );
