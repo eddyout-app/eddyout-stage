@@ -45,60 +45,56 @@ export default function Signup() {
       );
     }
   };
+  const formatLabel = (text: string) => {
+    return text
+      .replace(/([A-Z])/g, " $1") // insert space before capital letters
+      .replace(/^./, (str) => str.toUpperCase()); // capitalize first letter
+  };
 
   return (
-    <div className="h-screen w-screen">
-      <div className="h-screen w-screen flex flex-col md:flex-row">
-        {/* Left side: Logo area */}
-        <div className="w-full md:w-1/2 flex items-center justify-center p-6">
+    <div className="app-layout">
+      <main className="signup-container">
+        {/* Left: Logo */}
+        <div className="signup-logo-section">
           <img
             src="/Logo_whitenobg_EddyOut.png"
             alt="Eddy Out Logo"
-            className="max-w-xs w-full object-contain"
+            style={{ width: "400px", height: "auto" }}
           />
         </div>
 
-        {/* Right side: Sign up form */}
-        <div className="w-full md:w-1/2 flex items-center justify-center p-6">
-          <form
-            onSubmit={handleSubmit}
-            className="bg-white p-8 rounded shadow-md w-full max-w-md space-y-4"
-          >
-            <h2 className="text-2xl font-bold text-center">Create Account</h2>
+        {/* Right: Form */}
+        <div className="signup-form-section">
+          <form onSubmit={handleSubmit} className="signup-form-box">
+            <h2>Create Account</h2>
 
             {errorMessage && (
-              <div className="text-red-600 font-semibold text-sm text-center">
-                {errorMessage}
-              </div>
+              <div className="form-error-message">{errorMessage}</div>
             )}
 
             {(Object.keys(formData) as Array<keyof typeof formData>).map(
               (field) => (
-                <div key={field}>
-                  <label className="block text-sm font-medium capitalize">
-                    {field}
+                <div key={field} className="form-group">
+                  <label htmlFor={field} className="form-label">
+                    {formatLabel(field)}
                   </label>
                   <input
                     type={field === "password" ? "password" : "text"}
                     name={field}
+                    id={field}
                     value={formData[field]}
                     onChange={handleChange}
-                    className="w-full p-2 border border-gray-300 rounded"
+                    className="form-input"
                     required
                   />
                 </div>
               )
             )}
 
-            <button type="submit" className="btn-dark">
-              Sign Up
-            </button>
+            <button type="submit">Sign Up</button>
           </form>
         </div>
-
-        <Footer />
-      </div>
-
+      </main>
       <Footer />
     </div>
   );
