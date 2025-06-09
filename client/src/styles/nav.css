@@ -18,9 +18,10 @@
 }
 
 .navbar.scrolled {
-  background: rgba(0, 0, 0, 0.8); /* solid dark background */
+  background: rgba(var(--color-dark-accent-rgba), 0.8);
   backdrop-filter: blur(8px); /* subtle blur */
 }
+
 .navbar a {
   color: white;
   text-decoration: none;
