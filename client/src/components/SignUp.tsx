@@ -7,6 +7,8 @@ import Footer from "./Footer";
 export default function Signup() {
   const Navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
+  const passwordRequirements =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -24,6 +26,13 @@ export default function Signup() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
+      if (!passwordRequirements.test(formData.password)) {
+        setErrorMessage(
+          "Password must be at least 8 characters and include uppercase, lowercase, number, and special character."
+        );
+        return;
+      }
+
       const response = await signup(formData);
       Auth.login(response.token);
       Navigate("/dashboard");

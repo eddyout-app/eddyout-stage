@@ -33,6 +33,7 @@
     "archive/tripAPI.tsx",
     "archive/crewAPI.tsx",
     "archive/pages",
-    "archive/Users.tsx"
+    "archive/Users.tsx",
+    "../server/src/utils/sendEmail.ts"
   ]
 }
