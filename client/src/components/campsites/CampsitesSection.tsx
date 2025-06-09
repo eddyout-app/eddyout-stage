@@ -6,9 +6,6 @@ import { CampsiteData } from "../../types/campsites";
 import { useState } from "react";
 import CampsiteModal from "./CampsiteModal";
 
-// Import global Sections styles
-import "../../styles/sections.css";
-
 interface CampsitesProps {
   trip: TripData;
   user: UserData;
@@ -116,28 +113,28 @@ export default function Campsites({ trip, user }: CampsitesProps) {
             </div>
 
             {/* Grid Header */}
-            <div className="section-data-label-row">
-              <div className="section-data-label">Campsite Location</div>
-              {user._id === trip.organizerId && (
-                <div className="section-data-label">Action</div>
-              )}
-            </div>
-
-            {/* Grid Data */}
-            <div className="section-data-grid">
-              <div>
-                {campsiteToRender.name ? campsiteToRender.name : "Unassigned"}
+            <div className="planner-grid">
+              <div className="planner-grid-header">
+                <div>Campsite Location</div>
+                {user._id === trip.organizerId && <div>Action</div>}
               </div>
-              {user._id === trip.organizerId && (
-                <div className="section-action">
-                  <button
-                    className="btn-secondary"
-                    onClick={() => setEditCampsite(campsiteToRender)}
-                  >
-                    Edit
-                  </button>
+
+              <div className="planner-grid-row">
+                <div>
+                  {campsiteToRender.name ? campsiteToRender.name : "Unassigned"}
                 </div>
-              )}
+                {user._id === trip.organizerId && (
+                  <div>
+                    <div
+                      className="inline-action"
+                      onClick={() => setEditCampsite(campsiteToRender)}
+                    >
+                      {campsiteToRender.name ? "Edit" : "Assign"}
+                      <span className="arrow">→</span>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         );

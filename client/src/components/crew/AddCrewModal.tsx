@@ -7,6 +7,9 @@ import { UserData } from "../../types/user";
 import { CrewRole, CREW_ROLE_OPTIONS } from "../../types/roles";
 import { useState } from "react";
 import { CrewMember } from "../../types/crew";
+
+import "../../styles/modal.css"; // ✅ GLOBAL modal styles
+
 interface AddCrewModalProps {
   trip: TripData;
   onClose: () => void;
@@ -14,7 +17,7 @@ interface AddCrewModalProps {
 
 export default function AddCrewModal({ trip, onClose }: AddCrewModalProps) {
   const { data, loading, error } = useQuery(GET_USERS);
-  const { data: crewData, loading: crewLoading } = useQuery(GET_CREW_BY_TRIP, {
+  const { data: crewData } = useQuery(GET_CREW_BY_TRIP, {
     variables: { tripId: trip._id },
     skip: !trip._id,
   });
@@ -26,18 +29,16 @@ export default function AddCrewModal({ trip, onClose }: AddCrewModalProps) {
   const [roleInputs, setRoleInputs] = useState<{ [userId: string]: CrewRole }>(
     {}
   );
-  const [addedUserIds, setAddedUserIds] = useState<Set<string>>(new Set()); // ✅ NEW
+  const [addedUserIds, setAddedUserIds] = useState<Set<string>>(new Set());
 
   const allUsers: UserData[] = data?.users || [];
 
-  // Build Set of existing crew userIds
   const existingCrewUserIds = new Set(
     (crewData?.crewByTrip || []).map((member: CrewMember) =>
       typeof member.userId === "string" ? member.userId : member.userId._id
     )
   );
 
-  // Simple search filter: match on name or email
   const filteredUsers = allUsers.filter((user) => {
     const term = search.toLowerCase();
     return (
@@ -61,15 +62,7 @@ export default function AddCrewModal({ trip, onClose }: AddCrewModalProps) {
       });
       console.log(`User ${userId} added to crew with role ${role}!`);
 
-      // ✅ After success → track added user
       setAddedUserIds((prev) => new Set(prev).add(userId));
-
-      // Optional: clear role input for this user (optional, can keep or remove)
-      // setRoleInputs((prev) => {
-      //   const newInputs = { ...prev };
-      //   delete newInputs[userId];
-      //   return newInputs;
-      // });
     } catch (err) {
       console.error("Error adding crew member:", err);
     } finally {
@@ -78,40 +71,40 @@ export default function AddCrewModal({ trip, onClose }: AddCrewModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-md shadow-md w-full max-w-lg">
-        <h2 className="text-2xl font-header mb-4 text-primary text-center">
-          Add Crew Member
-        </h2>
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h2>Add Crew Member</h2>
 
-        {/* Search */}
-        <div className="mb-4">
+        <div className="form-group">
+          <label htmlFor="search" className="form-label">
+            Search
+          </label>
           <input
+            id="search"
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by name or email"
-            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+            className="form-input"
           />
         </div>
 
-        {/* Loading/Error */}
-        {(loading || crewLoading) && (
-          <div className="text-center text-textBody mb-4">Loading users...</div>
-        )}
-
+        {loading && <div className="text-center">Loading users...</div>}
         {error && (
           <div className="text-center text-red-600 mb-4">
             Error loading users: {error.message}
           </div>
         )}
 
-        {/* User list */}
-        <div className="max-h-64 overflow-y-auto mb-6">
+        <div
+          style={{
+            maxHeight: "300px",
+            overflowY: "auto",
+            marginBottom: "1.5rem",
+          }}
+        >
           {filteredUsers.length === 0 && !loading ? (
-            <div className="text-center text-textBody">
-              No matching users found.
-            </div>
+            <div className="text-center">No matching users found.</div>
           ) : (
             filteredUsers.map((user) => {
               const isAlreadyOnCrew = existingCrewUserIds.has(user._id);
@@ -120,19 +113,29 @@ export default function AddCrewModal({ trip, onClose }: AddCrewModalProps) {
               return (
                 <div
                   key={user._id}
-                  className="flex flex-col border-b py-2 space-y-2"
+                  style={{
+                    borderBottom: "1px solid #ddd",
+                    padding: "0.75rem 0",
+                  }}
                 >
-                  {/* User name + email */}
-                  <div>
-                    <div className="font-semibold">
-                      {`${user.firstName || ""} ${user.lastName || ""}`.trim()}
-                    </div>
-                    <div className="text-sm text-gray-600">{user.email}</div>
+                  <div style={{ fontWeight: "600" }}>
+                    {`${user.firstName || ""} ${user.lastName || ""}`.trim()}
+                  </div>
+                  <div style={{ fontSize: "0.9rem", color: "#666" }}>
+                    {user.email}
                   </div>
 
-                  {/* Role dropdown + Add button */}
-                  <div className="flex items-center space-x-3">
-                    <label className="font-medium">Role:</label>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginTop: "0.5rem",
+                      gap: "0.5rem",
+                    }}
+                  >
+                    <label className="form-label" style={{ marginBottom: "0" }}>
+                      Role:
+                    </label>
                     <select
                       value={roleInputs[user._id] || "Crew"}
                       onChange={(e) =>
@@ -141,7 +144,8 @@ export default function AddCrewModal({ trip, onClose }: AddCrewModalProps) {
                           [user._id]: e.target.value as CrewRole,
                         }))
                       }
-                      className="flex-1 border border-gray-300 rounded px-2 py-1"
+                      className="form-input"
+                      style={{ flex: "1" }}
                       disabled={isAlreadyOnCrew || isJustAdded}
                     >
                       {CREW_ROLE_OPTIONS.map((role) => (
@@ -150,12 +154,9 @@ export default function AddCrewModal({ trip, onClose }: AddCrewModalProps) {
                         </option>
                       ))}
                     </select>
+
                     <button
-                      className={`btn-primary ${
-                        isAlreadyOnCrew || isJustAdded
-                          ? "opacity-50 cursor-not-allowed"
-                          : ""
-                      }`}
+                      className="btn-primary"
                       disabled={
                         addingUserId === user._id ||
                         isAlreadyOnCrew ||
@@ -178,8 +179,7 @@ export default function AddCrewModal({ trip, onClose }: AddCrewModalProps) {
           )}
         </div>
 
-        {/* Modal Close */}
-        <div className="flex justify-end space-x-3 mt-6">
+        <div className="modal-buttons">
           <button className="btn-secondary" onClick={onClose}>
             Close
           </button>

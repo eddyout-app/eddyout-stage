@@ -9,6 +9,8 @@ import { useState } from "react";
 import { TripData } from "../../types/trip";
 import { UserData } from "../../types/user";
 
+import "../../styles/sections.css";
+
 interface ExpensesSectionProps {
   trip: TripData;
   user: UserData;
@@ -56,36 +58,33 @@ export default function ExpensesSection({ trip, user }: ExpensesSectionProps) {
 
   if (expensesLoading || balancesLoading) {
     return (
-      <div className="text-center mt-10 text-textBody font-body text-lg">
+      <p style={{ textAlign: "center", marginTop: "2rem" }}>
         Loading expenses...
-      </div>
+      </p>
     );
   }
 
   if (expensesError || balancesError) {
     return (
-      <div className="text-center mt-10 text-red-600 font-body text-lg">
+      <p style={{ textAlign: "center", marginTop: "2rem", color: "red" }}>
         Error loading expenses:{" "}
         {expensesError?.message || balancesError?.message}
-      </div>
+      </p>
     );
   }
 
   return (
-    <div className="bg-light-neutral min-h-screen py-10 px-4 font-body text-textBody">
-      <h1 className="text-4xl font-header text-primary mb-6 text-center">
-        Trip Expenses
-      </h1>
+    <div className="section-container">
+      <h1>Trip Expenses</h1>
 
-      <div className="flex justify-center mb-6">
+      <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
         <button className="btn-primary" onClick={handleAddExpense}>
           Add Expense
         </button>
       </div>
 
-      <div className="overflow-y-auto max-h-[60vh] pr-2 mx-auto">
-        {/* Grid header */}
-        <div className="grid grid-cols-4 gap-4 items-center text-center font-semibold mb-2 border-b border-gray-400 pb-2">
+      <div className="planner-grid">
+        <div className="planner-grid-header">
           <div>Description</div>
           <div>Amount</div>
           <div>Paid By</div>
@@ -96,33 +95,35 @@ export default function ExpensesSection({ trip, user }: ExpensesSectionProps) {
           const isOwner = expense.userId === user._id;
 
           return (
-            <div
-              key={expense._id}
-              className="grid grid-cols-4 gap-4 items-center text-center py-2 border-b border-gray-200"
-            >
+            <div key={expense._id} className="planner-grid-row">
               <div>{expense.description}</div>
               <div>${expense.amount.toFixed(2)}</div>
               <div>{isOwner ? "You" : expense.userId}</div>
 
               <div>
-                <button
-                  className="btn-action"
+                <div
+                  className="inline-action"
                   onClick={() => setEditExpense(expense)}
                 >
-                  {isOwner ? "Edit" : "View"}
-                </button>
+                  {isOwner ? "Edit" : "View"} <span className="arrow">→</span>
+                </div>
               </div>
             </div>
           );
         })}
       </div>
 
-      <h2 className="text-2xl font-header text-primary mt-8 mb-4 text-center">
+      <h2
+        style={{ textAlign: "center", marginTop: "2rem", marginBottom: "1rem" }}
+      >
         Balances
       </h2>
 
-      <div className="overflow-y-auto max-h-[30vh] pr-2 mx-auto">
-        <div className="grid grid-cols-2 gap-4 text-center font-semibold mb-2 border-b border-gray-400 pb-2">
+      <div className="planner-grid">
+        <div
+          className="planner-grid-header"
+          style={{ gridTemplateColumns: "1fr 1fr" }}
+        >
           <div>User</div>
           <div>Balance</div>
         </div>
@@ -131,7 +132,8 @@ export default function ExpensesSection({ trip, user }: ExpensesSectionProps) {
           (balance: { userId: string; balance: number }) => (
             <div
               key={balance.userId}
-              className="grid grid-cols-2 gap-4 items-center text-center py-2 border-b border-gray-200"
+              className="planner-grid-row"
+              style={{ gridTemplateColumns: "1fr 1fr" }}
             >
               <div>{balance.userId === user._id ? "You" : balance.userId}</div>
               <div

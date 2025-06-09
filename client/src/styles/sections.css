@@ -45,49 +45,79 @@
   color: var(--color-text-body);
 }
 
-/* Grid header row */
-.section-data-label-row {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  margin-bottom: 0.25rem;
-}
-
-.section-data-label {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  font-size: 1rem;
-  font-weight: 500;
+.planner-grid {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: 0.25rem; /* small gap between rows */
+  margin-top: 1rem;
 }
 
-/* Grid data row */
-.section-data-grid {
+.planner-grid-header {
   display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  padding: 0.4rem 0;
-  font-size: 1rem;
-  color: var(--color-text-body);
-  border-bottom: 1px solid #ccc;
+  grid-template-columns: 1fr 2fr 1fr auto;
+  font-weight: 600;
+  font-family: var(--font-header);
+  color: var(--color-dark-accent);
+  padding: 8px 0;
+  border-bottom: 2px solid #ccc;
 }
 
-/* Action column */
-.section-action {
+.planner-grid-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr auto;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  align-items: center;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-text-body);
+}
+
+.planner-grid-row:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* Align Action column */
+.planner-grid-header div:last-child,
+.planner-grid-row div:last-child {
+  min-width: 100px;
   text-align: right;
 }
 
-/* Responsive */
+.planner-grid-header div:last-child {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  min-width: 100px;
+}
+
 @media (max-width: 600px) {
-  .section-data-label-row,
-  .section-data-grid {
+  .planner-grid-header,
+  .planner-grid-row {
     grid-template-columns: 1fr;
-    text-align: left;
+    row-gap: 0.5rem;
   }
 
-  .section-action {
+  .planner-grid-header > div,
+  .planner-grid-row > div {
     text-align: left;
-    margin-top: 0.5rem;
   }
+}
+
+.inline-action {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+  text-decoration: none;
+}
+
+.inline-action:hover {
+  transform: translateX(4px);
+  color: var(--color-accent);
 }

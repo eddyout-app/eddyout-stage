@@ -1,5 +1,3 @@
-// components/gear/GearModal.tsx
-
 import { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { GearItemData, GearCatalogItemData } from "../../types/gear";
@@ -11,6 +9,8 @@ import {
   GET_GEAR_ITEMS_BY_TRIP,
   GET_GEAR_CATALOG_ITEMS,
 } from "../../graphql/queries/gearQueries";
+
+import "../../styles/modal.css"; // ✅ GLOBAL modal styles
 
 interface GearModalProps {
   gearItem: GearItemData;
@@ -106,9 +106,9 @@ export default function GearModal({
     .map((item: GearCatalogItemData) => item.itemName);
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-md shadow-md w-96">
-        <h2 className="text-xl font-header mb-4">
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h2>
           {gearItem._id.startsWith("unclaimed")
             ? "Add Gear Item"
             : "Edit Gear Item"}
@@ -120,16 +120,19 @@ export default function GearModal({
             handleSave();
           }}
         >
-          {/* Category select */}
-          <div className="mb-4">
-            <label className="block mb-1 font-medium">Category</label>
+          {/* Category */}
+          <div className="form-group">
+            <label htmlFor="category" className="form-label">
+              Category
+            </label>
             <select
+              id="category"
               value={category}
               onChange={(e) => {
                 setCategory(e.target.value);
                 setItemName(""); // reset item when category changes
               }}
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+              className="form-input"
               required
             >
               {categories.map((cat: string) => (
@@ -140,22 +143,26 @@ export default function GearModal({
             </select>
           </div>
 
-          {/* Item select OR freeform input if "Other" */}
-          <div className="mb-4">
-            <label className="block mb-1 font-medium">Item</label>
+          {/* Item */}
+          <div className="form-group">
+            <label htmlFor="itemName" className="form-label">
+              Item
+            </label>
             {category === "Other" ? (
               <input
+                id="itemName"
                 type="text"
                 value={itemName}
                 onChange={(e) => setItemName(e.target.value)}
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                className="form-input"
                 required
               />
             ) : (
               <select
+                id="itemName"
                 value={itemName}
                 onChange={(e) => setItemName(e.target.value)}
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                className="form-input"
                 required
               >
                 <option value="" disabled>
@@ -171,20 +178,23 @@ export default function GearModal({
           </div>
 
           {/* Quantity */}
-          <div className="mb-4">
-            <label className="block mb-1 font-medium">Quantity</label>
+          <div className="form-group">
+            <label htmlFor="quantity" className="form-label">
+              Quantity
+            </label>
             <input
+              id="quantity"
               type="number"
               min="1"
               value={quantity}
               onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+              className="form-input"
               required
             />
           </div>
 
-          {/* Action buttons */}
-          <div className="flex justify-end space-x-3 mt-6">
+          {/* Buttons */}
+          <div className="modal-buttons">
             <button type="button" onClick={onClose} className="btn-secondary">
               Cancel
             </button>
