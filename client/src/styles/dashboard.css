@@ -18,7 +18,7 @@
   padding: 2rem 1rem;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 /* Dashboard Header */
@@ -72,7 +72,7 @@
 
 /* Dashboard Sections */
 .dashboard-section {
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
 }
 
 .dashboard-section h2 {

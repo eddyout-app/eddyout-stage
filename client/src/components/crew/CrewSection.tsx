@@ -4,10 +4,12 @@ import { REMOVE_CREW_MEMBER } from "../../graphql/mutations/crewMutations";
 import { CrewMember } from "../../types/crew";
 import { UserData } from "../../types/user";
 import { TripData } from "../../types/trip";
-import CrewModal from "./CrewModal";
+import CrewModal from "./EditCrewModal";
 import InviteCrewModal from "./InviteCrewModal";
 import AddCrewModal from "./AddCrewModal";
 import { useState } from "react";
+
+import "../../styles/sections.css";
 
 interface CrewSectionProps {
   trip: TripData;
@@ -45,73 +47,82 @@ export default function CrewSection({ trip, user }: CrewSectionProps) {
 
   if (loading) {
     return (
-      <div className="text-center mt-10 text-textBody font-body text-lg">
-        Loading crew...
-      </div>
+      <p style={{ textAlign: "center", marginTop: "2rem" }}>Loading crew...</p>
     );
   }
 
   if (error) {
     return (
-      <div className="text-center mt-10 text-red-600 font-body text-lg">
+      <p style={{ textAlign: "center", marginTop: "2rem", color: "red" }}>
         Error loading crew: {error.message}
-      </div>
+      </p>
     );
   }
 
   return (
-    <div className="bg-light-neutral min-h-screen py-10 px-4 font-body text-textBody">
-      <h1 className="text-4xl font-header text-primary mb-6 text-center">
-        Crew
-      </h1>
+    <div className="section-container">
+      <h1>Crew</h1>
 
-      <div className="grid grid-cols-3 gap-4 items-center text-center font-semibold mb-2 border-b border-gray-400 pb-2">
-        <div>Name</div>
-        <div>Role</div>
-        <div>Action</div>
-      </div>
+      <div className="planner-grid">
+        <div
+          className="planner-grid-header"
+          style={{ gridTemplateColumns: isLeader ? "1fr 1fr auto" : "1fr 1fr" }}
+        >
+          <div>Name</div>
+          <div>Role</div>
+          {isLeader && <div>Action</div>}
+        </div>
 
-      {crew.map((member) => {
-        const userIdObj = member.userId as { _id: string; fullName: string };
+        {crew.map((member) => {
+          const userIdObj = member.userId as { _id: string; fullName: string };
 
-        return (
-          <div
-            key={member._id}
-            className="grid grid-cols-3 gap-4 items-center text-center py-2 border-b border-gray-200"
-          >
-            <div>{userIdObj?.fullName || "Unknown"}</div>
-            <div>{member.role || "—"}</div>
-            <div className="space-x-2">
-              {/* Edit button — only visible to leader */}
+          return (
+            <div
+              key={member._id}
+              className="planner-grid-row"
+              style={{
+                gridTemplateColumns: isLeader ? "1fr 1fr auto" : "1fr 1fr",
+              }}
+            >
+              <div>{userIdObj?.fullName || "Unknown"}</div>
+              <div>{member.role || "—"}</div>
+
               {isLeader && (
-                <button
-                  className="btn-action"
-                  onClick={() => setEditCrewMember(member)}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-end",
+                    gap: "4px",
+                  }}
                 >
-                  Edit
-                </button>
-              )}
+                  <div
+                    className="inline-action"
+                    onClick={() => setEditCrewMember(member)}
+                  >
+                    Edit <span className="arrow">→</span>
+                  </div>
 
-              {/* Remove button — visible to leader */}
-              {isLeader && (
-                <button
-                  className="btn-action"
-                  onClick={() => handleRemoveCrewMember(member._id)}
-                >
-                  Remove
-                </button>
+                  <div
+                    className="inline-action"
+                    onClick={() => handleRemoveCrewMember(member._id)}
+                  >
+                    Remove <span className="arrow">→</span>
+                  </div>
+                </div>
               )}
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
 
-      {/* Buttons — visible only to Leader */}
+      {/* Leader-only buttons */}
       {isLeader && (
-        <div className="mt-6 text-center space-x-4">
+        <div style={{ textAlign: "center", marginTop: "2rem" }}>
           <button
             className="btn-primary"
             onClick={() => setShowInviteModal(true)}
+            style={{ marginRight: "1rem" }}
           >
             Invite Crew Member
           </button>

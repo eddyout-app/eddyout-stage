@@ -4,10 +4,11 @@ import { MealData } from "../../types/meals";
 import { ADD_MEAL, UPDATE_MEAL } from "../../graphql/mutations/mealMutations";
 import { GET_MEALS_BY_TRIP } from "../../graphql/queries/mealQueries";
 
+import "../../styles/modal.css"; // ✅ GLOBAL modal styles
+
 interface MealModalProps {
   meal: MealData;
   userId: string;
-  // fullName: string;
   isLeader: boolean;
   onClose: () => void;
   onSave: (updatedMeal: MealData) => void;
@@ -16,7 +17,6 @@ interface MealModalProps {
 export default function MealModal({
   meal,
   userId,
-  // fullName,
   isLeader,
   onClose,
   onSave,
@@ -83,11 +83,9 @@ export default function MealModal({
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-md shadow-md w-96">
-        <h2 className="text-xl font-header mb-4">
-          {meal.userId ? "Edit Meal" : "Claim Meal"}
-        </h2>
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h2>{meal.userId ? "Edit Meal" : "Claim Meal"}</h2>
 
         <form
           onSubmit={(e) => {
@@ -95,19 +93,20 @@ export default function MealModal({
             handleSave();
           }}
         >
-          <div className="mb-4">
-            <label className="block mb-1 font-medium">
+          <div className="form-group">
+            <label htmlFor="mealName" className="form-label">
               What will you bring?
             </label>
             <input
+              id="mealName"
               type="text"
+              className="form-input"
               value={mealName}
               onChange={(e) => setMealName(e.target.value)}
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
 
-          <div className="flex justify-end space-x-3 mt-6">
+          <div className="modal-buttons">
             <button type="button" onClick={onClose} className="btn-secondary">
               Cancel
             </button>
