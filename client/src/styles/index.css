@@ -1,7 +1,10 @@
 @import "./global.css";
 @import "./typography.css";
-@import "./buttons.css";
 @import "./layout.css";
 @import "./hero-banner.css";
 @import "./nav.css";
 @import "./home.css";
+@import "./dashboard.css";
+@import "./trip-summary.css";
+@import "./sections.css";
+@import "./modal.css";

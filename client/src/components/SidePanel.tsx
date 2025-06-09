@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/SidePanel.css";
+
 interface SidePanelProps {
   isOpen: boolean;
   onClose: () => void;
@@ -13,7 +13,7 @@ export default function SidePanel({
 }: SidePanelProps) {
   return (
     <div className={`side-panel ${isOpen ? "open" : ""}`}>
-      <button className="side-panel-close" onClick={onClose}>
+      <button className="btn-secondary" onClick={onClose}>
         ✖
       </button>
       <div className="side-panel-content">{children}</div>

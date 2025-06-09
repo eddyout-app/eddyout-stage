@@ -7,6 +7,8 @@ import {
 } from "../../graphql/mutations/campsitesMutations";
 import { GET_CAMPSITES } from "../../graphql/queries/campsitesQueries";
 
+import "../../styles/modal.css"; // ✅ GLOBAL modal styles
+
 interface CampsiteModalProps {
   campsite: CampsiteData;
   isLeader: boolean;
@@ -82,40 +84,39 @@ export default function CampsiteModal({
     }
   };
 
-  // Simple permissions logic: leader can always edit
   if (!isLeader) {
     return null;
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-md shadow-md w-96">
-        <h2 className="text-xl font-header mb-4">
-          {campsite.name ? "Edit Campsite" : "Assign Campsite"}
-        </h2>
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h2>{campsite.name ? "Edit Campsite" : "Assign Campsite"}</h2>
+
         <form
           onSubmit={(e) => {
-            e.preventDefault(); // prevent page reload
+            e.preventDefault();
             handleSave();
           }}
         >
-          <div className="mb-4">
-            <label className="block mb-1 font-medium">
+          <div className="form-group">
+            <label htmlFor="locationName" className="form-label">
               Campsite Location Name
             </label>
             <input
+              id="locationName"
               type="text"
+              className="form-input"
               value={locationName}
               onChange={(e) => setLocationName(e.target.value)}
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
 
-          <div className="flex justify-end space-x-3 mt-6">
+          <div className="modal-buttons">
             <button type="button" onClick={onClose} className="btn-secondary">
               Cancel
             </button>
-            <button type="submit" onClick={handleSave} className="btn-primary">
+            <button type="submit" className="btn-primary">
               {campsite.name ? "Save Changes" : "Assign Campsite"}
             </button>
           </div>

@@ -1,44 +1,9 @@
-/* styles/layout.css */
-
-/* Dashboard Page */
-.dashboard-page {
-  background-color: var(--color-light-neutral);
-  font-family: var(--font-body);
-  color: var(--color-text-body);
-  padding: 1rem;
-  max-width: 48rem;
-  margin: 0 auto;
-}
-
-/* Dashboard trip summary */
-.trip-summary {
-  font-family: var(--font-body);
-  font-weight: 400;
-  background-color: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  text-align: center;
-  max-width: 42rem;
-  margin: 0 auto;
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
-}
-
-.trip-summary:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transform: translateY(-2px);
-}
-
-.trip-summary h2 {
-  font-size: 1.25rem;
-  font-weight: 400;
-  margin-bottom: 0.5rem;
-  color: var(--color-primary);
-}
-
-.trip-summary:hover h2 {
-  color: var(--color-accent);
+/* Make main content grow to fill space */
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 /* Side panel responsiveness */
@@ -72,4 +37,11 @@
     width: 40%;
     right: -40%;
   }
+}
+
+/* App full-page flex layout */
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }

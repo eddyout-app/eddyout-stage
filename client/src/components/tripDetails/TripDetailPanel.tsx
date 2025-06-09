@@ -1,11 +1,11 @@
 import CampsitesSection from "../campsites/CampsitesSection";
 import MealSection from "../meals/MealSection";
 import SidePanel from "../SidePanel";
-// import GearSection from "../gear/GearSection";
 import { TripData } from "../../types/trip";
 import { UserData } from "../../types/user";
 import CrewSection from "../crew/CrewSection";
 import ExpensesSection from "../expenses/ExpensesSection";
+import GearSection from "../gear/GearSection";
 
 interface TripDetailPanelProps {
   trip: TripData;
@@ -38,8 +38,8 @@ export default function TripDetailPanel({
   });
 
   return (
-    <div className="trip-detail-panel p-4 border-t border-gray-300">
-      <h2 className="text-xl mb-2">Trip Details: {trip.riverName}</h2>
+    <div className="trip-detail-panel">
+      <h2>Trip Details: {trip.riverName}</h2>
       <p>
         Dates: {startDateFormatted} to {endDateFormatted}
       </p>
@@ -47,28 +47,53 @@ export default function TripDetailPanel({
         Put In: {trip.putIn} | Take Out: {trip.takeOut} | Crew Size:{" "}
         {trip.crewNum}
       </p>
-      <div className="trip-detail-buttons mt-4">
-        <button onClick={() => onViewChange("campsites")}>Campsites</button>
-        <button onClick={() => onViewChange("meals")}>Meals</button>
-        <button onClick={() => onViewChange("gear")}>Gear</button>
-        <button onClick={() => onViewChange("crew")}>Crew</button>
-        <button onClick={() => onViewChange("expenses")}>Expenses</button>
+
+      <div className="trip-detail-buttons">
+        <div className="trip-detail-buttons-left">
+          <button
+            className="btn-secondary"
+            onClick={() => onViewChange("campsites")}
+          >
+            Campsites
+          </button>
+          <button
+            className="btn-secondary"
+            onClick={() => onViewChange("meals")}
+          >
+            Meals
+          </button>
+          <button
+            className="btn-secondary"
+            onClick={() => onViewChange("gear")}
+          >
+            Gear
+          </button>
+          <button
+            className="btn-secondary"
+            onClick={() => onViewChange("crew")}
+          >
+            Crew
+          </button>
+          <button
+            className="btn-secondary"
+            onClick={() => onViewChange("expenses")}
+          >
+            Expenses
+          </button>
+        </div>
+
+        <SidePanel isOpen={!!view} onClose={onClose}>
+          {view === "meals" && <MealSection trip={trip} user={user} />}
+          {view === "campsites" && <CampsitesSection trip={trip} user={user} />}
+          {view === "gear" && <GearSection trip={trip} user={user} />}
+          {view === "crew" && <CrewSection trip={trip} user={user} />}
+          {view === "expenses" && <ExpensesSection trip={trip} user={user} />}
+        </SidePanel>
+
+        <button onClick={onClose} className="btn-secondary">
+          Close
+        </button>
       </div>
-
-      <SidePanel isOpen={!!view} onClose={onClose}>
-        {view === "meals" && <MealSection trip={trip} user={user} />}
-        {view === "campsites" && <CampsitesSection trip={trip} user={user} />}
-        {/* {view === "gear" && <GearSection trip={trip} user={user} />} */}
-        {view === "crew" && <CrewSection trip={trip} user={user} />}
-        {view === "expenses" && <ExpensesSection trip={trip} user={user} />}
-      </SidePanel>
-
-      <button
-        onClick={onClose}
-        className="bg-red-500 text-white px-4 py-2 rounded"
-      >
-        Close
-      </button>
     </div>
   );
 }

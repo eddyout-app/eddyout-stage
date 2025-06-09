@@ -1,0 +1,38 @@
+/* GLOBAL Modal background overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(rgba(10, 25, 47, 0.7), rgba(10, 25, 47, 0.7)),
+    url("/YOUR-MODAL-BACKGROUND.jpg") center center / cover no-repeat;
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* GLOBAL Modal content box */
+.modal-content {
+  background-color: var(--color-light-neutral);
+  padding: 2rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  max-width: 450px;
+  width: 90%;
+}
+
+.modal-content h2 {
+  font-family: var(--font-header);
+  font-size: 1.75rem;
+  color: var(--color-dark-accent);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Modal buttons row */
+/* .modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+} */

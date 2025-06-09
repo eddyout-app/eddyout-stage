@@ -116,18 +116,33 @@ button {
   font-size: 1rem;
   font-weight: 500;
   padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
+  border-radius: 4px;
   background-color: var(--color-primary);
   color: white;
   transition: background-color 0.25s, border-color 0.25s, color 0.25s;
-
-  /* GLOBAL button spacing */
-  margin-top: 1.5rem;
-  margin-bottom: 0; /* or adjust if needed */
+  margin: 1rem;
 }
 
 button:hover {
   background-color: var(--color-accent);
+}
+
+.btn-secondary {
+  cursor: pointer;
+  background-color: transparent;
+  color: var(--color-dark-accent);
+  border: 1px solid var(--color-dark-accent);
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  margin: 1rem;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-dark-accent);
+  color: white;
+  border-color: var(--color-dark-accent);
 }
 
 /* Scrollbar for main */
@@ -138,4 +153,18 @@ main::-webkit-scrollbar {
 main::-webkit-scrollbar-thumb {
   background-color: var(--color-muted-secondary);
   border-radius: 9999px;
+}
+
+/* FOOTER */
+footer {
+  background-color: var(--color-dark-accent);
+  color: white;
+  text-align: center;
+  padding: 0.75rem 0;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+footer p {
+  color: white;
 }
