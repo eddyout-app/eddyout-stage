@@ -1,4 +1,12 @@
 import mongoose from "mongoose";
+const MEDICAL_TRAINING_LEVELS = [
+  "None",
+  "Basic First Aid",
+  "CPR Certified",
+  "Wilderness First Responder (WFR)",
+  "Emergency Medical Technician (EMT)",
+  "Paramedic or Higher",
+];
 
 const UserPreferencesSchema = new mongoose.Schema(
   {
@@ -6,14 +14,10 @@ const UserPreferencesSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
-      unique: true, // 1 preferences doc per user
+      unique: true,
     },
     dietaryRestrictions: {
       type: [String],
-      required: false,
-    },
-    venmoHandle: {
-      type: String,
       required: false,
     },
     phone: {
@@ -37,8 +41,10 @@ const UserPreferencesSchema = new mongoose.Schema(
       required: false,
     },
     medicalTraining: {
-      type: Boolean,
+      type: String,
+      enum: MEDICAL_TRAINING_LEVELS,
       required: false,
+      default: undefined,
     },
     preferredPaymentMethod: {
       type: String,

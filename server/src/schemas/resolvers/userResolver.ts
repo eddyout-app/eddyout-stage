@@ -2,6 +2,7 @@ import User from "../../models/user.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { sendResetEmail } from "../../utils/sendEmail.js"; // adjust path if needed
+import { __TypeKind } from "graphql";
 
 const SECRET = process.env.JWT_SECRET || "mysecretkey"; // Replace with your real secret in production!
 
@@ -173,6 +174,19 @@ export const userResolvers = {
         console.error("Reset password error:", err);
         throw new Error("Failed to reset password");
       }
+    },
+
+    updateUserProfile: async (
+      _parent: any,
+      { id, username, firstName, lastName }: any
+    ) => {
+      const updatedUser = await User.findByIdAndUpdate(
+        id,
+        { username, firstName, lastName },
+        { new: true }
+      ).populate("userDetails");
+      if (!updatedUser) throw new Error("User not found");
+      return updatedUser;
     },
   },
 };

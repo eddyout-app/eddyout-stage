@@ -36,6 +36,13 @@ export const userTypeDefs = gql`
       role: String
     ): AuthPayload!
 
+    updateUserProfile(
+      id: ID!
+      username: String!
+      firstName: String!
+      lastName: String!
+    ): User!
+
     login(email: String!, password: String!): AuthPayload!
     requestPasswordReset(email: String!): Boolean!
     resetPassword(token: String!, newPassword: String!): Boolean!
