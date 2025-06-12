@@ -1,5 +1,3 @@
-// Dashboard.tsx → FULL REFACTORED
-
 import { useEffect, useState, useRef } from "react";
 import { TripData } from "../../types/trip";
 import TripSummaryCard from "../../components/tripDetails/TripSummaryCard";
@@ -272,7 +270,7 @@ export default function Dashboard() {
           isOpen={isProfileOpen}
           onClose={() => setIsProfileOpen(false)}
         >
-          <UserProfile userId={user._id} />
+          {isProfileOpen && <UserProfile user={user} />}
         </SidePanel>
       </main>
 

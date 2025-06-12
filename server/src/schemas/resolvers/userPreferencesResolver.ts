@@ -1,34 +1,31 @@
 import UserPreferences from "../../models/userPreferences.js";
-import User from "../../models/user.js";
 
 const userPreferencesResolvers = {
   Query: {
-    getUserPreferences: async (_: any, { userId }: { userId: string }) => {
+    getUserPreferences: async (_parent: any, args: { _id: string }) => {
+      const { _id } = args;
+
       try {
-        const userPreferences = await UserPreferences.findOne({ userId });
-
+        const userPreferences = await UserPreferences.findOne({
+          userId: _id,
+        });
         if (!userPreferences) {
-          throw new Error("User preferences not found");
+          console.log("⚠️ No preferences found for this user.");
+          return null;
         }
-
         return userPreferences;
       } catch (error) {
-        if (error instanceof Error) {
-          throw new Error("Error fetching user preferences: " + error.message);
-        } else {
-          throw new Error("Error fetching user preferences: " + String(error));
-        }
+        throw new Error("Error fetching user preferences:" + error);
       }
     },
   },
 
   Mutation: {
     updateUserPreferences: async (
-      _: any,
+      _parent: any,
       {
-        userId,
+        id,
         dietaryRestrictions,
-        venmoHandle,
         phone,
         allergies,
         medicalConditions,
@@ -38,73 +35,44 @@ const userPreferencesResolvers = {
         preferredPaymentMethod,
         paymentHandle,
         avatar,
-      }: {
-        userId: string;
-        dietaryRestrictions: string[];
-        venmoHandle: string;
-        phone: string;
-        allergies: string;
-        medicalConditions: string;
-        emergencyContactName: string;
-        emergencyContactPhone: string;
-        medicalTraining: boolean;
-        preferredPaymentMethod: string;
-        paymentHandle: string;
-        avatar: string;
-      }
+      }: any
     ) => {
-      try {
-        const user = await User.findById(userId);
+      let updatedUserPreferences = await UserPreferences.findOneAndUpdate(
+        { userId: id },
+        {
+          dietaryRestrictions,
+          phone,
+          allergies,
+          medicalConditions,
+          emergencyContactName,
+          emergencyContactPhone,
+          medicalTraining: medicalTraining || undefined,
+          preferredPaymentMethod,
+          paymentHandle,
+          avatar,
+        },
+        { new: true }
+      );
 
-        if (!user) {
-          throw new Error("User not found");
-        }
-
-        let userPreferences = await UserPreferences.findOne({ userId });
-
-        if (!userPreferences) {
-          // Create new preferences
-          userPreferences = new UserPreferences({
-            userId, // IMPORTANT!
-            dietaryRestrictions,
-            venmoHandle,
-            phone,
-            allergies,
-            medicalConditions,
-            emergencyContactName,
-            emergencyContactPhone,
-            medicalTraining,
-            preferredPaymentMethod,
-            paymentHandle,
-            avatar,
-          });
-
-          await userPreferences.save();
-        } else {
-          // Update existing preferences
-          userPreferences.dietaryRestrictions = dietaryRestrictions;
-          userPreferences.venmoHandle = venmoHandle;
-          userPreferences.phone = phone;
-          userPreferences.allergies = allergies;
-          userPreferences.medicalConditions = medicalConditions;
-          userPreferences.emergencyContactName = emergencyContactName;
-          userPreferences.emergencyContactPhone = emergencyContactPhone;
-          userPreferences.medicalTraining = medicalTraining;
-          userPreferences.preferredPaymentMethod = preferredPaymentMethod;
-          userPreferences.paymentHandle = paymentHandle;
-          userPreferences.avatar = avatar;
-
-          await userPreferences.save();
-        }
-
-        return userPreferences;
-      } catch (error) {
-        if (error instanceof Error) {
-          throw new Error("Error updating user preferences: " + error.message);
-        } else {
-          throw new Error("Error updating user preferences: " + String(error));
-        }
+      // 🔁 Fallback: If no existing preferences, create them now
+      if (!updatedUserPreferences) {
+        updatedUserPreferences = new UserPreferences({
+          userId: id,
+          dietaryRestrictions,
+          phone,
+          allergies,
+          medicalConditions,
+          emergencyContactName,
+          emergencyContactPhone,
+          medicalTraining: medicalTraining || undefined,
+          preferredPaymentMethod,
+          paymentHandle,
+          avatar,
+        });
+        await updatedUserPreferences.save();
       }
+
+      return updatedUserPreferences;
     },
   },
 };

@@ -48,3 +48,24 @@ export const LOGIN_USER = gql`
     }
   }
 `;
+
+export const UPDATE_USER_PROFILE = gql`
+  mutation UpdateUserProfile(
+    $id: ID!
+    $username: String!
+    $firstName: String!
+    $lastName: String!
+  ) {
+    updateUserProfile(
+      id: $id
+      username: $username
+      firstName: $firstName
+      lastName: $lastName
+    ) {
+      _id
+      username
+      firstName
+      lastName
+    }
+  }
+`;
