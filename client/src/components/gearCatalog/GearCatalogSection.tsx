@@ -1,3 +1,4 @@
+//adding comment for commit history
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_GEAR_CATALOG_ITEMS } from "../../graphql/queries/gearQueries";
 import { DELETE_GEAR_CATALOG_ITEM } from "../../graphql/mutations/gearMutations";
