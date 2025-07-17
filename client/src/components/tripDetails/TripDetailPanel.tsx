@@ -7,6 +7,8 @@ import CrewSection from "../crew/CrewSection";
 import ExpensesSection from "../expenses/ExpensesSection";
 import GearSection from "../gear/GearSection";
 
+import "../../styles/trip-detail.css"; // ✅ Make sure this is included!
+
 interface TripDetailPanelProps {
   trip: TripData;
   user: UserData;
@@ -48,7 +50,8 @@ export default function TripDetailPanel({
         {trip.crewNum}
       </p>
 
-      <div className="trip-detail-buttons">
+      {/* 👉 BUTTON BAR with inline CLOSE */}
+      <div className="trip-detail-button-bar">
         <div className="trip-detail-buttons-left">
           <button
             className="btn-secondary"
@@ -82,18 +85,22 @@ export default function TripDetailPanel({
           </button>
         </div>
 
-        <SidePanel isOpen={!!view} onClose={onClose}>
-          {view === "meals" && <MealSection trip={trip} user={user} />}
-          {view === "campsites" && <CampsitesSection trip={trip} user={user} />}
-          {view === "gear" && <GearSection trip={trip} user={user} />}
-          {view === "crew" && <CrewSection trip={trip} user={user} />}
-          {view === "expenses" && <ExpensesSection trip={trip} user={user} />}
-        </SidePanel>
-
-        <button onClick={onClose} className="btn-secondary">
-          Close
-        </button>
+        {/* RIGHT-ALIGNED CLOSE */}
+        <div className="trip-detail-close-button">
+          <button onClick={onClose} className="btn-secondary">
+            Close
+          </button>
+        </div>
       </div>
+
+      {/* SIDE PANEL remains unchanged */}
+      <SidePanel isOpen={!!view} onClose={onClose}>
+        {view === "meals" && <MealSection trip={trip} user={user} />}
+        {view === "campsites" && <CampsitesSection trip={trip} user={user} />}
+        {view === "gear" && <GearSection trip={trip} user={user} />}
+        {view === "crew" && <CrewSection trip={trip} user={user} />}
+        {view === "expenses" && <ExpensesSection trip={trip} user={user} />}
+      </SidePanel>
     </div>
   );
 }

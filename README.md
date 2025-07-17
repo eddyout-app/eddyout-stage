@@ -6,7 +6,7 @@
 
 Plan smarter. Paddle better.
 
-EDDYOUT is a full-stack web application built for outdoor adventurers and river trip organizers who want to streamline multi-day trip planning. From crew management to gear checklists and meal assignments, EDDYOUT centralizes the logistics so you can focus on the fun part—getting on the water. EDDYOUT was built to centralize planning, improve commmunication, and support our outdoor communities. IYKYK, those shared spreadsheets that Trip Leader sends around will 'do the job' but nobody really likes them and we're here to find a better way.
+EDDYOUT is a full-stack single page web application built for outdoor adventurers and river trip organizers who want to streamline multi-day trip planning. From crew management to gear checklists and meal assignments, EDDYOUT centralizes the logistics so you can focus on the fun part—getting on the water. EDDYOUT was built to centralize planning, improve commmunication, and support our outdoor communities. IYKYK, those shared spreadsheets that Trip Leader sends around will 'do the job' but nobody really likes them and we're here to find a better way.
 
 Deployed Application: [https://eddyout-a2mh.onrender.com](https://eddyout-a2mh.onrender.com)
 GitHub Repository: [https://github.com/ellimckinley/EddyOut](https://github.com/ellimckinley/EddyOut)
@@ -36,11 +36,11 @@ GitHub Repository: [https://github.com/ellimckinley/EddyOut](https://github.com/
 - Create, view, and manage multi-day river trips
 - Include river name, put-in/take-out locations, and crew size
 
-<!-- ### Gear
+### Gear
 
 - Build collagorative gear lists and assign items to trip members
 - Plan meals by day and meal type, with cook assignments
-- Manage crew members and roles for each trip -->
+- Manage crew members and roles for each trip
 
 ### Campsites
 
@@ -94,10 +94,10 @@ This project is licensed under the [MIT](https://opensource.org/licenses/MIT) li
 - JWT Authentication
 - GitHub
 - Render
+- Resend
 
 ## Future Development
 
-- Build collagorative gear lists and assign items to trip members
 - Meal Preferences and Dietary alerts on Meals Panel
 - Weather Forecast for trip start location
 - Invite trip members via email
@@ -126,9 +126,16 @@ Thank you to [Justin Vittitoe](https://github.com/justinvittitoe) for your colla
 ## Screenshots
 
 ! [Login](./server/src/assets/login.png)
-! [Trip_Dashboard](./server/src/assets/dashboard.png)
+! [Trip Dashboard](./server/src/assets/dashboard.png)
+! [Trip Details](./server/src/assets/TripDetails.png)
 ! [Schedule](./server/src/assets/schedule.png)
-! [Meals](./server/src/assets/meal.png)
+! [Meals](./server/src/assets/mealplan.png)
 ! [Gear](./server/src/assets/gear.png)
 ! [Crew](./server/src/assets/crew.png)
-! [Create_New_Trip](./server/src/assets/create_new_trip.png)
+! [Expenses](./server/src/assets/TripExpenses.png)
+! [Create New Trip](./server/src/assets/createtrip.png)
+! [My Profile - Basic Info](./server/src/assets/MPBasic.png)
+! [My Profile - Contact Info](./server/src/assets/MPContact.png)
+! [My Profile - Preferences](./server/src/assets/MPPreferences.png)
+! [My Profile - Payment Info](./server/src/assets/MPPayment.png)
+! [Forgot Password](./server/src/assets/ForgotPassword.png)

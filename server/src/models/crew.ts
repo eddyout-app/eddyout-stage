@@ -13,7 +13,7 @@ const crewSchema = new mongoose.Schema({
   tripId: { type: mongoose.Schema.Types.ObjectId, ref: "Trip", required: true },
   role: {
     type: String,
-    enum: CREW_ROLE_OPTIONS, // 🏆 Enforce allowed roles
+    enum: CREW_ROLE_OPTIONS,
     required: true,
     default: "Crew",
   }, // Optional

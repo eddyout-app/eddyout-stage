@@ -32,7 +32,7 @@ const UserSchema = new mongoose.Schema(
     },
     userDetails: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "UserPreferences", // Link to the UserPreferences model
+      ref: "UserPreferences",
     },
     passwordResetToken: {
       type: String,

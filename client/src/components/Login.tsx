@@ -42,8 +42,6 @@ const Login = () => {
   return (
     <div className="trip-form">
       <form onSubmit={handleSubmit}>
-        <h1>Login</h1>
-
         {errorMessage && (
           <p style={{ color: "red", fontWeight: "600", textAlign: "center" }}>
             {errorMessage}
