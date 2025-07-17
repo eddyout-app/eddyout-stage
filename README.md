@@ -14,6 +14,7 @@ GitHub Repository: [https://github.com/ellimckinley/EddyOut](https://github.com/
 ## Table of Contents
 
 - [Features](#features)
+- [Tech Stack] (#tech-stack)
 - [Installation Instructions](#installation-instructions)
 - [Usage Information](#usage-information)
 - [License](#license)
@@ -56,6 +57,28 @@ GitHub Repository: [https://github.com/ellimckinley/EddyOut](https://github.com/
 
 - Log shared purchases and view balances
 - Designed to keep everyone paid and easily break out who owes who
+
+## Tech Stack
+
+**Frontend**
+
+- React (TypeScript)
+- Apollo Client
+- Vite
+
+**Backend**
+
+- Node.js
+- Express.js
+- GraphQL (Apollo Server)
+- MongoDB (Mongoose)
+
+**Dev Tools & Deployment**
+
+- GitHub Actions (CI/CD)
+- Render (Hosting)
+- Resend (Transactional Email)
+- dotenv (.env management)
 
 ## Installation Instructions
 
