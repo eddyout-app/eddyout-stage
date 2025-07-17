@@ -18,7 +18,7 @@ export type UserData = {
   medicalConditions?: string | null;
   emergencyContactName?: string | null;
   emergencyContactPhone?: string | null;
-  medicalTraining?: boolean | null;
+  medicalTraining?: string | null;
   preferredPaymentMethod?: string | null;
   paymentHandle?: string | null;
   createdAt: string;

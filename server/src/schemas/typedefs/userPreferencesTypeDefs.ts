@@ -1,38 +1,34 @@
-// userPreferencesTypeDefs.ts
-
 import { gql } from "graphql-tag";
 
 const userPreferencesTypeDefs = gql`
   type UserPreferences {
-    id: ID!
+    _id: ID!
     dietaryRestrictions: [String]
-    venmoHandle: String
     phone: String
     allergies: String
     medicalConditions: String
     emergencyContactName: String
     emergencyContactPhone: String
-    medicalTraining: Boolean
+    medicalTraining: String
     preferredPaymentMethod: String
     paymentHandle: String
     avatar: String
   }
 
   type Query {
-    getUserPreferences(userId: ID!): UserPreferences
+    getUserPreferences(_id: ID!): UserPreferences
   }
 
   type Mutation {
     updateUserPreferences(
-      userId: ID!
+      id: ID!
       dietaryRestrictions: [String]
-      venmoHandle: String
       phone: String
       allergies: String
       medicalConditions: String
       emergencyContactName: String
       emergencyContactPhone: String
-      medicalTraining: Boolean
+      medicalTraining: String
       preferredPaymentMethod: String
       paymentHandle: String
       avatar: String
