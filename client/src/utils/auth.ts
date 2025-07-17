@@ -51,8 +51,7 @@ class AuthService {
   }
 
   logout() {
-    localStorage.removeItem("id_token");
-    localStorage.removeItem("userId");
+    localStorage.clear();
   }
 }
 
