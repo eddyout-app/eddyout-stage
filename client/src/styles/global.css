@@ -21,14 +21,15 @@
 html,
 body,
 #root {
-  height: auto; /* let content grow! */
-  width: 100%; /* safe! */
+  height: auto;
+  width: 100%;
   margin: 0;
   padding: 0;
-  overflow-x: hidden; /* prevent horizontal scroll */
-  overflow-y: auto; /* allow vertical scroll! */
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
+/* Hero image blur background */
 body::before {
   content: "";
   position: fixed;
@@ -44,14 +45,13 @@ body::before {
   z-index: -1;
 }
 
+/* Body background fallback */
 body {
-  background-color: var(
-    --color-light-neutral
-  ); /* fallback if image doesn't load */
+  background-color: var(--color-light-neutral);
   background-attachment: fixed;
 }
 
-/* Main layout wrapper */
+/* Layout */
 main {
   overflow-y: auto;
   overflow-x: hidden;
@@ -70,7 +70,7 @@ a:hover {
   color: var(--color-primary);
 }
 
-/* Form Elements */
+/* Form Styling */
 input,
 label,
 textarea,
@@ -81,12 +81,12 @@ select {
 }
 
 .form-group {
-  margin-bottom: 1.5rem; /* spacing between fields */
+  margin-bottom: 1.5rem;
 }
 
 .form-label {
   display: block;
-  margin-bottom: 0.25rem; /* spacing between label and input */
+  margin-bottom: 0.25rem;
   font-weight: 500;
   color: var(--color-dark-accent);
 }
@@ -105,10 +105,10 @@ select {
 
 .form-input:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(17, 168, 173, 0.2); /* subtle focus */
+  box-shadow: 0 0 0 3px rgba(17, 168, 173, 0.2);
 }
 
-/* Buttons - base button (can be overridden in buttons.css) */
+/* Buttons */
 button {
   all: unset;
   display: inline-block;
@@ -146,7 +146,7 @@ button:hover {
   border-color: var(--color-dark-accent);
 }
 
-/* Scrollbar for main */
+/* Scrollbar */
 main::-webkit-scrollbar {
   width: 0.75em;
 }
@@ -156,7 +156,7 @@ main::-webkit-scrollbar-thumb {
   border-radius: 9999px;
 }
 
-/* FOOTER */
+/* Footer */
 footer {
   background-color: var(--color-dark-accent);
   color: white;
@@ -170,8 +170,59 @@ footer p {
   color: white;
 }
 
+/* Profile Section */
 .profile-section {
   margin-bottom: 2rem;
   padding-bottom: 2rem;
   border-bottom: 1px solid #ccc;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #1e1e1e;
+    color: #f5f5f5;
+  }
+
+  a {
+    color: #d9a441;
+  }
+
+  a:hover {
+    color: #3a9188;
+  }
+
+  .form-input {
+    background-color: #2a2a2a;
+    border: 1px solid #555;
+    color: #f5f5f5;
+  }
+
+  .form-input:focus {
+    box-shadow: 0 0 0 3px rgba(217, 164, 65, 0.3);
+  }
+
+  button {
+    background-color: #3a9188;
+    color: white;
+  }
+
+  .btn-secondary {
+    color: #d9a441;
+    border-color: #d9a441;
+  }
+
+  .btn-secondary:hover {
+    background-color: #d9a441;
+    color: black;
+  }
+
+  footer {
+    background-color: #0b3d4a;
+    color: #ffffff;
+  }
+
+  .profile-section {
+    border-bottom: 1px solid #666;
+  }
 }

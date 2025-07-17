@@ -9,11 +9,10 @@ const Nav = ({ onProfileClick, isScrolled }: NavProps) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    localStorage.removeItem("trip");
-    localStorage.removeItem("tripId");
-    navigate("/");
+    localStorage.clear();
+    setTimeout(() => {
+      navigate("/");
+    }, 100);
   };
 
   return (
